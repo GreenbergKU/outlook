@@ -1,4 +1,4 @@
-# Webpack Starter Kit: Suzanne Wolf
+# Webpack Starter Kit: Suzanne Wolf Outlook
 
 ## Clone This Repo
 
