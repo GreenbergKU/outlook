@@ -1,4 +1,4 @@
-# Webpack Starter Kit
+# Webpack Starter Kit: Suzanne Wolf
 
 ## Clone This Repo
 
