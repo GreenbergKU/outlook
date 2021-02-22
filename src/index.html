@@ -1,13 +1,27 @@
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
-    <title>Webpack Starter Kit</title>
+    <title>Outlook Hotel</title>
   </head>
   <body>
-    <h1>Webpack Starter Kit</h1>
-
-    <img src="./images/turing-logo.png" alt="turing logo" height="100px" width="100px">
-
+    <header><h1>Outlook Hotel</h1></header>
+    <main>
+      <section id="login-page">
+        <form action="form" id="login-form">
+          <label for="username">USERNAME:</label>
+          <input type="text" id="username" placeholder="customer00" value=""/>
+          <label for="password">PASSWORD:</label>
+          <input type="password" name="passInput" id="password" placeholder="password" value="" aria-required="true">
+          <div id="submit-wrapper">
+            <input type="submit" value="SUBMIT" onclick="event.preventDefault">
+          </div>
+        </form>
+      </section>
+      <section id="manager-page" class="hidden"></section>
+      <section id="guest-page" class="hidden"></section>
+        
+    </main>
+    <footer></footer>
     <!-- Do not include the index.js or main.bundle.js file here - it is done automatically by the webpack server -->
   </body>
 </html>

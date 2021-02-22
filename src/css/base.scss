@@ -1,7 +1,43 @@
 /* This is an example of using Sass, otherwise plain CSS works too*/
+
 $primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
 ;
 
-body {
-  background: $primary-background;
+* {
+  box-sizing: border-box;
 }
+
+html {
+  width: 100vw;
+  height: 100vh;
+}
+body {
+  display: grid;
+  height: 100%;
+  color: black;
+  background: center / cover no-repeat url(../images/hotel-lobby-small.jpg);
+  justify-items: center;
+}
+
+h1 {
+  display: grid;
+  align-items: center;
+  text-align: center;
+  background-color: grey;
+  opacity: 1;
+  padding: 3vh;
+}
+
+form {
+  display: grid;
+  width: 50vw;
+  background-color: grey;
+  padding: 20px;
+  justify-items: center;
+  // margin-top: 60vh;
+}
+
+.hidden {
+  display: none;
+}
+
