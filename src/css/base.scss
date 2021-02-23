@@ -11,6 +11,7 @@ html {
   width: 100vw;
   height: 100vh;
 }
+
 body {
   display: grid;
   height: 100%;
@@ -32,8 +33,10 @@ form {
   display: grid;
   width: 50vw;
   background-color: grey;
-  padding: 20px;
-  justify-items: center;
+  padding: 5%;
+  // margin: 2%;
+  justify-items: left;
+  align-content: space-between;
   // margin-top: 60vh;
 }
 

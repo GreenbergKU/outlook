@@ -23,11 +23,10 @@ function fetchData() {
 
   return Promise.all([guestData, bookingsData, roomsData])
     .then(jsonData => {
-      const data = {
-        guests: jsonData[0],
-        bookings: jsonData[1],
-        rooms: jsonData[2],
-      };
+      const data = {};
+      data.guests = jsonData[0];
+      data.bookings = jsonData[1];
+      data.rooms = jsonData[2];
       console.log('data: ', data);
       return data;
     })
