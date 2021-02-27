@@ -101,15 +101,50 @@ function validateLogin(user, event) {
 
 function createUserType(user) {
   user.username === "guest" ? createGuest(user.userID) : createManager(user.username);
+}
+
+const createManager = (username) => {
+    console.log('new Manager(username): ', new Manager(username));
+  
+  manager = new Manager(username);
+  renderOutlook.displaySection("manager-page");
+}
+
+const createGuest = (userID) => {
+  const guestName = findUserData("id", userID)[0].name;
+  const guestBookings = findBookings("userID", userID);
+  //console.log('new Guest(userID, guestName, guestBookings): ', new Guest(userID, guestName, guestBookings));
+  const totalSpent = calculateRoomTotals(guestBookings);
+  //console.log('totalSpent: ', totalSpent);
+  guest = new Guest(userID, guestName, guestBookings, totalSpent);
+  console.log('guest: ', guest);
+
+  renderOutlook.displaySection("guest-page");
 };
 
+function findUserData(property, value) {
+  return hotel.filterData(hotel.usersData, property, value);
 };
 
 function findBookings(property, value) {
+  return hotel.filterData(hotel.bookingsData, property, value)
 };
 
 function calculateRoomTotals(roomList) {
+  return hotel.findTotalAmount(roomList)
 }
+
+//function narrowFocus(data, property) {
+  //hotel.createList(data, property);
+//}
+
+
+
+
+
+
+
+
 
 
 
