@@ -1,6 +1,6 @@
 class Manager {
-  constructor() {
-
+  constructor(name) {
+    this.name = name;
   };
 
 }
