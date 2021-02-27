@@ -3,15 +3,15 @@
   <head>
     <title>Outlook Hotel</title>
   </head>
-  <body>
-    <header><h1>Outlook Hotel</h1></header>
+  <body id="body">
+    <header><h1 id="header-text">Outlook Hotel</h1></header>
     <main>
       <section id="login-page">
         <form action="form" id="login-form">
           <label for="username">username</label>
-          <input type="text" id="username" name="nameInput" placeholder="customer00" required/>
+          <input type="text" id="username" name="nameInput" placeholder="customer00" value="" required/>
           <label for="password">password</label>
-          <input type="password" id="password" name="passInput" placeholder="password" required/>
+          <input type="password" id="password" name="passInput" placeholder="password" value="" required/>
           <div id="submit-wrapper">
             <input type="submit" id="submit" value="SUBMIT">
           </div>
@@ -19,9 +19,22 @@
       </section>
       <section id="manager-page" class="hidden">
         <h5>Manager-Page</h5>
+        <div id="manager-dashboard"></div>
+          <div id="manager-search">
+            <form action="form" id="find-guest-form"></form>
+            <div id="guest-search-results" class="guest hidden"></div>
+          </div>
       </section>
+
       <section id="guest-page" class="hidden">
         <h5>guest-page</h5>
+        <div id="guest-dashboard">
+          <div id="guest-details" class="guest"></div>
+        </div>
+        <div id="guest-search">
+          <form action="form" id="availability-form"></form>
+          <div id="avail-rooms-grid" class="rooms hidden"></div>
+        </div>
       </section>
         
     </main>

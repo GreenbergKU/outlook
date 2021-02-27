@@ -1,6 +1,6 @@
 function fetchData() {
 
-  let guestData = fetch("https://fe-apps.herokuapp.com/api/v1/overlook/1904/users/users")
+  let usersData = fetch("https://fe-apps.herokuapp.com/api/v1/overlook/1904/users/users")
     .then(response => response.json())
     .then(json => {
       return json.users;
@@ -21,13 +21,13 @@ function fetchData() {
   })
   .catch(error => console.log(error.message));
 
-  return Promise.all([guestData, bookingsData, roomsData])
+  return Promise.all([usersData, bookingsData, roomsData])
     .then(jsonData => {
-      const data = {};
-      data.guests = jsonData[0];
-      data.bookings = jsonData[1];
-      data.rooms = jsonData[2];
-      console.log('data: ', data);
+      // const data = {};
+      // data.users = jsonData[0];
+      // data.bookings = jsonData[1];
+      // data.rooms = jsonData[2];
+      const data = jsonData;
       return data;
     })
 }
