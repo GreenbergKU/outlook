@@ -14,11 +14,12 @@ import './images/hotel-lobby-small.jpg';
 
 // functions or files
 import fetchData from './fetchData.js';
+import fetchedData from './fetchedData.js';
 
 // classes
 /* 
-  //import className from './classes/.js';
-  //import classNameData from './class/data/classNameData.js';
+  import className from './classes/.js';
+  import classNameData from './class/data/classNameData.js';
  */
 import RenderDOM from './class/RenderDOM.js';
 import User from './class/User.js';
@@ -27,103 +28,129 @@ import Guest from './class/Guest.js';
 import Manager from './class/Manager.js';
 import Hotel from './class/Hotel.js';
 
-import UsersData from './class/data/UsersData.js';
-import GuestsData from './class/data/GuestsData.js';
-import BookingsData from './class/data/BookingsData.js';
-import RoomsData from './class/data/RoomsData.js';
+//import UsersData from './class/data/UsersData.js';
+import GuestData from './class/data/GuestData.js';
+//import BookingsData from './class/data/BookingsData.js';
+//import RoomsData from './class/data/RoomsData.js';
 
 /*//// GLOBAL VARIABLES ////*/
  
-let hotel, manager, guest; //loginUser;  
+let manager, guest, user, hotelData;
+// let user, hotelData;
+
 
 const renderOutlook = new RenderDOM();
-
-// let outlook = {  
-//   guestsData: null, 
-//   bookingsData: null, 
-//   roomsData: null
-// };
 
 /*//// ALL FUNCTIONS /////*/
 
 // EVENT LISTNERS
 window.onload = function() {
-  fetchOutlook();
+  const fetchData = fetchData();
   activateForm();
+  
+  console.log('fetchedData.bookings.length: ', fetchedData.bookings.length);
+  console.log("fetchOutlook(): ", fetchOutlook())
 };
 
 // EVENT HANDLERS
 
 function fetchOutlook() {
   fetchData()
-  .then((data) => {
-      //console.log("data @fetch().then: ", data); 
-    hotel = new Hotel(data[0], data[1], data[2]);
-  })
-  .catch((error) => console.log(error.message)); 
+  .then(data => hotelData = new Hotel(...data))
+  .catch((error) => console.log(error.message));
+  return hotelData
 };
 
 function activateForm() {
   document.getElementById('submit').addEventListener("click", function(event) {
-    const inputs = getLoginInputs();
-    if (!inputs.username || !inputs.password) {
+    
+    const inputs = getInputs();
+    
+    if (!inputs.name || !inputs.password) {
       alert("a username and password are both required");
     } else {
       const loginUser = createUser(inputs);
+      // instantiate UserData here
       const validLogin = validateLogin(loginUser, event);
-      validLogin ? createUserType(loginUser) : alert("wrong username or password");    
+      validLogin ? differentiateUsers(loginUser) : alert("wrong username or password");    
     };   
   });
 };
 
-function getLoginInputs() {
-  const usernameInput = document.getElementById("username").value;
+function getInputs() {
+  const nameInput = document.getElementById("name").value;
   const passwordInput = document.getElementById("password").value;
   return  {
-    username: `${usernameInput.toLowerCase()}`, 
+    name: `${nameInput.toLowerCase()}`, 
     password: `${passwordInput}`
-  }
+  };
 };  
 
-function createUser(loginInputs) {
-  return new User(loginInputs.username, loginInputs.password).formatUser();
+function createUser(inputs) {
+  let currDate = "2020/04/20";
+  return new User(inputs.name, inputs.password, currDate).formatUser();
 };
-
-// function formatUser(username) {
-//   username === "manager" ? user.formatManager() : username.includes('customer') ? user.formatGuest() : user;
-// }
 
 function validateLogin(user, event) {
   event.preventDefault();
-    console.log('hotel: ', hotel);
-  return user.password === "overlook2020" && user.validation(hotel.totalGuests);
+  
+  const totalUsers = hotelData.countTotals();
+  console.log('totalUsers: ', totalUsers);
+  
+  return user.password === "overlook2020" && user.validation(totalUsers);
 };
 
-function createUserType(user) {
+function differentiateUsers(user) {
   user.username === "guest" ? createGuest(user.userID) : createManager(user.username);
+  
 }
 
 const createManager = (username) => {
-    console.log('new Manager(username): ', new Manager(username));
-  
-  manager = new Manager(username);
-  renderOutlook.displaySection("manager-page");
-}
-
-const createGuest = (userID) => {
-  const guestName = findUserData("id", userID)[0].name;
-  const guestBookings = findBookings("userID", userID);
-  //console.log('new Guest(userID, guestName, guestBookings): ', new Guest(userID, guestName, guestBookings));
-  const totalSpent = calculateRoomTotals(guestBookings);
-  //console.log('totalSpent: ', totalSpent);
-  guest = new Guest(userID, guestName, guestBookings, totalSpent);
-  console.log('guest: ', guest);
-
-  renderOutlook.displaySection("guest-page");
+  //managerData = new ManagerData(hotel.usersData, hotel.bookingsData, hotel.roomsData,)
+  manager = new Manager(username, hotelData);
+  //renderOutlook.displaySection(`${user.username}-page`);
+  updateDOM(manager);
 };
 
+const createGuest = (userID) => {
+  const guestData = new GuestData(hotelData, userID);
+  const userData = guestData.findGuest();
+  guest = new Guest(userData, hotelData);
+  customizeData(guest, guestData);
+  //.findTotals(guest, guestData);
+  
+  console.log('guest: ', guest);
+  updateDOM(guest);
+};
+
+function findTotals(user) {
+  return (
+    user.totalUsers = hotelData.totalUsers,
+    user.totalRooms = hotelData.totalRooms
+  );
+};
+
+function customizeData(user, data) {
+  console.log('user: ', user);
+  user.bookings = data.findGuestBookings();
+  console.log('data: ', data);
+  user.ammountSpent = data.calculateRoomTotals();
+  console.log('user: ', user);
+  return user
+  //guest.availableRooms = data.findAvailableRooms(date)
+}
+
+function updateDOM(user) { 
+  console.log('user.name: ',user.name);
+  console.log("user: ", user);
+  
+  renderOutlook.displaySection(`${user.name}-page`)
+  .customizeSection(user)
+};
+
+/*
 function findUserData(property, value) {
-  return hotel.filterData(hotel.usersData, property, value);
+  return hotelData.filterData(hotel.usersData, property, value);
 };
 
 function findBookings(property, value) {
@@ -138,7 +165,7 @@ function calculateRoomTotals(roomList) {
   //hotel.createList(data, property);
 //}
 
-
+*/
 
 
 
