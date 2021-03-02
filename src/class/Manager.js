@@ -1,7 +1,10 @@
 class Manager {
-  constructor(name) {
+  constructor(name, data) {
     this.name = name;
-  };
+    
+    this.totalUsers = data.totalUsers;
+    this.totalRooms = data.totalRooms;
+  }
 
 }
 

@@ -4,7 +4,7 @@ const expect = chai.expect;
 // import ClassName from '../src/class/data/.js';
 import RoomsData from '../src/class/data/RoomsData.js';
 
-describe.only('RoomsData', function() {
+describe('RoomsData', function() {
   
   const data = [
     {"number":1,"roomType":"residential suite","bidet":true,"bedSize":"queen","numBeds":1,"costPerNight":358.4},

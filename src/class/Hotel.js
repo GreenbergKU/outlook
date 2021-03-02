@@ -1,8 +1,8 @@
-//import fetchData from '../fetchData.js';
-import UsersData from './data/UsersData.js';
+// import fetchedData from './fetchedData.js';
+//import UsersData from './data/UsersData.js';
 //import GuestsData from './data/GuestsData.js';
-import BookingsData from './data/BookingsData.js';
-import RoomsData from './data/RoomsData.js';
+//import BookingsData from './data/BookingsData.js';
+//import RoomsData from './data/RoomsData.js';
 
 
 class Hotel {
@@ -13,7 +13,7 @@ class Hotel {
     this.usersData = users;
     this.bookingsData = bookings;
     this.roomsData = rooms;
-    console.log('this.roomsData: ', this.roomsData.data);
+    //console.log('this.roomsData: ', this.roomsData.data);
       
     // this.usersData = new UsersData(users);
     // this.bookingsData = new BookingsData(bookings);
@@ -21,15 +21,15 @@ class Hotel {
     // console.log('this.roomsData: ', this.roomsData.data);
     
 
-    //this.totalGuests = this.usersData.countUsers();
-    //this.totalRooms = this.roomsData.countRooms(); 
+    this.usersTotal;
+    this.roomsTotal;
 
       console.log('this @Hotel: ', this);
   };
 
-  calculateTotalGuests() {
-    return this.usersData.countGuests();
-  }
+  // calculateTotalGuests() {
+  //   return this.usersData.countGuests();
+  // }
 
   filterData(data, property, value) {
     return data.filter(obj => obj[property] === value);
@@ -46,6 +46,11 @@ class Hotel {
     });
     return Math.round(sum);  
   };
+
+  countTotals() {
+    this.totalRooms = this.roomsData.length;
+    return this.totalUsers = this.usersData.length;
+  }
 
 }
 
