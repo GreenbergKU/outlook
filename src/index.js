@@ -45,7 +45,7 @@ const renderOutlook = new RenderDOM();
 
 // EVENT LISTNERS
 window.onload = function() {
-  const fetchData = fetchData();
+  fetchOutlook(hotelData);
   activateForm();
   
   console.log('fetchedData.bookings.length: ', fetchedData.bookings.length);
