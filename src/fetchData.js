@@ -23,11 +23,13 @@ function fetchData() {
 
   return Promise.all([usersData, bookingsData, roomsData])
     .then(jsonData => {
-      //const data = {};
-      // data.users = jsonData[0];
-      // data.bookings = jsonData[1];
-      // data.rooms = jsonData[2];
-      const data = jsonData;
+      const data = {};
+      data.users = jsonData[0];
+      data.bookings = jsonData[1];
+      data.rooms = jsonData[2];
+      //const data = jsonData;
+      console.log('data@Fetch: ', data);
+
       return data;
     });
 }
