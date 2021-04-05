@@ -5,7 +5,7 @@ import fetchedData from '../src/fetchedData.js';
 // import ClassName from '../src/class/data/.js';
 import GuestData from '../src/class/data/GuestData.js';
 
-import Hotel from '../src/class/Hotel.js'
+import HotelData from '../src/class/data/HotelData.js'
 import User from '../src/class/User.js';
 import Guest from '../src/class/Guest.js';
 
@@ -18,7 +18,7 @@ let hotelData;
 describe.only('GuestData', function() {
   
   const userGuest = new User("guest", "overlook2020");  
-  const hotelData = new Hotel(fetchedData.users, fetchedData.bookings, fetchedData.rooms);
+  const hotelData = new HotelData(fetchedData.users, fetchedData.bookings, fetchedData.rooms);
   const guestData = new GuestData(hotelData.usersData, hotelData.bookingsData, hotelData.roomsData);
   let guest;
 
