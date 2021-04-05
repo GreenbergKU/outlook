@@ -1,9 +1,6 @@
-//import User from './class/User.js';
-
 class BookingsData {
-  constructor(data, id) {
+  constructor(data) {
     this.data = data;
-    this.id = id;
   };
 
   countBookings() {

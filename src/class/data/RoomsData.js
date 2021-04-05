@@ -9,6 +9,7 @@ class RoomsData {
   };
 
   findRoomsByProperty(property, value) {
+    //console.log('this.data[0] @RoomsData.findRoomsByProperty: ', this.data[0]);
     return this.data.filter(room => room[property] === value)
   };
 

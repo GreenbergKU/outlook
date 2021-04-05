@@ -1,54 +1,322 @@
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" type="text/css" href="./css/base.css"/> -->
     <title>Outlook Hotel</title>
   </head>
   <body id="body">
-    <header><h1 id="header-text">Outlook Hotel</h1></header>
-    
+    <header> 
+      <h1 id="header-text">Outlook Hotel</h1>
+    </header>
+
     <main>
-
-      <form action="form" id="form-user" class="login manager guest">
-        
-        <label for="name" id="name-label" class="login manager guest">username
-          <input type="text" id="name" name="nameInput" placeholder="customer00" value="" required/>
-        </label>
-        
-        <section id="login-page">
-          <label for="password" id="password-label" class="login manager guest">password
-            <input type="password" id="password" placeholder="password" value="" required/>
-          </label>
-        </section>
-        
-        <fieldset id="submit-wrapper" style="border: none;">
-          <input type="submit" id="submit" value="SUBMIT">
-        </fieldset>
-
-      </form>
-      
-      <!-- */*/* MANAGER SECTION */*/* -->
+        <!-- */*/* MANAGER SECTION */*/* -->
+      <section id="manager-heading-sec" class="sec-heading hidden">
+        <h3 id="manager-heading" class="heading-txt">Outlook Hotel: ADMIN's Daily Inventory !</h3>
+      </section>
 
       <section id="manager-page" class="hidden">
+        <!-- <h3 id="manager-heading">Outlook Hotel Daily Inventory: Manager View !</h3> -->
         <!-- <h5>Manager Dashboard</h5> -->
-        <div id="manager-dashboard">
-          <div id="hotel-dateData-details"></div>
-        </div>
-      </section>
-      
+        <div id="manager-dashboard" class="dashboard">    
+          <div id="availableRoomsNum" class="daily-dash">available rooms:</div>
+          <div id="revenue" class="daily-dash">revenue:</div>
+          <div id="roomsOccupied" class="daily-dash">rooms occupied:</div>
+        </div>       
+    
+      </section>   
+            <!-- 
+              dashboard page: 
+              * Total Rooms Available for today's date 
+              * Total Revenue for Today's date 
+              * Percentage of Rooms occupued for Today's date 
+            -->
+
       <!-- */*/* GUEST SECTION */*/* -->
+      <section id="guest-heading-sec" class="sec-heading hidden">
+        <h2 id="guest-heading" class="heading-txt">WELCOME BACK:</h2>
+      </section>
 
       <section id="guest-page" class="hidden">
-        <!-- <h5>Welcome Back GuestName!</h5> -->
-        <article id="guestID" name="guestName" class="guest-dashboard"></article>
+
+        <article id="guest-dashboard" name="guestName" class="dashboard">
+          <h3 id="guest-dashboard-heading">ACCOUNT INFORMATION:</h3>
+          <div id="amountSpent">Total amount spent: $</div>
+        </article> 
+
+        <div id="guest-bookings-wrapper" class="main">
+          
+          <div id="bookings-btns-wrapper">
+            <button id="upcoming-bookings-btn" name="upcoming-bookings" class="booking-btn" value="show">
+              UPCOMING BOOKINGS
+            </button>
+            <button id="past-bookings-btn" name="past-bookings" class="booking-btn" value="show">
+              PAST BOOKINGS
+            </button>
+          </div>
+          
+          <section id="guest-bookings">
+            <div id="upcoming-bookings" class="hidden">
+              <h4 id="upcoming-bookings-heading">UPCOMING BOOKINGS:</h4> 
+              <ul id="upcoming-bookings-list">
+                
+                <!-- <template>
+                  <article id="" class="guest-bk hidden"></article>
+                  <div id="booking-btns-rmNum">
+                    <button id="details-btn-rmNum" name="details-btn-${num}" value="${room.roomNumber}" class="rm-details-btn">ROOM DETAILS</button>
+                    <button id="cancel-btn-rmNum" name="cancel-btn-${num}" value="${room.roomNumber}" class="rm-cancelation-btn">CANCEL RESERVATION</button>
+                  </div>
+                </template> -->
+
+              </ul>
+
+              <div id="no-upcoming-bookings" class="no-bookings">
+                <p id="no-upcoming-bookings-text">There are no {bookingType.name} on file</p>
+                <!-- <button id="new-booking-btn" name="new-booking" value="guestName" class="new-booking-btn">NEW RESERVATION</button> -->
+              </div>
+                
+            </div>
+            
+            <div id="past-bookings" class="hidden">         
+              <h4 id="past-bookings-heading">PAST RESERVATIONS:</h4>  
+              <ul id="past-bookings-list">
+                
+                <!-- <template>
+                  <article id="" class="guest-bk"></article>
+                  <div id="booking-btns-rmNum">
+                    <button id="details-btn-rmNum" name="details-btn-${num}" value="${room.roomNumber}" class="rm-details-btn">ROOM DETAILS</button>
+                    <button id="cancel-btn-rmNum" name="cancel-btn-${num}" value="${room.roomNumber}" class="rm-cancelation-btn">CANCEL RESERVATION</button>
+                  </div>
+                </template> -->
+                
+              </ul>
+              
+              <div id="no-past-bookings" class="no-bookings">
+                <p id="no-past-bookings-text"> INSERT "no bookings txt" HERE </p>
+                <!-- <button id="new-booking-btn" name="new-booking" value="guestName" class="new-booking-btn">NEW RESERVATION</button> -->
+              </div>
+
+            <!-- <div id="no-bookings" class="hidden">
+              <p id="no-bookings-text">There are no {bookingType.name} on file</p>
+              <button id="new-booking-btn" name="new-booking" value="guestName" class="new-booking-btn">NEW RESERVATION</button>
+            </div> -->
+            
+            </div>
+          </section>
+        </div>
+          <!-- 
+            dashboard page: 
+            * Any room bookings I have made (past or present/upcoming)
+            * The total amount I have spent on rooms 
+          -->
         
-        <table id="available-rooms" class="hidden"></table>
       </section>
 
+      <section id="new-reservation" class="guest-reservation-form new-reservation form-wrapper main hidden">
+          
+        <form id="room-search">
+
+          <div id="room-search-inputs">
+
+            <div id="datePicker">
+              <input id="date" type="date" value=""/>
+            </div>
+
+            <button id="filter-btn" value="show" name="filter-options" class="room-search-btn">FILTER OPTIONS</button>
+            
+            <aside id="filter-options" form="room-search" class="hidden">
+              <h5 id="filter-header">SEARCH FILTERS</h5>
+          
+              <div id="filters" class="checkboxes">
+  
+                <fieldset id="roomType-options" name="filter-options" class="checkbox-subGroup">
+                  
+                  <legend class="subGroup-header">ROOM TYPE OPTIONS</legend> 
+
+                  <input type="checkbox" id="single-room" name="roomType" class="checkbox" next="bedSize-options" value="singleRoom"> 
+                  <label for="single-room" class="checkbox-label">Single Room</label>
+
+                  <input type="checkbox" id="suite" name="roomType" class="checkbox" next="suite-options" 
+                    onclick="document.getElementById('suite-options').classList.toggle('hidden')"> 
+                  <label for="suite" class="checkbox-label">Suite</label>
+
+                  <fieldset id="suite-options" class="checkbox-subGroup hidden">
+                    <input type="checkbox" id="residential-suite" name="roomType" class="suite-subGroup checkbox" next="bedType-options"> 
+                    <label for="residential-suite" class="checkbox-label" >Residential Suite</label>
       
-      
+                    <input type="checkbox" id="suite" name="roomType" class="suite-subGroup checkbox" next="-options" value="suite"> 
+                    <label for="suite" class="checkbox-label">Standard Suite</label>
+    
+                    <input type="checkbox" id="junior-suite" name="roomType" class="suite-subGroup checkbox" next="bedType-options"> 
+                    <label for="junior-suite" class="checkbox-label">Junior Suite</label>
+                  </fieldset>
+
+                </fieldset>              
+
+                <fieldset id="bedSize-options" class="checkbox-subGroup">                                                      
+                  <legend class="subGroup-header">BED SIZE OPTIONS</legend>
+                  <input type="checkbox" id="king" name="bedSize" class="checkbox" > 
+                  <label for="king" class="checkbox-label">King</label>
+
+                  <input type="checkbox" id="queen" name="bedSize" class="checkbox" > 
+                  <label for="queen" class="checkbox-label">Queen</label>
+
+                  <input type="checkbox" id="full" name="bedSize" class="checkbox" > 
+                  <label for="full" class="checkbox-label">Full</label>
+
+                  <input type="checkbox" id="twin" name="bedSize" class="checkbox" > 
+                  <label for="twin" class="checkbox-label">Twin</label>
+
+                </fieldset>
+
+                <fieldset id="numBeds-options" class="checkbox-subGroup">
+                  
+                  <legend class="subGroup-header">NUMBER OF BEDS</legend>
+
+                  <input type="checkbox" id="1" name="numBeds" class="checkbox" > 
+                  <label for="1bed" class="checkbox-label">1</label>
+
+                  <input type="checkbox" id="2" name="numBeds" class="checkbox" > 
+                  <label for="2beds" class="checkbox-label">2</label>
+                
+                </fieldset>
+
+              </div> 
+
+              <div id="reset-wrapper">
+                <button id="reset-filters" onclick="event.preventDefault()">reset filters</button>
+              </div>
+              
+
+            </aside>
+
+          </div>
+
+          <div id="available-rooms" class="hidden">
+            <div id="available-rooms-list"></div>
+          
+          
+            <div id="no-available-rooms" class="no-rooms">
+              <p id="no-available-rooms-text"> INSERT "no bookings txt" HERE </p>
+            </div> 
+          </div>
+
+          <div id="input-button">
+            <input type="submit" id="room-search" value="FIND ROOMS">
+          </div>
+
+        </form>
+      </section>  
+        <!-- 
+          * I should be able to select a date for which I’d like to book a room for myself
+          * Upon selecting a date, I should be shown a list of room details for only rooms that are available on that date
+          * I should be able to filter the list of available rooms by their roomType property
+          * I should be able to select a room for booking
+          * In the event that no rooms are available for the date/roomType selected, 
+            (display a message fiercely apologizing to the user and asking them to adjust their room search)
+        -->
+
+      <section id="user-page" class="login guest-search form-wrapper main">
         
+        <form action="form" id="form-user" class="">
+          
+          <section id="login-name" class="input-sec">
+            <label for="name" id="name-label" class="login-label">username</label>
+            <input type="text" id="name" name="nameInput" class="login-input" placeholder="customer00" value="" required/>
+          </section>
+
+          <section id="login-password" class="input-sec">
+            <label for="password" id="password-label" class="login-label manager guest">password</label>
+            <input type="password" id="password" class="login-input" placeholder="password" value="" required/>
+          </section>
+          
+          <fieldset id="submit-wrapper" style="border: none;" class="input-sec">
+            <input type="submit" id="user-submit" class="submit-user" value="SUBMIT">
+          </fieldset>
+
+        </form>
+      </section>
+
+      <section id="user-btn-sec" class="user-btn-sec hidden main">
+        <button id="userBtn">add function</button>       
+      </section>
+    
     </main>
+
     <footer></footer>
-    <!-- Do not include the index.js or main.bundle.js file here - it is done automatically by the webpack server -->
+      <!-- Do not include the index.js or main.bundle.js file here - it is done automatically by the webpack server -->
   </body>
 </html>
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+</html> -->
+
+                <!--<div id="filters" class="checkboxes">
+
+                                <div id="filters" class="radios">
+  
+                <fieldset id="roomType-options" name="filter-options" class="radio-subGroup">
+                  
+                  <legend class="subGroup-header">ROOM TYPE OPTIONS</legend> 
+
+                  <input type="radio" id="singleRoom" name="roomType" class="radio" next="bedSize-options" value="singleRoom"> 
+                  <label for="singleRoom" class="radio-label">Single Room</label>
+
+                  <input type="radio" id="suite" name="roomType" class="radio" next="suite-options" 
+                    onclick="document.getElementById('suite-options').classList.toggle('hidden')"> 
+                  <label for="suite" class="radio-label">Suite</label>
+
+                  <fieldset id="suite-options" class="radio-subGroup hidden">
+                    <input type="radio" id="residential" name="roomType" class="suite-subGroup radio" next="bedType-options"> 
+                    <label for="residential" class="radio-label" >Residential Suite</label>
+      
+                    <input type="radio" id="standard-suite" name="roomType" class="suite-subGroup radio" next="-options" value="suite"> 
+                    <label for="standard-suite" class="radio-label">Standard Suite</label>
+    
+                    <input type="radio" id="junior" name="roomType" class="suite-subGroup radio" next="bedType-options"> 
+                    <label for="junior" class="radio-label">Junior Suite</label>
+                  </fieldset>
+
+                </fieldset>              
+
+                <fieldset id="bedSize-options" class="radio-subGroup">                                                      
+                  <legend class="subGroup-header">BED SIZE OPTIONS</legend>
+                  <input type="radio" id="kingBed" name="bedSize" class="radio" > 
+                  <label for="kingBed" class="radio-label">King bed</label>
+
+                  <input type="radio" id="queenBed" name="bedSize" class="radio" > 
+                  <label for="queenBed" class="radio-label">Queen Bed</label>
+
+                  <input type="radio" id="fullBed" name="bedSize" class="radio" > 
+                  <label for="fullBed" class="radio-label">Full Bed</label>
+
+                  <input type="radio" id="twinBed" name="bedSize" class="radio" > 
+                  <label for="twinBed" class="radio-label">Twin Bed</label>
+
+                </fieldset>
+
+                <fieldset id="numBeds-options" class="radio-subGroup">
+                  
+                  <legend class="subGroup-header">NUMBER OF BEDS</legend>
+
+                  <input type="radio" id="1bed" name="numBeds" class="radio" > 
+                  <label for="1bed" class="radio-label">1</label>
+
+                  <input type="radio" id="2beds" name="numBeds" class="radio" > 
+                  <label for="2beds" class="radio-label">2</label>
+                
+                </fieldset>
+
+              </div> 

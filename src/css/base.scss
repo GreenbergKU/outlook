@@ -1,8 +1,8 @@
 /* This is an example of using Sass, otherwise plain CSS works too*/
-
+/* 
 $primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
-;
 
+*/
 * {
   box-sizing: border-box;
 }
@@ -10,15 +10,43 @@ $primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,1
 html {
   width: 100vw;
   height: 100vh;
+  box-sizing: border-box;
+
 }
 
 body {
   display: grid;
-  height: 100%;
+  height: auto;
   color: black;
-  background: center / cover no-repeat url(../images/hotel-lobby-small.jpg);
   justify-items: center;
+  background: center / cover no-repeat url(../images/hotel-lobby-small.jpg);
+  // grid-template-areas: "head head"
+  //                      "side dash"
+  //                      "side main"
+  //                      "foot foot";
+  // grid-template-rows: 20vh 20vh 50vh 10vh;
+  // grid-template-columns: 30vw 70vw;
 }
+
+/* GRID AREAS */
+
+.sec-heading {
+  grid-area: dash;
+}
+
+.dashboard {
+  grid-area: dash;
+}
+
+#user-page, .main {
+  // display: grid;
+  grid-area: main;
+}
+
+aside {
+  grid-area: side;
+}
+/* FONTS */
 
 h1 {
   display: grid;
@@ -27,20 +55,78 @@ h1 {
   background-color: grey;
   opacity: 1;
   padding: 3vh;
+  font-size: 60px;
+}
+
+h2 {
+  font-size: 36px;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 28px;
+}
+
+h4 {
+  font-size: 24px;
+}
+
+h5 {
+  font-size: 18px;
+}
+
+h6 {
+  font-size: 16px;
+}
+
+p {
+  font-size: 12px;
+}
+
+
+#filters {
+  display: flex
+}
+/* #user-page {
+  background-color: silver;
+} */
+
+.form-wrapper {
+  display: grid;
+  align-items: flex-end;
+  justify-content: center;
+  height: 100%;
+  width: 100vw;
+  grid-area: main;
 }
 
 form {
-  display: grid;
-  width: 50vw;
+  padding: 2%;
   background-color: grey;
-  padding: 5%;
-  // margin: 2%;
-  justify-items: left;
-  align-content: space-between;
-  // margin-top: 60vh;
+}
+
+#room-search {
+  display: block;
+}
+// #form-user {
+//   // margin-top: 20%;
+// }
+
+.input-sec {  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1vh 2vw;
+}
+
+label { 
+  padding: 1%;
+}
+
+.login-input {
+  margin-left: 5%;
 }
 
 .hidden {
   display: none;
 }
-
