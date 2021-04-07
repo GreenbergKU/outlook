@@ -25,24 +25,17 @@ class RenderDOM {
       console.log('target: ', target);
       // console.log('target.parentNode;: ', target.parentNode);
     const parentDiv = target.parentNode;
-    console.log('parentDiv: ', parentDiv);
+      //console.log('parentDiv: ', parentDiv);
     const divID = target.name;
     document.querySelector(`.${divID}`).classList.remove('hidden');
-      console.log('document.getElementById(parentDiv.id): ', document.getElementById(parentDiv.id));
+      //console.log('document.getElementById(parentDiv.id): ', document.getElementById(parentDiv.id));
     document.getElementById(parentDiv.id).classList.add('hidden');
+    
     return this;
   };
 
   updateSearchBtn(userSearch) {
-    console.log('userSearch: ', userSearch);
-    
-    //console.log('target: ', target);
-      // const divID = target.innerText;
-    
-      // console.log('document.querySelector(`.${target}`): ', document.querySelector(`.${target}`));
-      // console.log('document.querySelector(`.${target}`).lastElementChild: ', document.querySelector(`.${target}`).lastElementChild);
-      // console.log('document.querySelector(`.${target}`).lastElementChild.lastElementChild: ', document.querySelector(`.${target}`).lastElementChild.lastElementChild);
-    //const searchBtn = document.querySelector(`.${target}`).lastElementChild.lastElementChild.firstElementChild;
+      console.log('userSearch: ', userSearch);
     const searchBtn = document.querySelector(".submit-user");    
       console.log('searchBtn: ', searchBtn);
     searchBtn.value = userSearch.toUpperCase();
@@ -56,15 +49,18 @@ class RenderDOM {
       console.log('user@DOM.custSec: ', user);
       console.log("userInputs: ", userInputs);
       // console.log('parentNode.innerHTML: ', userInputs.nameInput.parentNode.innerHTML);
-    const inputName = userInputs.nameInput.parentNode;
-      console.log('inputName: ', inputName);
+    const inputSec = userInputs.nameInput.parentNode;
+      console.log('inputSec: ', inputSec);
     const inputType = user.labelInput === "date" ? "date" : "text";
       // console.log('inputType: ', inputType);
-    const nameHTML = `
-      <input type=${inputType} id="name" name=${user.type} placeholder="${user.placeHolder}" value="" required="">
+    const labelHTML = `
+      <label for="name" id="name-label" class="login-label txt-label manager guest">${user.labelInput}</label>
     `;
-    inputName.innerHTML = `
-      ${user.labelInput}
+    const nameHTML = `
+      <input type=${inputType} id="name" class="txt-input" name=${user.type} placeholder="${user.placeHolder}" value="" required="">
+    `;
+    inputSec.innerHTML = `
+      ${labelHTML}
       ${nameHTML}
     `;
     document.getElementById("user-page").name = user.btnChildText;
@@ -119,10 +115,103 @@ class RenderDOM {
   };
 
   assignNoDataTxt(section, name) {
-    console.log('section: ', section);
+      console.log('section: ', section);
     const type = section.split("-").join(" ");
     document.getElementById(`no-${section}-text`).innerText = `There are no ${type} for ${name}.`
   }
+
+  designBookingHTML(booking, className) { 
+    const id = booking.id;
+    const rmNum = booking.roomNumber;
+    const num = booking.count
+    return `
+      <article id="booking-${num}" class="${className} booking" value="${id}" room=${rmNum}>
+        <span id="${num}">
+          <h6 id="bk-date">check-in date: ${booking.date}</h6>
+          <h6 id="bk-confCode">confirmation code: ${booking.id}</h6>
+        </span>
+        <div id="room-details-${num}" class="room-details hidden">
+        </div>
+        <div id="rmBooking-btns-${num}" class="rmBooking-btns-wrapper">
+          <button id="room-details-${num}-btn" value="show" class="booking-btn details-btn" name="room-details" num=${num}>room details</button>
+          <button id="cancel-btn-${num}" value="CANCEL BOOKING" class="booking-btn hidden details-btn" number=${id}>CANCEL RESERVATION</button>
+        </div>
+      </article>
+    `;
+  }
+
+  designRoomHTML(room, className, id, num) {
+      console.log('room @renderRoomHTML: ', room);
+      //console.log('booking.room: ', booking.room);
+    const rmNum = room.number;
+    return `
+             
+      <span id="roomType-wrapper">
+        <p id="roomType-${rmNum}" class="${className}"><b>ROOM TYPE:</b></p>
+        <p id="roomType-txt-${rmNum}" class="${className}-txt">${room.roomType.toUpperCase()}</p>
+      </span>
+      <span id="bedSize-wrapper">
+        <p id="bedSize-${rmNum}" class="${className}"><b>BED SIZE:</b></p>
+        <p id="bedSize-txt-${rmNum}" class="${className}-txt">${room.bedSize}</p>
+      </span>
+      <span id="numBeds-wrapper">
+        <p id="numBeds-${rmNum}" class="${className}"><b>NUMBER OF BEDS:</b></p>
+        <p id="numBeds-txt-${rmNum}" class="${className}-txt">${room.numBeds}</p>
+      </span>
+      <span id="costPerNight-wrapper">
+        <p id="costPerNight-${rmNum}" class="${className}"><b>PRICE PER NIGHT:</b></p>
+        <p id="costPerNight-txt-${rmNum}" class="${className}-txt">$${room.costPerNight} *</p>
+        <p id="costPerNight-astrik" class="${className}-txt astrik">
+          <i>service charges not included</i>
+        </p>
+      </span>
+      <button id="rm${rmNum}-btn" class="rm-details-btn hidden" value="${rmNum}" name="${className}">
+        ROOM
+      </button> 
+      
+    `;
+  };
+
+  renderBookingHTML(bookingsList, bookingHTML, roomHTML) {
+    bookingsList.insertAdjacentHTML("beforeend", bookingHTML);
+    const details = bookingsList.lastElementChild.children[1];
+    details.insertAdjacentHTML("beforeend", roomHTML);
+  }
+
+  renderRoomHTML(list, room, className) {
+    list.insertAdjacentHTML("beforeend", room); 
+  };
+
+  availableRoomsAdjustments(type) {  // `name`, `no-${type}`
+      console.log('@availableRoomsAdjustments(type): ', type);
+    //document.getElementById(type).classList.remove("hidden");
+    document.getElementById(`no-${type}`).classList.add("hidden");
+  };
+
+  toggleDisplay(...strIDs) {
+    let element;
+    strIDs.map(id => {
+        console.log('id @DOM.toggle(): ', id);
+      element = document.getElementById(id);
+        //console.log('element @DOM.toggle(): ', element);
+      element.classList.toggle("hidden");
+    });
+  };
+  
+  resetForm(formID) {
+    //console.log('formID: ', formID);
+    //const formID = document.getElementById("room-search-form")
+    document.getElementById(formID).reset(); 
+    //"input[type = checkbox]:checked"
+  };
+};
+
+export default RenderDOM
+
+
+  /*
+    <button id="details-btn-20" name="btn-2" value="20" class="rm-details-btn hidden">ROOM DETAILS</button>
+  */
 
   // renderBookingsHTML(user) {
   //   //console.log('bookings @renderBookingsHTML(user): ', bookings);
@@ -163,92 +252,6 @@ class RenderDOM {
   //   });
   // };
 
-  designBookingHTML(booking, className) { 
-    const id = booking.id;
-    const rmNum = booking.roomNumber;
-    return `
-      <article id="booking-${id}" class="${className}" value=${rmNum} number="${id}">
-        <span id="bookingDash-${id}">
-          <h6 id="bk-date">check-in date: ${booking.date}</h6>
-          <h6 id="bk-confCode">confirmation code: ${booking.id}</h6>
-        </span>
-        <div id="details-${id}" class="hidden">
-          <h6 class="details-header">room details:</h6>
-        </div>
-        <div id="booking-btns-${id}">
-          <button id="details-${id}-btn" value="show" class="booking-details-btn details-btn" name="room-details" bkid="details-${id}">room details</button>
-          <button id="cancel-btn-${id}" value="CANCEL BOOKING" class="booking-details-btn hidden cancel-btn">CANCEL RESERVATION</button>
-        </div>
-      </article>
-    `;
-  }
-
-  designRoomHTML(room, className, num) {
-      // console.log('room @renderRoomHTML: ', room);
-    const rmNum = room.number;
-    //const id = num;
-    return `
-      <ul id="rm-${num}" class="${className}s">       
-        <li id="roomType-wrapper">
-          <p id="roomType-${rmNum}" class="${className}">ROOM TYPE:</p>
-          <p id="roomType-txt-${rmNum}" class="${className}-txt">${room.roomType.toUpperCase()}</p>
-        </li>
-        <li id="bedSize-wrapper">
-          <p id="bedSize-${rmNum}" class="${className}">BED SIZE:</p>
-          <p id="bedSize-txt-${rmNum}" class="${className}-txt">${room.bedSize}</p>
-        </li>
-        <li id="numBeds-wrapper">
-          <p id="numBeds-${rmNum}" class="${className}">NUMBER OF BEDS:</p>
-          <p id="numBeds-txt-${rmNum}" class="${className}-txt">${room.numBeds}</p>
-        </li>
-        <li id="costPerNight-wrapper">
-          <p id="costPerNight-${rmNum}" class="${className}">PRICE PER NIGHT:</p>
-          <p id="costPerNight-txt-${rmNum}" class="${className}-txt">$${room.costPerNight} *</p>
-          <p id="costPerNight-astrik" class="${className}-txt astrik">
-            <i>service charges not included</i>
-          </p>
-        </li>
-        <button id="rm${num}-btn" class="rm-details-btn hidden" value="${rmNum}" name="${className}">
-          ROOM
-        </button> 
-      </ul>
-    `;
-  };
-
-  renderBookingHTML(bookingsList, bookingHTML, roomHTML) {
-    bookingsList.insertAdjacentHTML("beforeend", bookingHTML);
-    const details = bookingsList.lastElementChild.children[1];
-    details.insertAdjacentHTML("beforeend", roomHTML);
-  }
-
-  renderRoomHTML(list, room, className) {
-    list.insertAdjacentHTML("beforeend", room); 
-  };
-
-  availableRoomsAdjustments(type) {  // `name`, `no-${type}`
-      console.log('@availableRoomsAdjustments(type)');
-    document.getElementById(type).classList.remove("hidden");
-    document.getElementById(`no-${type}`).classList.add("hidden");
-  };
-
-  toggleDisplay(...strIDs) {
-    let element;
-    strIDs.map(id => {
-        console.log('id @DOM.toggle(): ', id);
-      element = document.getElementById(id);
-        console.log('element @DOM.toggle(): ', element);
-      element.classList.toggle("hidden");
-    });
-  };
-
-};
-
-export default RenderDOM
-
-
-  /*
-  <button id="details-btn-20" name="btn-2" value="20" class="rm-details-btn hidden">ROOM DETAILS</button>
-  */
 
 //   renderRoomsHTML(data) {
 //       console.log('user @renderRoomsHTML: ', user);

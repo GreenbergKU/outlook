@@ -21,8 +21,8 @@ class HotelData {
     
     // this.date;
   
-    this.totalUsers;
-    this.totalRooms;
+    this.totalUsers = this.usersData.data.length;
+    this.totalRooms = this.roomsData.data.length;
   };
 
 

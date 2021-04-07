@@ -12,7 +12,7 @@ class Guest {
     this.name = data.name;
     
     this.type = "guest";
-    this.date = date || "";
+    this.date = date;
 
     this.btnChildText = "new-reservation";
     this.searchBtn = "find rooms";
@@ -32,7 +32,7 @@ class Guest {
     this.amountSpent; //= data.ammountSpent;
     this.availableRooms;
     this.filters;
-    this.searchDate
+    //this.searchDate;
       
     // { name: "upcoming-bookings",
     //   data
