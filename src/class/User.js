@@ -1,7 +1,12 @@
+const dayjs = require('dayjs');
+//import dayjs from 'dayjs' // ES 2015
+dayjs().format();
+
 class User {
   constructor(username, password) {
     this.username = username;
     this.password = password;
+    this.date = new dayjs().format("MM/DD/YYYY");
 
     this.type = "login";
     this.labelInput = "username";
@@ -21,12 +26,12 @@ class User {
     return this;
   }
 
-  validateUser(usersTot) {
+  validateUser(userNum) {
     //console.log('validation(guestsNum): ', validation(guestsNum));
     const validPassword = this.password === "overlook2020" ? true : alert("invalid password!") 
     const validUsername = 
       this.username != "manager" 
-      ? this.userID > usersTot 
+      ? this.userID > userNum 
       ? alert("invalid username") : this.username === "guest" 
       : this.username === "manager";
     //!this.userID ? this.username != "manager" ? alert("wrong username") : this.userID > users ? alert("wrong customerID") : ;

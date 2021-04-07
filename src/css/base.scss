@@ -28,24 +28,15 @@ body {
   // grid-template-columns: 30vw 70vw;
 }
 
-/* GRID AREAS */
 
-.sec-heading {
-  grid-area: dash;
+main > section {
+  width: 90vw;
+  display: grid;
+  align-items: center;
+  text-align: center;
+  padding: 5%;
 }
 
-.dashboard {
-  grid-area: dash;
-}
-
-#user-page, .main {
-  // display: grid;
-  grid-area: main;
-}
-
-aside {
-  grid-area: side;
-}
 /* FONTS */
 
 h1 {
@@ -61,10 +52,12 @@ h1 {
 h2 {
   font-size: 36px;
   font-weight: 700;
+  
 }
 
 h3 {
   font-size: 28px;
+  width: 100%;
 }
 
 h4 {
@@ -83,10 +76,45 @@ p {
   font-size: 12px;
 }
 
-
-#filters {
-  display: flex
+.dashboard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5%;
+  border: black 5px solid;
 }
+
+.guest-dashboard {
+  display: grid;
+  justify-content: center;
+  padding-bottom: 1%;
+}
+
+.booking {
+  display: grid;
+  border: 3px solid black;
+  margin: 0;
+  padding: 0;
+}
+
+.room-details {
+  display: grid;
+  background-color: white;
+  padding: 1%;
+  margin: 0 30%;
+}
+
+#bookings-btns-wrapper{
+  display: flex;
+  justify-items: space-between;
+  width: 100%;
+  margin: 1%;
+}
+
+.rmBooking-btns-wrapper {
+  margin: 1%;
+}
+
 /* #user-page {
   background-color: silver;
 } */
@@ -95,19 +123,15 @@ p {
   display: grid;
   align-items: flex-end;
   justify-content: center;
-  height: 100%;
-  width: 100vw;
   grid-area: main;
 }
 
 form {
   padding: 2%;
   background-color: grey;
+  width: 60vw;
 }
 
-#room-search {
-  display: block;
-}
 // #form-user {
 //   // margin-top: 20%;
 // }
@@ -123,10 +147,47 @@ label {
   padding: 1%;
 }
 
-.login-input {
+.txt-input {
   margin-left: 5%;
+}
+
+.btn-wrapper {
+ display: flex;
+ justify-content: center;
+}
+
+button {
+ height: 5vh; 
+}
+
+#room-search {
+  display: block;
+}
+
+#filters {
+  display: flex
 }
 
 .hidden {
   display: none;
+}
+
+
+/* GRID AREAS */
+
+// .sec-heading {
+//   grid-area: dash;
+// }
+
+// .dashboard {
+//   grid-area: dash;
+// }
+
+// #user-page, .main {
+//   // display: grid;
+//   grid-area: main;
+// }
+
+aside {
+  grid-area: side;
 }
