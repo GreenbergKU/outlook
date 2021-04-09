@@ -1,11 +1,11 @@
-/*
+
   //// * INSTRUCTOR's CODE BELOW * /////////////////////////////////
   // This is the JavaScript entry file - your code begins here
   // Do not delete or rename this file ********
   ///////////////////////////////////////////////////////////////////
-*/
 
-/*////// IMPORTS /////*/
+
+////// IMPORTS /////
 // stylesheets
 
 import './css/base.scss';
@@ -20,6 +20,26 @@ import './css/base.scss';
 
 // images
 import './images/hotel-lobby-small.jpg';
+
+import'./images/junior-king-1.jpg';
+import './images/junior-king-1.jpg';
+import './images/junior-king-2.jpg';
+import './images/junior-queen-1.jpg';
+import './images/junior-twin-2.jpg';
+import './images/residential-full-1.jpg';
+import './images/junior-twin-2.jpg';
+import './images/residential-queen-1.jpg';
+import './images/residential-queen-2.jpg';
+import './images/residential-twin-1.jpg';
+import './images/single-full-2.jpg';
+import './images/single-king-1.jpg';
+import './images/single-queen-1.jpg';
+import './images/single-queen-2.jpg';
+import './images/single-twin-2.jpg';
+import './images/suite-full-2.jpg';
+import './images/suite-queen-1.jpg';
+import './images/suite-queen-2.jpg';
+import './images/suite-twin-1.jpg';
 
 // functions or files
 import testBookings from './testBookings.js'
@@ -65,8 +85,9 @@ function loadOutlook() {
     makeCurrent(data.bookings)
     return data;
   })
-  .then(data => hotelRepo = new HotelData(data).addTotals())
+  .then(data => hotelRepo = new HotelData(data))
   .then(activateForm());
+  //return hotelRepo
 };
 
 function formatDate(date, style) {
@@ -76,6 +97,7 @@ function formatDate(date, style) {
 };
 
 // ***** FOR TESTING PURPOSES ONLY *****
+
 function makeCurrent(data) {
   data.map(dataObj => {
     let date = dayjs(dataObj.date);
@@ -83,6 +105,10 @@ function makeCurrent(data) {
     //console.log('dataObj.date @makeCurrent(data): ', dataObj.date);
   });
 };
+
+function simulateLogin() {
+  getLogin();
+}
 
 // function addTestingData(dataGroup, dataSets) {
 //   let group = dataGroup;
@@ -95,14 +121,18 @@ function makeCurrent(data) {
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 function activateForm() {
-  document.getElementById('user-submit').addEventListener("click", getLogin);
-  let minDate = new dayjs().add(1,"day").format("YYYY-MM-DD");
+  const minDate = new dayjs().add(1,"day").format("YYYY-MM-DD");
   document.getElementById("date").min = minDate;
+  document.getElementById('user-submit').addEventListener("click", (e) => {
+    e.preventDefault();
+    getLogin()
+  });
+  
   // resetRoomSearch();
 };
 
-function getLogin(e) {
-  e.preventDefault();
+function getLogin() {
+  // e.preventDefault();
   const inputs = getInputs();
   const validForm = validateForm(inputs);
   validForm ? differentiateUsers(inputs) : alert("wrong username or password");
@@ -239,6 +269,7 @@ el.addEventListener('click', doClick);
 // Then later in the code, clean up
 el.removeEventListener('click', doClick);
 */
+const showSearchUser = (e) => showSearch(e, user);
 
 function activateUserBtn(user) {
   console.log('@activateUserBtn: ', user); 
@@ -247,8 +278,6 @@ function activateUserBtn(user) {
   renderOutlook.updateSearchBtn(user.searchBtn);
   document.getElementById('userBtn').addEventListener("click", showSearchUser);
 }; 
-
-const showSearchUser = (e) => showSearch(e, user);
 
 function showSearch(e, user) {
   console.log('e.target @showSearch: ', e.target);

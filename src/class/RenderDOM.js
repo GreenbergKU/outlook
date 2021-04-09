@@ -1,3 +1,20 @@
+// import './images/rooms/junior-king-1.jpeg';
+// import './images/rooms/junior-king-2.jpeg';
+// import './images/rooms/junior-queen-1.jpeg';
+// import './images/rooms/junior-twin-2.jpeg';
+// import './images/rooms/residential-full-1.jpeg';
+// import './images/rooms/junior-twin-2.jpeg';
+// import './images/rooms/residential-queen-1.jpeg';
+// import './images/rooms/residential-twin-1.jpeg';
+// import './images/rooms/single-full-2.jpeg';
+// import './images/rooms/single-king-1.jpeg';
+// import './images/rooms/single-queen-1.jpeg';
+// import './images/rooms/single-queen-2.jpeg';
+// import './images/rooms/single-twin-2.jpeg';
+// import './images/rooms/suite-full-2.jpeg';
+// import './images/rooms/suite-queen-2.jpeg';
+// import './images/rooms/suite-twin-1.jpeg';
+
 class RenderDOM {
 
   assignBtnToUser(user) {
@@ -126,7 +143,7 @@ class RenderDOM {
     const num = booking.count
     return `
       <article id="booking-${num}" class="${className} booking" value="${id}" room=${rmNum}>
-        <span id="${num}">
+        <span id="booking${num}">
           <h6 id="bk-date">check-in date: ${booking.date}</h6>
           <h6 id="bk-confCode">confirmation code: ${booking.id}</h6>
         </span>
@@ -138,33 +155,41 @@ class RenderDOM {
         </div>
       </article>
     `;
-  }
+  };
 
-  designRoomHTML(room, className, id, num) {
+  designRoomHTML(room, className, num) {
       console.log('room @renderRoomHTML: ', room);
       //console.log('booking.room: ', booking.room);
+    const imgType = room.roomType.split(" ")[0];
+    const imgFile = `../images/rooms/${imgType}.${room.bedSize}.${room.numBeds}`
     const rmNum = room.number;
     return `
-             
-      <span id="roomType-wrapper">
-        <p id="roomType-${rmNum}" class="${className}"><b>ROOM TYPE:</b></p>
-        <p id="roomType-txt-${rmNum}" class="${className}-txt">${room.roomType.toUpperCase()}</p>
-      </span>
-      <span id="bedSize-wrapper">
-        <p id="bedSize-${rmNum}" class="${className}"><b>BED SIZE:</b></p>
-        <p id="bedSize-txt-${rmNum}" class="${className}-txt">${room.bedSize}</p>
-      </span>
-      <span id="numBeds-wrapper">
-        <p id="numBeds-${rmNum}" class="${className}"><b>NUMBER OF BEDS:</b></p>
-        <p id="numBeds-txt-${rmNum}" class="${className}-txt">${room.numBeds}</p>
-      </span>
-      <span id="costPerNight-wrapper">
-        <p id="costPerNight-${rmNum}" class="${className}"><b>PRICE PER NIGHT:</b></p>
-        <p id="costPerNight-txt-${rmNum}" class="${className}-txt">$${room.costPerNight} *</p>
-        <p id="costPerNight-astrik" class="${className}-txt astrik">
-          <i>service charges not included</i>
-        </p>
-      </span>
+      <div class="rm-wrapper">
+        <span id="img-wrapper-${num}" class="img-wrapper">
+          <img src="../images/${imgType}-${room.bedSize}-${room.numBeds}.jpg" alt="hotel room stock photo" id="room${num}-img" class="room-img">
+        </span>
+        <div class="rmDetails-wrapper">       
+          <span id="roomType-wrapper">
+            <p id="roomType-${rmNum}" class="${className}"><b>ROOM TYPE:</b></p>
+            <p id="roomType-txt-${rmNum}" class="${className}-txt">${room.roomType.toUpperCase()}</p>
+          </span>
+          <span id="bedSize-wrapper">
+            <p id="bedSize-${rmNum}" class="${className}"><b>BED SIZE:</b></p>
+            <p id="bedSize-txt-${rmNum}" class="${className}-txt">${room.bedSize}</p>
+          </span>
+          <span id="numBeds-wrapper">
+            <p id="numBeds-${rmNum}" class="${className}"><b>NUMBER OF BEDS:</b></p>
+            <p id="numBeds-txt-${rmNum}" class="${className}-txt">${room.numBeds}</p>
+          </span>
+          <span id="costPerNight-wrapper">
+            <p id="costPerNight-${rmNum}" class="${className}"><b>PRICE PER NIGHT:</b></p>
+            <p id="costPerNight-txt-${rmNum}" class="${className}-txt">$${room.costPerNight} *</p>
+            <p id="costPerNight-astrik" class="${className}-txt astrik">
+              <i>service charges not included</i>
+            </p>
+          </span>
+        </div>
+      </div>
       <button id="rm${rmNum}-btn" class="rm-details-btn hidden" value="${rmNum}" name="${className}">
         ROOM
       </button> 

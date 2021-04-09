@@ -98,10 +98,33 @@ p {
 }
 
 .room-details {
-  display: grid;
   background-color: white;
   padding: 1%;
-  margin: 0 30%;
+  margin: 0 25%;
+}
+
+.rm-wrapper {
+  display: grid;
+  grid-template-columns: 55% 45%;
+}
+
+.img-wrapper {
+  background-color: grey;
+  display: grid;
+  align-items: center;
+}
+
+.room-img {
+  // width: 50%;
+  // height: 100%;
+  width: 100%;
+  height: 60%;
+  margin: 5%;
+  background-color: black;
+}
+
+.rmDetails-wrapper {
+  display: grid;
 }
 
 #bookings-btns-wrapper{
@@ -188,6 +211,6 @@ button {
 //   grid-area: main;
 // }
 
-aside {
-  grid-area: side;
-}
+// aside {
+//   grid-area: side;
+// }
