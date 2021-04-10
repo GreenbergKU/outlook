@@ -1,20 +1,3 @@
-// import './images/rooms/junior-king-1.jpeg';
-// import './images/rooms/junior-king-2.jpeg';
-// import './images/rooms/junior-queen-1.jpeg';
-// import './images/rooms/junior-twin-2.jpeg';
-// import './images/rooms/residential-full-1.jpeg';
-// import './images/rooms/junior-twin-2.jpeg';
-// import './images/rooms/residential-queen-1.jpeg';
-// import './images/rooms/residential-twin-1.jpeg';
-// import './images/rooms/single-full-2.jpeg';
-// import './images/rooms/single-king-1.jpeg';
-// import './images/rooms/single-queen-1.jpeg';
-// import './images/rooms/single-queen-2.jpeg';
-// import './images/rooms/single-twin-2.jpeg';
-// import './images/rooms/suite-full-2.jpeg';
-// import './images/rooms/suite-queen-2.jpeg';
-// import './images/rooms/suite-twin-1.jpeg';
-
 class RenderDOM {
 
   assignBtnToUser(user) {
@@ -158,7 +141,7 @@ class RenderDOM {
   };
 
   designRoomHTML(room, className, num) {
-      console.log('room @renderRoomHTML: ', room);
+      // console.log('room @renderRoomHTML: ', room);
       //console.log('booking.room: ', booking.room);
     const imgType = room.roomType.split(" ")[0];
     const imgFile = `../images/rooms/${imgType}.${room.bedSize}.${room.numBeds}`
@@ -190,7 +173,7 @@ class RenderDOM {
           </span>
         </div>
       </div>
-      <button id="rm${rmNum}-btn" class="rm-details-btn hidden" value="${rmNum}" name="${className}">
+      <button id="${className}-rm${rmNum}-btn" class="rm-details-btn hidden" value="${rmNum}" name="${className}">
         ROOM
       </button> 
       
