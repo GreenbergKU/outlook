@@ -33,10 +33,16 @@ class Manager {
     return this.roomsOccupied
   }
 
+  getBookingID() {
+    return this.guestAdmin.id
+  };
+
   defineBtn(btn) {
     console.log('btn: ', btn);
     return btn
   }
+
+
 
 }
 
