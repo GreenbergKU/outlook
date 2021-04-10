@@ -13,17 +13,15 @@ class Manager {
     this.totalUsers = data.totalUsers;
     this.totalRooms = data.totalRooms;
 
-    this.roomsAvailable;
-    this.bookedRooms;
-    this.revenue; //= data.ammountSpent;
-    this.roomsOccupied;
+    //this.roomsAvailable;
+    //this.bookedRooms;
+    //this.revenue; //= data.ammountSpent;
+    //this.roomsOccupied;
 
-    this.guestAdmin; // Leatha Ullrich
-    //this.searchDate;
+    //this.guestAdmin; // Leatha Ullrich
   }
 
   percentBooked() {
-
     this.roomsOccupied = this.bookedRooms.length / this.totalRooms * 100;
     
     console.log('this.totalRooms: ', this.totalRooms);
