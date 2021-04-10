@@ -51,7 +51,7 @@
         <article id="guest-dashboard" name="guestName" class="dashboard guest-dashboard">   
           <div id="amountSpent" class="guest-amountSpent">Total amount spent:</div>
           
-          <div id="bookings-btns-wrapper">
+          <div id="bookings-btns-wrapper" class="btns-wrapper">
             <button id="upcoming-bookings-btn" name="upcoming-bookings" class="booking-btn" value="show">
               UPCOMING BOOKINGS
             </button>
@@ -114,18 +114,16 @@
               <input id="date" type="date" value=""/>
             </div>
 
-            <button id="filter-btn" value="show" name="filter-options" class="room-search-btn">FILTER OPTIONS</button>
-            
             <aside id="filter-options" form="room-search-form" class="hidden initial-state">
               <h5 id="filter-header">SEARCH FILTERS</h5>
           
-              <div id="filters" class="checkboxes">
+              <!-- <div id="filters" class="checkboxes">
   
                 <fieldset id="roomType-options" name="filter-options" class="checkbox-subGroup">
                   
                   <legend class="subGroup-header">ROOM TYPE OPTIONS</legend> 
 
-                  <input type="checkbox" id="single-room" name="roomType" class="checkbox" next="bedSize-options" value="singleRoom"> 
+                  <input type="checkbox" id="single-room" name="roomType" class="checkbox" next="bedSize-options" value="single room"> 
                   <label for="single-room" class="checkbox-label">Single Room</label>
 
                   <input type="checkbox" id="suite" name="room" class="checkbox" next="suite-options" 
@@ -133,10 +131,10 @@
                   <label for="suite" class="checkbox-label">Suite</label>
 
                   <fieldset id="suite-options" class="checkbox-subGroup hidden">
-                    <input type="checkbox" id="residential-suite" name="roomType" class="suite-subGroup checkbox" next="bedType-options"> 
+                    <input type="checkbox" id="residential-suite" name="roomType" class="suite-subGroup checkbox" value="residential suite" next="bedType-options"> 
                     <label for="residential-suite" class="checkbox-label" >Residential Suite</label>
       
-                    <input type="checkbox" id="suite" name="roomType" class="suite-subGroup checkbox" next="-options" value="suite"> 
+                    <input type="checkbox" id="suite" name="roomType" class="suite-subGroup checkbox" value="suite" next="-options"> 
                     <label for="suite" class="checkbox-label">Standard Suite</label>
     
                     <input type="checkbox" id="junior-suite" name="roomType" class="suite-subGroup checkbox" next="bedType-options"> 
@@ -173,14 +171,78 @@
                 
                 </fieldset>
 
+              </div> -->
+
+              <div id="radio-filters" class="radios">
+
+                <fieldset id="roomType-options" name="filter-options" class="radio-subGroup">                 
+                  <legend class="subGroup-header">ROOM TYPE OPTIONS</legend> 
+  
+                  <input type="radio" id="single-room" name="roomType" class="radio" value="single room"> 
+                  <label for="single-room" class="radio-label">Single Room</label>
+  
+  
+                  <fieldset id="suite-options" class="radio-subGroup">
+                    <legend class="subGroup-header">SUITE OPTIONS</legend>
+                    
+                    <input type="radio" id="residential-suite" name="roomType" class="suite-subGroup radio" value="residential suite"> 
+                    <label for="residential-suite" class="radio-label">Residential Suite</label>
+      
+                    <input type="radio" id="suite" name="roomType" class="suite-subGroup radio" value="suite"> 
+                    <label for="suite" class="radio-label">Standard Suite</label>
+    
+                    <input type="radio" id="junior-suite" name="roomType" class="suite-subGroup radio" value="junior suite"> 
+                    <label for="junior-suite" class="radio-label">Junior Suite</label>
+                  </fieldset>
+  
+                </fieldset>  
+
+                <fieldset id="bedSize-options" class="radio-subGroup">                                                      
+                  <legend class="subGroup-header">BED SIZE OPTIONS</legend>
+                  
+                  <input type="radio" id="kingBed" name="bedSize" class="radio" value="king"> 
+                  <label for="kingBed" class="radio-label">King bed</label>
+  
+                  <input type="radio" id="queenBed" name="bedSize" class="radio" value="queen"> 
+                  <label for="queenBed" class="radio-label">Queen Bed</label>
+  
+                  <input type="radio" id="fullBed" name="bedSize" class="radio" value="full"> 
+                  <label for="fullBed" class="radio-label">Full Bed</label>
+  
+                  <input type="radio" id="twinBed" name="bedSize" class="radio" value="twin"> 
+                  <label for="twinBed" class="radio-label">Twin Bed</label>  
+                </fieldset>
+  
+                <fieldset id="numBeds-options" class="radio-subGroup">                  
+                  <legend class="subGroup-header">NUMBER OF BEDS</legend>
+  
+                  <input type="radio" id="1bed" name="numBeds" class="radio" value=1> 
+                  <label for="1bed" class="radio-label">1</label>
+  
+                  <input type="radio" id="2beds" name="numBeds" class="radio" value=2> 
+                  <label for="2beds" class="radio-label">2</label>                
+                </fieldset>
+  
               </div> 
 
-              <div id="reset-wrapper">
-                <button id="reset-filters" >reset filters</button>
-                <!-- onclick="event.preventDefault()" -->
-              </div>
+              
 
-            </aside>
+
+            
+            </aside> 
+
+              <!-- <div id="reset-wrapper">
+                <button id="reset-filters" >reset filters</button>
+              </div> -->
+
+            <div id="filter-btns">
+              <button id="reset-filters" class="hidden initial-state initial-txt">
+                RESET FILTERS
+              </button>
+              <button id="filter-btn" value="show" name="filter-options" class="room-search-btn initial-txt">
+                FILTER OPTIONS
+              </button>
+            </div>
 
           </div>
 
@@ -252,60 +314,59 @@
 </body>
 </html> -->
 
-                <!--<div id="filters" class="checkboxes">
+            <!-- <div id="filters" class="checkboxes"></div>             -->
+            <!--
+            <div id="filters" class="radios">
 
-                                <div id="filters" class="radios">
-  
-                <fieldset id="roomType-options" name="filter-options" class="radio-subGroup">
-                  
-                  <legend class="subGroup-header">ROOM TYPE OPTIONS</legend> 
-
-                  <input type="radio" id="singleRoom" name="roomType" class="radio" next="bedSize-options" value="singleRoom"> 
-                  <label for="singleRoom" class="radio-label">Single Room</label>
-
-                  <input type="radio" id="suite" name="roomType" class="radio" next="suite-options" 
-                    onclick="document.getElementById('suite-options').classList.toggle('hidden')"> 
-                  <label for="suite" class="radio-label">Suite</label>
-
-                  <fieldset id="suite-options" class="radio-subGroup hidden">
-                    <input type="radio" id="residential" name="roomType" class="suite-subGroup radio" next="bedType-options"> 
-                    <label for="residential" class="radio-label" >Residential Suite</label>
-      
-                    <input type="radio" id="standard-suite" name="roomType" class="suite-subGroup radio" next="-options" value="suite"> 
-                    <label for="standard-suite" class="radio-label">Standard Suite</label>
-    
-                    <input type="radio" id="junior" name="roomType" class="suite-subGroup radio" next="bedType-options"> 
-                    <label for="junior" class="radio-label">Junior Suite</label>
-                  </fieldset>
-
-                </fieldset>              
-
-                <fieldset id="bedSize-options" class="radio-subGroup">                                                      
-                  <legend class="subGroup-header">BED SIZE OPTIONS</legend>
-                  <input type="radio" id="kingBed" name="bedSize" class="radio" > 
-                  <label for="kingBed" class="radio-label">King bed</label>
-
-                  <input type="radio" id="queenBed" name="bedSize" class="radio" > 
-                  <label for="queenBed" class="radio-label">Queen Bed</label>
-
-                  <input type="radio" id="fullBed" name="bedSize" class="radio" > 
-                  <label for="fullBed" class="radio-label">Full Bed</label>
-
-                  <input type="radio" id="twinBed" name="bedSize" class="radio" > 
-                  <label for="twinBed" class="radio-label">Twin Bed</label>
-
-                </fieldset>
-
-                <fieldset id="numBeds-options" class="radio-subGroup">
-                  
-                  <legend class="subGroup-header">NUMBER OF BEDS</legend>
-
-                  <input type="radio" id="1bed" name="numBeds" class="radio" > 
-                  <label for="1bed" class="radio-label">1</label>
-
-                  <input type="radio" id="2beds" name="numBeds" class="radio" > 
-                  <label for="2beds" class="radio-label">2</label>
+              <fieldset id="roomType-options" name="filter-options" class="radio-subGroup">
                 
+                <legend class="subGroup-header">ROOM TYPE OPTIONS</legend> 
+
+                <input type="radio" id="single-room" name="roomType" class="radio" value="single room"> 
+                <label for="single-room" class="radio-label">Single Room</label>
+
+
+                <fieldset id="suite-options" class="radio-subGroup hidden">
+                  <legend class="subGroup-header">SUITE OPTIONS</legend>
+                  
+                  <input type="radio" id="residential-suite" name="roomType" class="suite-subGroup radio" value="residential suite"> 
+                  <label for="residential-suite" class="radio-label">Residential Suite</label>
+    
+                  <input type="radio" id="suite" name="roomType" class="suite-subGroup radio" value="suite"> 
+                  <label for="suite" class="radio-label">Standard Suite</label>
+  
+                  <input type="radio" id="junior-suite" name="roomType" class="suite-subGroup radio" value="junior suite"> 
+                  <label for="junior-suite" class="radio-label">Junior Suite</label>
                 </fieldset>
 
-              </div> 
+              </fieldset>              
+              <fieldset id="bedSize-options" class="radio-subGroup">                                                      
+                <legend class="subGroup-header">BED SIZE OPTIONS</legend>
+                <input type="radio" id="kingBed" name="bedSize" class="radio" value="king"> 
+                <label for="kingBed" class="radio-label">King bed</label>
+
+                <input type="radio" id="queenBed" name="bedSize" class="radio" value="queen"> 
+                <label for="queenBed" class="radio-label">Queen Bed</label>
+
+                <input type="radio" id="fullBed" name="bedSize" class="radio" value="full"> 
+                <label for="fullBed" class="radio-label">Full Bed</label>
+
+                <input type="radio" id="twinBed" name="bedSize" class="radio" value="twin"> 
+                <label for="twinBed" class="radio-label">Twin Bed</label>
+
+              </fieldset>
+
+              <fieldset id="numBeds-options" class="radio-subGroup">
+                
+                <legend class="subGroup-header">NUMBER OF BEDS</legend>
+
+                <input type="radio" id="1bed" name="numBeds" class="radio" value=1> 
+                <label for="1bed" class="radio-label">1</label>
+
+                <input type="radio" id="2beds" name="numBeds" class="radio" value=2> 
+                <label for="2beds" class="radio-label">2</label>
+              
+              </fieldset>
+
+            </div> 
+              -->

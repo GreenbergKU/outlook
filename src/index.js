@@ -123,19 +123,16 @@ function simulateLogin() {
 function activateForm() {
   const minDate = new dayjs().add(1,"day").format("YYYY-MM-DD");
   document.getElementById("date").min = minDate;
-  document.getElementById('user-submit').addEventListener("click", (e) => {
-    e.preventDefault();
-    getLogin()
-  });
-  
+  document.getElementById('user-submit').addEventListener("click", getLogin);
   // resetRoomSearch();
 };
 
-function getLogin() {
-  // e.preventDefault();
+function getLogin(e) {
+  e.preventDefault();
   const inputs = getInputs();
   const validForm = validateForm(inputs);
   validForm ? differentiateUsers(inputs) : alert("wrong username or password");
+  document.querySelector(".submit-user").removeEventListener("click", getLogin);
 };
 
 function getInputs() {
@@ -246,11 +243,11 @@ function customizeGuest(user) {
 
   activateRoomSearchBtns(user);
   activateRmDetailsBtns("booking-details-btn");
-  activateFilter()
+  activateFilter(user);
 
   //renderRoomDetails(user.sortedBookings);
   console.log('user @customizeGuest(user): ', user);
-  return user
+  return user;
 };
 
 /*
@@ -289,8 +286,10 @@ function showSearch(e, user) {
     console.log('targetName @activateUserBtn(): ', targetName);
   renderOutlook.resetForm("room-search-form")
   renderOutlook.displaySearchForm(e.target);
+  const filterBtn = document.getElementById("filter-btn");
+  renderOutlook.displayBookingsBtnTxt(filterBtn);
   renderOutlook.toggleDisplay("login-name");
-  document.querySelector(".submit-user").removeEventListener("click", getLogin);
+  // document.querySelector(".submit-user").removeEventListener("click", getLogin);
   // renderOutlook.updateSearchBtn(targetName, user.searchBtn.toUpperCase());
 }  
 
@@ -299,27 +298,26 @@ function activateSearchBtn() {
     console.log('searchBtn @activateUserBtn(): ', searchBtn); 
   searchBtn.addEventListener("click", (event) => {
     event.preventDefault();
-    event.target.value.includes('ROOMS') ? displayRooms() : findGuestAdmin();
+    findGuestAdmin();
   });
 };
 
 function activateRoomSearchBtns(user) {
   const inputDate = document.getElementById("date");
   const roomSearchBtn = document.getElementById("submit-room-search");
-    console.log('roomSearchBtn @activateUserBtn(): ', roomSearchBtn); 
+  roomSearchBtn.disabled = true;
   
+    console.log('roomSearchBtn @activateUserBtn(): ', roomSearchBtn);   
   inputDate.addEventListener("change", (e) => {
+      console.log('e.target @actRmSearchBtns(datePicker): ', e.target); 
     const datePicked = dayjs(e.target.value);
-    const validDate = () => formatDate(datePicked); 
-    datePicked.isValid ? findAvailableRooms(validDate(), roomSearchBtn) : null;
-      console.log('e.target @actRmSearchBtns(datePicker): ', e.target);    
-  });
-      
+    const validDate = () => formatDate(datePicked);
+    datePicked.isValid ? findAvailableRooms(user, validDate(), roomSearchBtn) : null       
+  });      
   roomSearchBtn.addEventListener("click", (e) => {
     e.preventDefault();
     displayRooms();
   });
-  
 };
 
 /*
@@ -382,7 +380,7 @@ function displayRooms() {
   renderOutlook.toggleDisplay("available-rooms");
 };
 
-function designRooms(rooms, className) {
+function designRooms(userX, rooms, className) {
   console.log('@renderRoomDetails(): ');
   let index, roomHTML = '', roomList, roomBtn;
   roomList = document.getElementById(`${className}s-list`);
@@ -392,11 +390,11 @@ function designRooms(rooms, className) {
       //console.log('index: ', index);
     roomHTML = renderOutlook.designRoomHTML(room, className, index);
     renderOutlook.renderRoomHTML(roomList, roomHTML);
-    roomBtn = roomList.lastElementChild.lastElementChild;
-      //console.log('roomBtn @displayRooms: ', roomBtn); 
+    roomBtn = roomList.lastElementChild;
+      // console.log('roomBtn @displayRooms: ', roomBtn); 
     return roomBtn      
   });
-  customizeRoomBtns(rmBtns);
+  customizeRoomBtns(userX, rmBtns);
   return user
 };
 
@@ -444,7 +442,6 @@ function activateBookingBtns(btnID) {
       if (siblingElement.value === 'hide') {
         displayInfo(siblingElement, "name")
       };
-
       displayInfo(btn, "name");
     }));
   });
@@ -457,24 +454,24 @@ function assignRoomBtnTxt(name) {
   : null;
 };
 
-function customizeRoomBtns(btns) {
+function customizeRoomBtns(userX, btns) {
     console.log('btns: ', btns);
   btns.map(roomBtn => {
     roomBtn.innerText = assignRoomBtnTxt(roomBtn.name); 
       //console.log('roomBtn: ', roomBtn);
-    activateRoomBtn(roomBtn); 
+    activateRoomBtn(userX, roomBtn); 
   });
 };
 
-function activateRoomBtn(roomBtn) {
+function activateRoomBtn(userX, roomBtn) {
     //console.log('roomBtn @activateRoomBtn(btn): ', roomBtn);
-  roomBtn.addEventListener("click", (e => {
+  renderOutlook.toggleDisplay(roomBtn.id);
+  roomBtn.addEventListener("click", (e) => {
     e.preventDefault();
     roomBtn.innerText === "CANCEL ROOM" ? cancelRoom(roomBtn)
-    : roomBtn.innerText === "BOOK ROOM" ? bookRoom(roomBtn)
+    : roomBtn.innerText === "BOOK ROOM" ? bookRoom(roomBtn, userX)
     : null 
-  })); 
-  renderOutlook.toggleDisplay(roomBtn.id);
+  });
 };
 
 function displayInfo(element, property) {
@@ -512,52 +509,72 @@ function activateRmDetailsBtns(btnName) {
   });
 };  
 
-function activateFilter() {
+function activateFilter(userX) {
     console.log('user @activateFilter: ', user);
     console.log('user.availableRooms: ', user.availableRooms);
   activateFilterBtns();
-  let filterList = [];
-  const checkboxes = document.querySelectorAll("input[type = checkbox]");
-  const filter = document.getElementById("filters");
-    console.log('checkboxes: ', checkboxes);
-  filter.addEventListener("change", (e) => {
+  // const checkboxes = document.querySelectorAll("input[type = checkbox]");
+  // const filter = document.getElementById("filters");
+  //   console.log('checkboxes: ', checkboxes);
+  // filter.addEventListener("change", (e) => {
+  //   e.preventDefault();
+  //     console.log('e.target @activateFilter(): ', e.target);
+  //     console.log('user.availableRooms @activateFilter(): ', user.availableRooms);
+  //   const type = e.target.type;
+  //   const typeChecks = Array.from(document.querySelectorAll(`input[name = ${type}]`));
+  //   typeChecks.filter(check => check.id != e.target.id)
+  //   .map(check => check.checked = false)
+  //   // const roomTypes = Array.from(document.querySelectorAll("input[name = roomType]:checked"));
+  //   // e.target.name === "roomType" ? e.target.id =  e.target.id.split("-").join(" ") 
+  //   // : e.target.name === "bedSize" ? 
+  //   filterAvailableRooms(userX, user.searchDate);
+  // });
+
+  const radios = document.querySelectorAll("input[type = radio]");
+  const radioFilters = document.getElementById("radio-filters");
+  radioFilters.addEventListener("change", (e) => {
     e.preventDefault();
       console.log('e.target @activateFilter(): ', e.target);
       console.log('user.availableRooms @activateFilter(): ', user.availableRooms);
-    // const checkProp = e.target.name;
-    // const checkVal = e.target.id.split("-").join(" ");
-    // const type = e.target.type === "checkbox";
-    // const checked = e.target.checked;
-    //   console.log('checked @activateFilter(): ', checked);
-    // const suite = e.target.id === "suite";
-    //   console.log('id @activateFilter(): ', suite);
-    // !suite && checked && type ? filterAvailableRooms() : null;
-    filterAvailableRooms(user.searchDate)
-      //console.log('user.availableRooms: ', user.availableRooms);
-    //dataCheck(user.availableRooms, "available-rooms", user.searchDate);
+    // const type = e.target.type;
+    // const typeRadios = Array.from(document.querySelectorAll(`input[name = ${type}]`));
+    // typeChecks.filter(check => check !== e.target)
+    // .map(check => check.checked = false)
+    // const roomTypes = Array.from(document.querySelectorAll("input[name = roomType]:checked"));
+    // e.target.name === "roomType" ? e.target.id =  e.target.id.split("-").join(" ") 
+    // : e.target.name === "bedSize" ? 
+    filterAvailableRooms(userX, user.searchDate);
   });
 };
 
 function activateFilterBtns() {
-  document.getElementById("filter-btn").addEventListener("click", (e) => {
+  const filterBtn = document.getElementById("filter-btn");
+  const resetBtn = document.getElementById("reset-filters");
+  filterBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    displayFilterSec(e.target);
+    displayFilterSec(filterBtn, resetBtn);
   });
-  document.getElementById("reset-filters").addEventListener("click", (e) => {
+  resetBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    //clearCheckboxes();
-    resetRoomSearch();
+    //resetRoomSearch();
     renderOutlook.resetForm("room-search-form");
     document.getElementById("submit-room-search").disabled = true;
     displayRooms();
   });    
 };
 
-function displayFilterSec(btn) {
-    console.log('btn @displayFilterSec(btn): ', btn);
-  renderOutlook.toggleDisplay(btn.name);
-  btn.value = swapBtnValue(btn.value); 
-  renderOutlook.displayBookingsBtnTxt(btn); 
+function displayFilterSec() { 
+  const filterBtn = document.getElementById("filter-btn");
+  const resetBtn = document.getElementById("reset-filters");
+    // btn = 
+      // <button id="filter-btn" value="show" name="filter-options" class="room-search-btn">
+      //   FILTER OPTIONS
+      // </button>
+    console.log('filterBtn @displayFilterSec(filterBtn): ', filterBtn);
+  renderOutlook.toggleDisplay(filterBtn.name, resetBtn.id);
+  document.getElementById("filter-btns").classList.toggle("btns-wrapper");
+  filterBtn.value = swapBtnValue(filterBtn.value); 
+  renderOutlook.displayBookingsBtnTxt(filterBtn);
 };
 
 
@@ -567,74 +584,59 @@ function displayFilterSec(btn) {
 //     console.log('list: ', list);
 //   return list
 // };
-
-function findAvailableRooms(date, btn) {
-    console.log('user @ findAvailableRooms(user): ', user);
-    console.log('@ findAvailableRooms(user): ');
-    user.searchDate = date;
+function findAvailableRooms(userX, date, btn) {
+    console.log('@findAvailableRooms(user): ');
+    console.log('user @findAvailableRooms(user): ', user);
+    console.log('date @findAvailableRooms(user): ', date);
+  user.searchDate = date;
   btn.disabled = false;
-
-  // let datePicked = document.getElementById("date").value;
-  //   console.log('datePicked: ', datePicked);
-  // datePicked = formatDate(datePicked);
-  //   console.log('datePicked: ', datePicked);
-  // user.searchDate = datePicked;
   const roomsBooked = hotelRepo.findBookings("date", date);
-    //console.log('roomsBooked @findAvailableRooms(user): ', roomsBooked);
   const availableRooms = hotelRepo.findAvailableRooms(roomsBooked);
-    // console.log("availableRooms @findAvailableRooms(user): ", availableRooms); 
   user.availableRooms = availableRooms;
-  filterAvailableRooms(date)
-  return user 
+  filterAvailableRooms(userX, date);
+  return user; 
 };
 
-function filterAvailableRooms(date) {
+function filterAvailableRooms(userX, date) {
     console.log('@filterAvailableRooms: ');
     console.log('user @filterAvailableRooms: ', user);
     console.log('user.availableRooms @filterAvailableRooms: ', user.availableRooms);
     //console.log('value: ', value);
     //console.log('prop: ', prop);
-    //console.log('datePicked: ', datePicked);
-  const checks = Array.from(document.querySelectorAll("input[type = checkbox]:checked"));
-  
-  const roomTypes = Array.from(document.querySelectorAll("input[name = roomType]:checked"));
-  const bedSizes = Array.from(document.querySelectorAll("input[name = bedSize]:checked"));
-  const numBeds = Array.from(document.querySelectorAll("input[name = numBeds]:checked"));
-  console.log('checks @filterAvailableRooms: ', checks);
-  console.log('roomTypes @filterAvailableRooms: ', roomTypes);
-  console.log('bedSizes @filterAvailableRooms: ', bedSizes);
-  console.log('numBeds @filterAvailableRooms: ', numBeds);
+    //console.log('datePicked: ', datePicked);  
+    // const checks = Array.from(document.querySelectorAll("input[type = checkbox]:checked"));
+
+    // console.log('checks @filterAvailableRooms: ', checks);
+    // console.log('roomTypes @filterAvailableRooms: ', roomTypes);
+    // console.log('bedSizes @filterAvailableRooms: ', bedSizes);
+    // console.log('numBeds @filterAvailableRooms: ', numBeds);
   let filteredRooms = user.availableRooms;
+
+  //////// roomTypes, bedSizes, numBeds
+  const roomOptions = ["roomType", "bedSize", "checkbox"];
+  let types;
+  roomOptions.forEach(option => {
+    types = Array.from(document.querySelectorAll(`input[name = ${option}]:checked`));
+    types.length ? filteredRooms = filterRooms(filteredRooms, types) : null;
+  });
+  console.log('filteredRooms @filterAvailableRooms: ', filteredRooms);
+
   // notSuite = document.querySelectorAll("input[type = checkbox]:checked:not(#suite)")
   //console.log("notSuite: ", notSuite);
   //const checked = document.querySelectorAll("input[type = checkbox]:checked");
-  const filterRooms = (roomChecks) => {  
-    let rooms, checkID;
-    console.log('@ filterRooms: ');
-    if(roomChecks === roomTypes) {
-      roomChecks.map(check => checkID = check.id.split("-").join(" "));
-    };
-    if(roomChecks === bedSizes) {
-      roomChecks.map(check => checkID = check.id);
-    };
-    if(roomChecks === numBeds) {
-      roomChecks.map(check => checkID = Number(check.id));
-    };
-    roomChecks.map(check => {  
-      rooms = filteredRooms.filter(room => room[check.name] === checkID);
-    });
-    return rooms
-  };
-  //roomTypes, bedSizes, numBeds 
+
   
-  roomTypes.length ? filteredRooms = filterRooms(roomTypes) : null;
-  bedSizes.length ? filteredRooms = filterRooms(bedSizes) : null;
-  numBeds.length ? filteredRooms = filterRooms(numBeds) : null;
+  // const roomTypes = Array.from(document.querySelectorAll("input[name = roomType]:checked"));
+  // roomTypes.length ? filteredRooms = filterRooms(filteredRooms, roomTypes) : null;
+  // const bedSizes = Array.from(document.querySelectorAll("input[name = bedSize]:checked"));
+  // bedSizes.length ? filteredRooms = filterRooms(filteredRooms, bedSizes) : null;
+  // numBeds.length ? filteredRooms = filterRooms(filteredRooms, numBeds) : null;
+const numBeds = Array.from(document.querySelectorAll("input[name = numBeds]:checked"));
   // filteredRooms = checks ? checks.map(check => filteredRooms = user.filterData(filteredRooms, check.name, check.id)) : user.availableRooms;
-  console.log('filteredRooms @filterAvailableRooms: ', filteredRooms);
+    
     //console.log('checks @filterAvailableRooms: ',  checks ? console.log('true "checks": ', checks) : console.log('checks == !checks: ', checks === !checks));
     //console.log('checks.length @filterAvailableRooms: ',  checks.length ? console.log('true "checks": ', checks) : console.log('checks.length == !checks.length: ', checks == !checks));
-  designRooms(filteredRooms, "available-room");
+  designRooms(userX, filteredRooms, "available-room");
   //displayRooms();
   const wordsDate = formatDate(date, "words");
     console.log('wordsDate: ', wordsDate);
@@ -642,9 +644,123 @@ function filterAvailableRooms(date) {
   return user;
 };
 
-function bookRoom(btn) {
+const filterRooms = (rooms, types) => {
+  console.log('@ filterRooms: ');
+  // if (roomChecks === roomTypes) {
+  //  roomChecks.map(check => checkID = check.id.split("-").join(" "));
+  // };
+  // if (roomChecks === bedSizes) {
+  //   roomChecks.map(check => checkID = check.id);
+  // };
+  // if (roomChecks === numBeds) {
+  //   roomChecks.map(check => checkID = Number(check.id));
+  // };
+  types.map(check => {
+    const checkID = findCheckID(check);
+    rooms = rooms.filter(room => room[check.name] === checkID);
+  });
+  return rooms;
+};
+
+function findCheckID(check) {
+  if (check.name === "roomType") {
+    return check.id.split("-").join(" ");
+   };
+   if (check.name === "bedSize") {
+     return check.id;
+   };
+   if (check.name === "numBed") {
+     return Number(check.id);
+   };
+};
+
+// const filterRooms = (rooms, roomChecks) => {
+//   console.log('@ filterRooms: ');
+//   // if (roomChecks === roomTypes) {
+//   //  roomChecks.map(check => checkID = check.id.split("-").join(" "));
+//   // };
+//   // if (roomChecks === bedSizes) {
+//   //   roomChecks.map(check => checkID = check.id);
+//   // };
+//   // if (roomChecks === numBeds) {
+//   //   roomChecks.map(check => checkID = Number(check.id));
+//   // };
+//   roomChecks.map(check => {
+//     const checkID = findCheckID(check);
+//     rooms = rooms.filter(room => room[check.name] === checkID);
+//   });
+//   return rooms;
+// };
+
+/*
+  function filterAvailableRooms(userX, date) {
+      console.log('@filterAvailableRooms: ');
+      console.log('user @filterAvailableRooms: ', user);
+      console.log('user.availableRooms @filterAvailableRooms: ', user.availableRooms);
+      //console.log('value: ', value);
+      //console.log('prop: ', prop);
+      //console.log('datePicked: ', datePicked);
+    const checks = Array.from(document.querySelectorAll("input[type = checkbox]:checked"));
+    const roomTypes = Array.from(document.querySelectorAll("input[name = roomType]:checked"));
+    const bedSizes = Array.from(document.querySelectorAll("input[name = bedSize]:checked"));
+    const numBeds = Array.from(document.querySelectorAll("input[name = numBeds]:checked"));
+      console.log('checks @filterAvailableRooms: ', checks);
+      console.log('roomTypes @filterAvailableRooms: ', roomTypes);
+      console.log('bedSizes @filterAvailableRooms: ', bedSizes);
+      console.log('numBeds @filterAvailableRooms: ', numBeds);
+    let filteredRooms = user.availableRooms;
+      // notSuite = document.querySelectorAll("input[type = checkbox]:checked:not(#suite)")
+      //console.log("notSuite: ", notSuite);
+      //const checked = document.querySelectorAll("input[type = checkbox]:checked");
+    
+    //roomTypes, bedSizes, numBeds
+    const filterRooms = (roomChecks) => {  
+      let rooms, checkID;
+        console.log('@ filterRooms: ');
+      if (roomChecks === roomTypes) {
+      roomChecks.map(check => checkID = check.id.split("-").join(" "));
+      };
+      if (roomChecks === bedSizes) {
+        roomChecks.map(check => checkID = check.id);
+      };
+      if (roomChecks === numBeds) {
+        roomChecks.map(check => checkID = Number(check.id));
+      };
+
+      roomChecks.map(check => {
+        rooms = rooms.filter(room => room[check.name] === checkID);  
+      filteredRooms = filteredRooms.filter(room => room[check.name] === checkID);
+  });
+  return rooms
+};
+
+    roomTypes.length ? filteredRooms = filterRooms(filteredRooms, roomTypes) : null;
+    bedSizes.length ? filteredRooms = filterRooms(filteredRooms, bedSizes) : null;
+    numBeds.length ? filteredRooms = filterRooms(filteredRooms, numBeds) : null;
+    // filteredRooms = checks ? checks.map(check => filteredRooms = user.filterData(filteredRooms, check.name, check.id)) : user.availableRooms;
+      console.log('filteredRooms @filterAvailableRooms: ', filteredRooms);
+      //console.log('checks @filterAvailableRooms: ',  checks ? console.log('true "checks": ', checks) : console.log('checks == !checks: ', checks === !checks));
+      //console.log('checks.length @filterAvailableRooms: ',  checks.length ? console.log('true "checks": ', checks) : console.log('checks.length == !checks.length: ', checks == !checks));
+    designRooms(userX, filteredRooms, "available-room");
+    //displayRooms();
+    const wordsDate = formatDate(date, "words");
+      console.log('wordsDate: ', wordsDate);
+    dataCheck(filteredRooms, "available-rooms", wordsDate);
+    return user;
+  };
+*/
+function bookRoom(btn, userX) {
   console.log('btn @bookRoom(): ', btn);
-  resetRoomSearch(); 
+  console.log('userX: ', userX);
+  console.log('user: ', user);
+  const newBooking = { 
+    userID: userX.id,
+    date: user.searchDate,
+    roomNumber: btn.value,
+    roomServiceCharges: [],
+  };
+  console.log('newBooking: ', newBooking);  
+  resetRoomSearch();
 };
 
 function cancelBooking(btn) {
@@ -655,15 +771,19 @@ function cancelBooking(btn) {
 };
 
 function resetRoomSearch() {
-  initialState("room-search-form");
+  const hideAll = document.getElementById("room-search-form").querySelectorAll(".initial-state");
+    console.log('hideAll: ', hideAll);
+  displayFilterSec();
+  Array.from(hideAll).map(hide => hide.classList.add("hidden"));
+  renderOutlook.resetForm("room-search-form"); 
+  document.getElementById("submit-room-search").disabled = true;
+  document.getElementById("filter-btns").style = {display: "grid"};
   //clearCheckboxes();
-}
+};
 
-function initialState(id) {
-  const hideAll = document.getElementById(id).querySelectorAll("initial-state");
-  console.log('hideAll: ', hideAll);
-  Array.from(hideAll).map(hide => hide.classList.add("initial-state"))
-}
+// function initialState(id) {
+
+// }
 
 function clearCheckboxes() {
   //console.log('formID: ', formID);
@@ -675,14 +795,14 @@ function clearCheckboxes() {
 function findGuestAdmin() {
   console.log('@ findGuestAdmin(btn): ');
   // Leatha Ullrich
-  //btn.classList.add("hidden");
+  // btn.classList.add("hidden");
   const nameInput = document.getElementById("name");
-  //const date = user.date;
+  // const date = user.date;
   const guest = createGuest("name", nameInput.value, user.date);
   user.guestAdmin = customizeUser(guest);
   activateUserBtn(user.guestAdmin);
   displayGuestAdmin(user.guestAdmin);
-  console.log('document.getElementById("new-reservation-btn"): ', document.getElementById("new-reservation-btn"));
+    console.log('document.getElementById("new-reservation-btn"): ', document.getElementById("new-reservation-btn"));
   return user
 }; 
 

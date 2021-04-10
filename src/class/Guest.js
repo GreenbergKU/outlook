@@ -103,6 +103,10 @@ class Guest {
   filterData(data, property, value) {
     return this.availableRooms = data.filter(obj => obj[property] === value);
   }
+
+  getBookingID() {
+    return this.id
+  };
    
   sayMyName() {
     console.log("NAME: ", this.name, "TYPE: ", this.type)
