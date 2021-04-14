@@ -126,15 +126,15 @@ class RenderDOM {
     const num = booking.count
     return `
       <article id="booking-${num}" class="${className} booking" value="${id}" room=${rmNum}>
-        <span id="booking${num}">
+        <span id="booking${num}" class="details-wrapper">
           <h6 id="bk-date">check-in date: ${booking.date}</h6>
           <h6 id="bk-confCode">confirmation code: ${booking.id}</h6>
         </span>
-        <div id="room-details-${num}" class="room-details hidden">
+        <div id="${className}-details-${num}" class="room-details hidden">
         </div>
-        <div id="rmBooking-btns-${num}" class="rmBooking-btns-wrapper">
-          <button id="room-details-${num}-btn" value="show" class="booking-btn details-btn" name="room-details" num=${num}>room details</button>
-          <button id="cancel-btn-${num}" value="CANCEL BOOKING" class="booking-btn hidden details-btn" number=${id}>CANCEL RESERVATION</button>
+        <div id="${className}-rmBooking${num}-btns" class="rmBooking-btns-wrapper">
+          <button id="${className}-details-${num}-btn" value="show" class="booking-details-btn" name="room-details" num=${num}>room details</button>
+          <button id="cancel-btn-${num}" value="CANCEL BOOKING" class="hidden booking-details-btn" number=${id}>CANCEL RESERVATION</button>
         </div>
       </article>
     `;
@@ -148,35 +148,37 @@ class RenderDOM {
     const rmNum = room.number;
     return `
       <div class="rm-wrapper">
-        <span id="img-wrapper-${num}" class="img-wrapper">
-          <img src="../images/${imgType}-${room.bedSize}-${room.numBeds}.jpg" alt="hotel room stock photo" id="room${num}-img" class="room-img">
-        </span>
-        <div class="rmDetails-wrapper">       
-          <span id="roomType-wrapper">
-            <p id="roomType-${rmNum}" class="${className}"><b>ROOM TYPE:</b></p>
-            <p id="roomType-txt-${rmNum}" class="${className}-txt">${room.roomType.toUpperCase()}</p>
+        <div class="rm-grid">
+          <span id="img-wrapper-${num}" class="img-wrapper">
+            <img src="../images/${imgType}-${room.bedSize}-${room.numBeds}.jpg" alt="hotel room stock photo" id="room${num}-img" class="room-img"/>
+            <div id="${className}-btn-wrapper-${num}" class="btn-wrapper hidden">
+              <button id="${className}-btn-${num}" class="hidden" name="${className}" value="${rmNum}">BOOK ROOM</button>
+            </div>
           </span>
-          <span id="bedSize-wrapper">
-            <p id="bedSize-${rmNum}" class="${className}"><b>BED SIZE:</b></p>
-            <p id="bedSize-txt-${rmNum}" class="${className}-txt">${room.bedSize}</p>
-          </span>
-          <span id="numBeds-wrapper">
-            <p id="numBeds-${rmNum}" class="${className}"><b>NUMBER OF BEDS:</b></p>
-            <p id="numBeds-txt-${rmNum}" class="${className}-txt">${room.numBeds}</p>
-          </span>
-          <span id="costPerNight-wrapper">
-            <p id="costPerNight-${rmNum}" class="${className}"><b>PRICE PER NIGHT:</b></p>
-            <p id="costPerNight-txt-${rmNum}" class="${className}-txt">$${room.costPerNight} *</p>
-            <p id="costPerNight-astrik" class="${className}-txt astrik">
-              <i>service charges not included</i>
-            </p>
-          </span>
-        </div>
-      </div>
-      <button id="${className}-rm${rmNum}-btn" class="rm-details-btn hidden" value="${rmNum}" name="${className}">
-        ROOM
-      </button> 
-      
+          <div class="details-wrapper">       
+            <span id="roomType-wrapper">
+              <p id="roomType-${rmNum}" class="${className}"><b>ROOM TYPE:</b></p>
+              <p id="roomType-txt-${rmNum}" class="${className}-txt">${room.roomType.toUpperCase()}</p>
+            </span>
+            <span id="bedSize-wrapper">
+              <p id="bedSize-${rmNum}" class="${className}"><b>BED SIZE:</b></p>
+              <p id="bedSize-txt-${rmNum}" class="${className}-txt">${room.bedSize}</p>
+            </span>
+            <span id="numBeds-wrapper">
+              <p id="numBeds-${rmNum}" class="${className}"><b>NUMBER OF BEDS:</b></p>
+              <p id="numBeds-txt-${rmNum}" class="${className}-txt">${room.numBeds}</p>
+            </span>
+            <span id="costPerNight-wrapper">
+              <p id="costPerNight-${rmNum}" class="${className}"><b>PRICE PER NIGHT:</b></p>
+              <p id="costPerNight-txt-${rmNum}" class="${className}-txt">$${room.costPerNight} *</p>
+              <p id="costPerNight-astrik" class="${className}-txt astrik">
+                <i>service charges not included</i>
+              </p>
+            </span>
+          </div>
+        </div>        
+         
+      </div>  
     `;
   };
 
@@ -186,11 +188,12 @@ class RenderDOM {
     details.insertAdjacentHTML("beforeend", roomHTML);
   }
 
-  renderRoomHTML(list, room, className) {
+  renderRoomHTML(list, room) {
+      console.log('list @renderRoomHTML: ', list);
     list.insertAdjacentHTML("beforeend", room); 
   };
 
-  availableRoomsAdjustments(type) {  // `name`, `no-${type}`
+  displayAdjustments(type) {  // `name`, `no-${type}`
       console.log('@availableRoomsAdjustments(type): ', type);
     //document.getElementById(type).classList.remove("hidden");
     document.getElementById(`no-${type}`).classList.add("hidden");

@@ -42,7 +42,7 @@
       <section id="guest-page" class="page hidden initial-state">
         
         <section id="guest-heading-sec" class="sec-heading hidden">
-          <h2 id="guest-heading" class="heading-txt">WELCOME BACK</h2>
+          <h4 id="guest-heading" class="heading-txt">WELCOME BACK</h4>
         </section>
 
         
@@ -69,7 +69,7 @@
             <div id="upcoming-bookings" class="hidden initial-state">
               <h4 id="upcoming-bookings-heading">UPCOMING RESERVATIONS:</h4> 
               
-              <div id="upcoming-bookings-list">
+              <div id="upcoming-bookings-list" class="list">
                 <!-- rendered upcoming bookings -->
               </div>
 
@@ -83,7 +83,7 @@
             <div id="past-bookings" class="hidden initial-state">         
               <h4 id="past-bookings-heading">PAST RESERVATIONS:</h4>  
               
-              <div id="past-bookings-list">
+              <div id="past-bookings-list" class="list">
                 <!-- rendered past bookings -->
               </div>
               
@@ -114,64 +114,9 @@
               <input id="date" type="date" value=""/>
             </div>
 
-            <aside id="filter-options" form="room-search-form" class="hidden initial-state">
+            <aside id="filters" form="room-search-form" class="hidden initial-state">
               <h5 id="filter-header">SEARCH FILTERS</h5>
           
-              <!-- <div id="filters" class="checkboxes">
-  
-                <fieldset id="roomType-options" name="filter-options" class="checkbox-subGroup">
-                  
-                  <legend class="subGroup-header">ROOM TYPE OPTIONS</legend> 
-
-                  <input type="checkbox" id="single-room" name="roomType" class="checkbox" next="bedSize-options" value="single room"> 
-                  <label for="single-room" class="checkbox-label">Single Room</label>
-
-                  <input type="checkbox" id="suite" name="room" class="checkbox" next="suite-options" 
-                    onclick="document.getElementById('suite-options').classList.toggle('hidden')"> 
-                  <label for="suite" class="checkbox-label">Suite</label>
-
-                  <fieldset id="suite-options" class="checkbox-subGroup hidden">
-                    <input type="checkbox" id="residential-suite" name="roomType" class="suite-subGroup checkbox" value="residential suite" next="bedType-options"> 
-                    <label for="residential-suite" class="checkbox-label" >Residential Suite</label>
-      
-                    <input type="checkbox" id="suite" name="roomType" class="suite-subGroup checkbox" value="suite" next="-options"> 
-                    <label for="suite" class="checkbox-label">Standard Suite</label>
-    
-                    <input type="checkbox" id="junior-suite" name="roomType" class="suite-subGroup checkbox" next="bedType-options"> 
-                    <label for="junior-suite" class="checkbox-label">Junior Suite</label>
-                  </fieldset>
-
-                </fieldset>              
-
-                <fieldset id="bedSize-options" class="checkbox-subGroup">                                                      
-                  <legend class="subGroup-header">BED SIZE OPTIONS</legend>
-                  <input type="checkbox" id="king" name="bedSize" class="checkbox" > 
-                  <label for="king" class="checkbox-label">King</label>
-
-                  <input type="checkbox" id="queen" name="bedSize" class="checkbox" > 
-                  <label for="queen" class="checkbox-label">Queen</label>
-
-                  <input type="checkbox" id="full" name="bedSize" class="checkbox" > 
-                  <label for="full" class="checkbox-label">Full</label>
-
-                  <input type="checkbox" id="twin" name="bedSize" class="checkbox" > 
-                  <label for="twin" class="checkbox-label">Twin</label>
-
-                </fieldset>
-
-                <fieldset id="numBeds-options" class="checkbox-subGroup">
-                  
-                  <legend class="subGroup-header">NUMBER OF BEDS</legend>
-
-                  <input type="checkbox" id="1" name="numBeds" class="checkbox" > 
-                  <label for="1bed" class="checkbox-label">1</label>
-
-                  <input type="checkbox" id="2" name="numBeds" class="checkbox" > 
-                  <label for="2beds" class="checkbox-label">2</label>
-                
-                </fieldset>
-
-              </div> -->
 
               <div id="radio-filters" class="radios">
 
@@ -224,30 +169,22 @@
                 </fieldset>
   
               </div> 
-
-              
-
-
-            
+          
             </aside> 
 
-              <!-- <div id="reset-wrapper">
-                <button id="reset-filters" >reset filters</button>
-              </div> -->
-
-            <div id="filter-btns">
-              <button id="reset-filters" class="hidden initial-state initial-txt">
+            <div id="filter-btns" class="btn-wrapper">
+              <button id="reset-filters" class="filter-btn hidden initial-state initial-txt">
                 RESET FILTERS
               </button>
-              <button id="filter-btn" value="show" name="filter-options" class="room-search-btn initial-txt">
-                FILTER OPTIONS
+              <button id="filter-btn" value="show" name="filters" class="room-search-btn filter-btn initial-txt">
+                FILTERS
               </button>
             </div>
 
           </div>
 
           <div id="available-rooms" class="hidden initial-state">
-            <div id="available-rooms-list"></div>
+            <div id="available-rooms-list" class="list rm-list"></div>
           
           
             <div id="no-available-rooms" class="no-rooms">
@@ -272,7 +209,7 @@
 
       <section id="user-page" class="page login guest-search form-wrapper">
         
-        <form action="form" id="form-user" class="">
+        <form action="form" id="form-user" class="sign-in">
           
           <section id="login-name" class="input-sec">
             <label for="name" id="name-label" class="login-label txt-label">username</label>
@@ -300,22 +237,95 @@
     <footer></footer>
       <!-- Do not include the index.js or.bundle.js file here - it is done automatically by the webpack server -->
   </body>
-</html>
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
   
-</body>
-</html> -->
+</html>
+<!-- 
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+    </head>
+    <body>
+      
+    </body>
+  </html> 
+-->
 
-            <!-- <div id="filters" class="checkboxes"></div>             -->
-            <!--
+
+          <!-- 
+            ****** CHECKBOX INPUTS ******** (initial HTML)   
+          -->
+
+          <!-- 
+            <div id="filters" class="checkboxes">
+
+              <fieldset id="roomType-options" name="filter-options" class="checkbox-subGroup">
+                
+                <legend class="subGroup-header">ROOM TYPE OPTIONS</legend> 
+
+                <input type="checkbox" id="single-room" name="roomType" class="checkbox" next="bedSize-options" value="single room"> 
+                <label for="single-room" class="checkbox-label">Single Room</label>
+
+                <input type="checkbox" id="suite" name="room" class="checkbox" next="suite-options" 
+                  onclick="document.getElementById('suite-options').classList.toggle('hidden')"> 
+                <label for="suite" class="checkbox-label">Suite</label>
+
+                <fieldset id="suite-options" class="checkbox-subGroup hidden">
+                  <input type="checkbox" id="residential-suite" name="roomType" class="suite-subGroup checkbox" value="residential suite" next="bedType-options"> 
+                  <label for="residential-suite" class="checkbox-label" >Residential Suite</label>
+    
+                  <input type="checkbox" id="suite" name="roomType" class="suite-subGroup checkbox" value="suite" next="-options"> 
+                  <label for="suite" class="checkbox-label">Standard Suite</label>
+  
+                  <input type="checkbox" id="junior-suite" name="roomType" class="suite-subGroup checkbox" next="bedType-options"> 
+                  <label for="junior-suite" class="checkbox-label">Junior Suite</label>
+                </fieldset>
+
+              </fieldset>              
+
+              <fieldset id="bedSize-options" class="checkbox-subGroup">                                                      
+                <legend class="subGroup-header">BED SIZE OPTIONS</legend>
+                <input type="checkbox" id="king" name="bedSize" class="checkbox" > 
+                <label for="king" class="checkbox-label">King</label>
+
+                <input type="checkbox" id="queen" name="bedSize" class="checkbox" > 
+                <label for="queen" class="checkbox-label">Queen</label>
+
+                <input type="checkbox" id="full" name="bedSize" class="checkbox" > 
+                <label for="full" class="checkbox-label">Full</label>
+
+                <input type="checkbox" id="twin" name="bedSize" class="checkbox" > 
+                <label for="twin" class="checkbox-label">Twin</label>
+
+              </fieldset>
+
+              <fieldset id="numBeds-options" class="checkbox-subGroup">
+                
+                <legend class="subGroup-header">NUMBER OF BEDS</legend>
+
+                <input type="checkbox" id="1" name="numBeds" class="checkbox" > 
+                <label for="1bed" class="checkbox-label">1</label>
+
+                <input type="checkbox" id="2" name="numBeds" class="checkbox" > 
+                <label for="2beds" class="checkbox-label">2</label>
+              
+              </fieldset>
+
+            </div> 
+
+            <div id="reset-wrapper">
+                <button id="reset-filters" >reset filters</button>
+            </div>
+
+          -->
+
+          <!-- 
+            ****** RADIO INPUTS ******** (initial HTML)   
+          -->
+          <!--
             <div id="filters" class="radios">
 
               <fieldset id="roomType-options" name="filter-options" class="radio-subGroup">
@@ -369,4 +379,4 @@
               </fieldset>
 
             </div> 
-              -->
+          -->

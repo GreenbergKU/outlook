@@ -86,7 +86,7 @@ function loadOutlook() {
     return data;
   })
   .then(data => hotelRepo = new HotelData(data))
-  .then(activateForm());
+  .then(activateLogin());
   //return hotelRepo
 };
 
@@ -120,7 +120,7 @@ function simulateLogin() {
 // ***** FOR TESTING PURPOSES ONLY *****
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-function activateForm() {
+function activateLogin() {
   const minDate = new dayjs().add(1,"day").format("YYYY-MM-DD");
   document.getElementById("date").min = minDate;
   document.getElementById('user-submit').addEventListener("click", getLogin);
@@ -133,6 +133,8 @@ function getLogin(e) {
   const validForm = validateForm(inputs);
   validForm ? differentiateUsers(inputs) : alert("wrong username or password");
   document.querySelector(".submit-user").removeEventListener("click", getLogin);
+  //document.getElementById("form-user").classList.add("user-search");
+  document.getElementById("form-user").classList.remove("sign-in");
 };
 
 function getInputs() {
@@ -241,8 +243,9 @@ function customizeGuest(user) {
   displayBookings(user);
   activateBookingBtns("booking-btn");
 
-  activateRoomSearchBtns(user);
+  
   activateRmDetailsBtns("booking-details-btn");
+  activateRoomSearchBtns(user);
   activateFilter(user);
 
   //renderRoomDetails(user.sortedBookings);
@@ -279,16 +282,18 @@ function activateUserBtn(user) {
 function showSearch(e, user) {
   console.log('e.target @showSearch: ', e.target);
   console.log('user @showSearch: ', user);
-  const rmSearchBtns = document.getElementsByClassName("room-search-btn");  
-  const targetName = e.target.name;
-  const targetBtn = `${targetName}-btn`;
-    console.log('targetBtn @activateUserBtn(): ', targetBtn);
-    console.log('targetName @activateUserBtn(): ', targetName);
-  renderOutlook.resetForm("room-search-form")
+  //const rmSearchBtns = document.getElementsByClassName("room-search-btn");  
+  //const targetName = e.target.name;
+  //const targetBtn = `${targetName}-btn`;
+    //console.log('targetBtn @activateUserBtn(): ', targetBtn);
+    //console.log('targetName @activateUserBtn(): ', targetName);
+  renderOutlook.resetForm("room-search-form");
   renderOutlook.displaySearchForm(e.target);
   const filterBtn = document.getElementById("filter-btn");
   renderOutlook.displayBookingsBtnTxt(filterBtn);
   renderOutlook.toggleDisplay("login-name");
+  //activateRoomSearchBtns(user);
+  
   // document.querySelector(".submit-user").removeEventListener("click", getLogin);
   // renderOutlook.updateSearchBtn(targetName, user.searchBtn.toUpperCase());
 }  
@@ -345,23 +350,30 @@ function findTotalAmount(data) {
 
 function displayBookings(user) {
   let bookingHTML, num, roomHTML;
+  const getBtnClass = (type) => type === "upcoming-bookings" ? "btns-wrapper" : "btn-wrapper";
   user.sortedBookings.map(bookingTypes => {
     //const bookingsList = document.getElementById(bookingTypes.name);
     const bookingType = bookingTypes.name;
-      console.log('bookingType: ', bookingType);
+      
     const bookingsList = document.getElementById(`${bookingType}-list`);
       console.log('bookingsList: ', bookingsList);
     bookingsList.innerHTML = "";
     const className = bookingType.slice(0, -1);
     console.log('bookingTypes.data: ', bookingTypes.data);
-    num = 1
+    num = 1;
+    //bookingType === "upcoming-bookings" ? (id="rmBooking-btns-1")
+    const btnClass = getBtnClass(bookingType);
+      console.log('bookingType: ', bookingType);
+      console.log('btnClass: ', btnClass);
+
     bookingTypes.data.map(booking => {
       booking.count = num;
       booking.room = hotelRepo.findRoom("number", booking.roomNumber)[0];
       bookingHTML = renderOutlook.designBookingHTML(booking, className);
       roomHTML = renderOutlook.designRoomHTML(booking.room, className, booking.count);
       renderOutlook.renderBookingHTML(bookingsList, bookingHTML, roomHTML);
-      num++
+      document.getElementById(`${className}-rmBooking${num}-btns`).classList.add(btnClass);
+      num++;
       // return booking
     });
     const hasData = checkForData(bookingTypes.data);
@@ -382,17 +394,23 @@ function displayRooms() {
 
 function designRooms(userX, rooms, className) {
   console.log('@renderRoomDetails(): ');
-  let index, roomHTML = '', roomList, roomBtn;
+  let index, roomHTML = '', roomList, btn; //, roomBtn, btnRoom;
   roomList = document.getElementById(`${className}s-list`);
   roomList.innerHTML = "";
   const rmBtns = rooms.map(room => {
-    index = rooms.findIndex(roomObj => roomObj === room);
+    index = rooms.findIndex(roomObj => roomObj === room) + 1;
       //console.log('index: ', index);
     roomHTML = renderOutlook.designRoomHTML(room, className, index);
     renderOutlook.renderRoomHTML(roomList, roomHTML);
-    roomBtn = roomList.lastElementChild;
-      // console.log('roomBtn @displayRooms: ', roomBtn); 
-    return roomBtn      
+    //roomBtn = roomList.lastElementChild.firstElementChild.firstElementChild.lastElementChild.lastElementChild;
+    btn = roomList.lastElementChild.querySelector('button');
+    renderOutlook.toggleDisplay(btn.parentNode.id);
+    return btn
+    // console.log('roomList.lastElementChild.lastElementChild: ', roomList.lastElementChild.lastElementChild);
+    // console.log('roomList.lastElementChild: ', roomList.lastElementChild);
+      //console.log('roomBtn @displayRooms: ', roomBtn);
+      //console.log('btnRoom  @displayRooms: ', btnRoom); 
+    //return roomBtn;      
   });
   customizeRoomBtns(userX, rmBtns);
   return user
@@ -415,7 +433,7 @@ function adjustForData(data, type) {
   renderOutlook.toggleDisplay(`no-${type}`);
   type === "upcoming-bookings" ? 
   data.map(obj => renderOutlook.toggleDisplay(`cancel-btn-${obj.count}`) )
-  : type === "available-rooms" ? renderOutlook.availableRoomsAdjustments(type)
+  : type === "available-rooms" ? renderOutlook.displayAdjustments(type)
   : null;
 };
 
@@ -449,8 +467,7 @@ function activateBookingBtns(btnID) {
 
 function assignRoomBtnTxt(name) {
   return name === "upcoming-booking" ? "CANCEL ROOM" 
-  : name === "available-room" ? "BOOK ROOM"
-  : name === "past-booking" ? "LEAVE FEEDBACK" 
+  : name === "available-room" ? "BOOK ROOM" 
   : null;
 };
 
@@ -478,7 +495,7 @@ function displayInfo(element, property) {
   console.log('element: ', element);
   console.log('element.num: ', element.num);
   console.log('property: ', property);
-  const btnID = element.name === "room-details" ? element.id.split("-").splice(0, 3).join("-") : element[property];
+  const btnID = element.name === "room-details" ? element.id.split("-").splice(0, 4).join("-") : element[property];
   console.log('btnID: ', btnID);
   element.value = swapBtnValue(element.value); 
   renderOutlook.displayBookingsBtnTxt(element);
@@ -496,6 +513,7 @@ function assignBtnsInnerText(btns) {
 function activateRmDetailsBtns(btnName) {
     console.log('btnName @activateRmDetailsBtns(btnName): ', btnName);
   const btns = document.getElementsByClassName(btnName); 
+    console.log('btns: ', btns);
   assignBtnsInnerText(btns);
   Array.from(btns).map(btn => {
     btn.addEventListener("click", (e) => {
@@ -566,15 +584,19 @@ function activateFilterBtns() {
 function displayFilterSec() { 
   const filterBtn = document.getElementById("filter-btn");
   const resetBtn = document.getElementById("reset-filters");
-    // btn = 
-      // <button id="filter-btn" value="show" name="filter-options" class="room-search-btn">
-      //   FILTER OPTIONS
-      // </button>
+    
     console.log('filterBtn @displayFilterSec(filterBtn): ', filterBtn);
   renderOutlook.toggleDisplay(filterBtn.name, resetBtn.id);
   document.getElementById("filter-btns").classList.toggle("btns-wrapper");
+  const filterBtns = document.getElementById("filter-btns").children;
+  Array.from(filterBtns).map(btn => btn.classList.toggle("dark-red"));
   filterBtn.value = swapBtnValue(filterBtn.value); 
   renderOutlook.displayBookingsBtnTxt(filterBtn);
+
+  // btn = 
+      // <button id="filter-btn" value="show" name="filter-options" class="room-search-btn">
+      //   FILTER OPTIONS
+      // </button>
 };
 
 
@@ -631,7 +653,7 @@ function filterAvailableRooms(userX, date) {
   // const bedSizes = Array.from(document.querySelectorAll("input[name = bedSize]:checked"));
   // bedSizes.length ? filteredRooms = filterRooms(filteredRooms, bedSizes) : null;
   // numBeds.length ? filteredRooms = filterRooms(filteredRooms, numBeds) : null;
-const numBeds = Array.from(document.querySelectorAll("input[name = numBeds]:checked"));
+  //const numBeds = Array.from(document.querySelectorAll("input[name = numBeds]:checked"));
   // filteredRooms = checks ? checks.map(check => filteredRooms = user.filterData(filteredRooms, check.name, check.id)) : user.availableRooms;
     
     //console.log('checks @filterAvailableRooms: ',  checks ? console.log('true "checks": ', checks) : console.log('checks == !checks: ', checks === !checks));
