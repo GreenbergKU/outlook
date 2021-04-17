@@ -9,8 +9,9 @@ class RoomsData {
   };
 
   findRoomsByProperty(property, value) {
-    //console.log('this.data[0] @RoomsData.findRoomsByProperty: ', this.data[0]);
-    return this.data.filter(room => room[property] === value)
+    // console.log('this.data @RoomsData.findRoomsByProperty: ', this.data);
+    // console.log("this.data.filter(room => room[property] === value)", this.data.filter(room => room[property] === value));
+    return this.data.filter(room => room[property] === value);
   };
 
 }

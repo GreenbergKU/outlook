@@ -1,13 +1,10 @@
-// import BookingsData from './data/BookingsData';
-
 const dayjs = require('dayjs');
 //import dayjs from 'dayjs' // ES 2015
 dayjs().format();
 
 class Guest {
   constructor(data, date) {
-    console.log("data@guest: ", data);
-
+    // console.log("data@guest: ", data);
     this.id = data.id;
     this.name = data.name;
     
@@ -27,11 +24,59 @@ class Guest {
     
     this.sortedBookings = [];
 
-    //this.confirmedbookings = {};
-
     this.amountSpent; //= data.ammountSpent;
     this.availableRooms;
     this.filters;
+  };
+
+  sortByDate(userData, formatDate) {
+      // console.log('userData @Guest.sortByDate(): ', userData);
+    let pastBookings = [], upcomingBookings = [];
+    const currDate = new dayjs().format("YYYYMMDD");
+      // console.log('currDate @sortByDate(userData): ', currDate);
+
+    const date = this.date ? formatDate(this.date, "sort") : currDate;
+      // console.log('date @ sortByDate: ', date);
+    userData.map(booking => {
+      formatDate(dayjs(booking.date),"sort") <= date ? pastBookings.push(booking) : upcomingBookings.push(booking);  
+    }); 
+
+    this.sortedBookings.push({ name: "upcoming-bookings", data: upcomingBookings}, {name: "past-bookings", data: pastBookings});
+      // console.log('this @Guest.sortByDate: ', this);
+    //this.sortedBookings.upcomingBookings = upcomingBookings;
+    //this.sortedBookings.pastBookings = pastBookings; 
+    return this.sortedBookings
+  };
+
+  sortChronically(data, formatDate) {
+      // console.log('formatDate: ', formatDate);
+    //return data.sort( (a,b) => dayjs(a.date).format("YYYYMMDD") - dayjs(b.date).format("YYYYMMDD") );
+    return data.sort( (a,b) => formatDate(a.date, "sort") - formatDate(b.date, "sort") )
+  }
+
+  addData(property, value) {
+      // console.log('this: ', this);
+      // console.log('property: ', property);
+      // console.log('value: ', value);
+    this[property] = value;
+    return this
+  }
+
+  filterData(data, property, value) {
+    this.availableRooms = data.filter(obj => obj[property] === value);
+      // console.log('this.availableRooms @GUEST.filterData(): ', this.availableRooms);
+    return this.availableRooms
+  }
+
+  getBookingID() {
+    return this.id
+  };
+   
+  // sayMyName() {
+  //     // console.log("NAME: ", this.name, "TYPE: ", this.type)
+  //   return this.name;
+  // }
+
     //this.searchDate;
       
     // { name: "upcoming-bookings",
@@ -42,7 +87,7 @@ class Guest {
     //   data: []
     // }
 
-    //this.roomsBooked = {};
+    //  //this.roomsBooked = {};
 
     // this.sortedBookings.pastBookings = [];
     // this.sortedBookings.pastBookings = [];
@@ -64,71 +109,23 @@ class Guest {
     //   // "past-bookings": this.pastBookings
     // }
 
-  };
-
-  sortByDate(userData, formatDate) {
-      console.log('userData @Guest.sortByDate(): ', userData);
-    let pastBookings = [], upcomingBookings = [];
-    const currDate = new dayjs().format("YYYYMMDD");
-    console.log('currDate @sortByDate(userData): ', currDate);
-
-    const date = this.date ? dayjs(this.date).format("YYYYMMDD") : currDate;
-      console.log('date @ sortByDate: ', date);
-    userData.map(booking => {
-      dayjs(booking.date).format("YYYYMMDD") <= date ? pastBookings.push(booking) : upcomingBookings.push(booking);  
-    }); 
-
-    this.sortedBookings.push({ name: "upcoming-bookings", data: upcomingBookings}, {name: "past-bookings", data: pastBookings});
-      console.log('this @Guest.sortByDate: ', this);
-    //this.sortedBookings.upcomingBookings = upcomingBookings;
-    //this.sortedBookings.pastBookings = pastBookings; 
-    return this.sortedBookings
-  };
-
-  sortChronically(data, formatDate) {
-    console.log('formatDate: ', formatDate);
-    //return data.sort( (a,b) => dayjs(a.date).format("YYYYMMDD") - dayjs(b.date).format("YYYYMMDD") );
-    return data.sort( (a,b) => formatDate(a.date, "sort") - formatDate(b.date, "sort") )
-  }
-
-  addData(property, value) {
-    console.log('this: ', this);
-    console.log('property: ', property);
-    console.log('value: ', value);
-    
-    this[property] = value;
-    return this
-  }
-
-  filterData(data, property, value) {
-    return this.availableRooms = data.filter(obj => obj[property] === value);
-  }
-
-  getBookingID() {
-    return this.id
-  };
-   
-  sayMyName() {
-    console.log("NAME: ", this.name, "TYPE: ", this.type)
-    return this.name;
-  }
   // createSortedBookings  
   //   this.sortedBookings.push(
   //     this.upcomingBookings,
   //     this.pastBookings
   //   );
-  //   console.log('this.bookings: ', this.bookings);
+  //   // console.log('this.bookings: ', this.bookings);
   //   //this.sortedBookings 
   //   //return confirmedBookings;
   // };
     
     /*
-    console.log("bookings after gst.sortByDate()", bookings);
-    //console.log('this.upcomingBookings: ', this.upcomingBookings);
+    // console.log("bookings after gst.sortByDate()", bookings);
+    //// console.log('this.upcomingBookings: ', this.upcomingBookings);
     //const sortedBookings = {};
     const pastBookings = {"past-bookings": past};
     const upcomingBookings = {"upcoming-bookings": future}
-      console.log('sortedBookings: ', sortedBookings);
+      // console.log('sortedBookings: ', sortedBookings);
     */
     // this.bookings = {
     //   bookings: data,

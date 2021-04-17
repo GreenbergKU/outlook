@@ -15,197 +15,219 @@
     <main>
         <!-- */*/* MANAGER SECTION */*/* -->
       <section id="manager-page" class="page hidden initial-state">
-        <h3 id="manager-heading" class="heading-txt">Outlook Hotel: ADMIN's Daily Inventory !</h3>
-        <section id="manager-heading-sec" class="sec-heading hidden">
-          
-        </section>
-          <!-- <h3 id="manager-heading">Outlook Hotel Daily Inventory: Manager View !</h3> -->
         
-          <!-- <h5>Manager Dashboard</h5> -->
+        <h3 id="manager-heading" class="heading-txt">Outlook Hotel: ADMIN's Daily Inventory !</h3>
+        
+        <section id="manager-heading-sec" class="sec-heading hidden"></section>
+        
+        <!-- <h5>Manager Dashboard</h5> -->
         <div id="manager-dashboard" class="dashboard">    
           <div id="availableRoomsNum" class="daily-dash">available rooms:</div>
           <div id="revenue" class="daily-dash">revenue:</div>
           <div id="roomsOccupied" class="daily-dash">rooms occupied:</div>
         </div>       
-    
       </section>   
-            <!-- 
-              dashboard page: 
-              * Total Rooms Available for today's date 
-              * Total Revenue for Today's date 
-              * Percentage of Rooms occupued for Today's date 
-            -->
+        
+        <!-- 
+          dashboard page: 
+          * Total Rooms Available for today's date 
+          * Total Revenue for Today's date 
+          * Percentage of Rooms occupued for Today's date 
+        -->
 
       <!-- */*/* GUEST SECTION */*/* -->
-      
-
       <section id="guest-page" class="page hidden initial-state">
         
         <section id="guest-heading-sec" class="sec-heading hidden">
           <h4 id="guest-heading" class="heading-txt">WELCOME BACK</h4>
         </section>
 
-        
         <h5 id="guest-dashboard-heading" class="">ACCOUNT INFORMATION:</h5>
         
         <article id="guest-dashboard" name="guestName" class="dashboard guest-dashboard">   
-          <div id="amountSpent" class="guest-amountSpent">Total amount spent:</div>
+          
+          <div id="amountSpent" class="guest-amountSpent">Total amount spent:
+            <h6 id="amountSpent-txt" class="gDash-txt"></h6>
+
+          </div>
           
           <div id="bookings-btns-wrapper" class="btns-wrapper">
-            <button id="upcoming-bookings-btn" name="upcoming-bookings" class="booking-btn" value="show">
+            <button id="upcoming-bookings-btn" name="upcoming-bookings" class="booking-btn toggle-btn" value="show">
               UPCOMING BOOKINGS
             </button>
-            <button id="past-bookings-btn" name="past-bookings" class="booking-btn" value="show">
+            <button id="past-bookings-btn" name="past-bookings" class="booking-btn toggle-btn" value="show">
               PAST BOOKINGS
             </button>
-          </div>
+          </div>        
+          
+          <div id="guest-bookings-wrapper">
 
-        </article> 
+            <section id="guest-bookings">
 
-        <div id="guest-bookings-wrapper">
-
-          <section id="guest-bookings">
-
-            <div id="upcoming-bookings" class="hidden initial-state">
-              <h4 id="upcoming-bookings-heading">UPCOMING RESERVATIONS:</h4> 
-              
-              <div id="upcoming-bookings-list" class="list">
-                <!-- rendered upcoming bookings -->
-              </div>
-
-              <div id="no-upcoming-bookings" class="no-bookings">
-                <p id="no-upcoming-bookings-text"> INSERT "no bookings txt" HERE </p>
-                <!-- <button id="new-booking-btn" name="new-booking" value="guestName" class="new-booking-btn">NEW RESERVATION</button> -->
-              </div>
+              <div id="upcoming-bookings" class="hidden initial-state">
+                <h4 id="upcoming-bookings-heading">UPCOMING RESERVATIONS:</h4> 
                 
-            </div>
-            
-            <div id="past-bookings" class="hidden initial-state">         
-              <h4 id="past-bookings-heading">PAST RESERVATIONS:</h4>  
-              
-              <div id="past-bookings-list" class="list">
-                <!-- rendered past bookings -->
-              </div>
-              
-              <div id="no-past-bookings" class="no-bookings">
-                <p id="no-past-bookings-text"> INSERT "no bookings txt" HERE </p>
-                <!-- <button id="new-booking-btn" name="new-booking" value="guestName" class="new-booking-btn">NEW RESERVATION</button> -->
-              </div>
-            
-            </div>
+                <div id="upcoming-bookings-list" class="list">
+                  <!-- rendered upcoming bookings -->
+                </div>
 
-          </section>
-        </div>
-          <!-- 
-            dashboard page: 
-            * Any room bookings I have made (past or present/upcoming)
-            * The total amount I have spent on rooms 
-          -->
-        
-      </section>
-
-      <section id="new-reservation" class="page guest-reservation-form new-reservation form-wrapper hidden">
-          
-        <form id="room-search-form">
-
-          <div id="room-search-inputs">
-
-            <div id="datePicker">
-              <input id="date" type="date" value=""/>
-            </div>
-
-            <aside id="filters" form="room-search-form" class="hidden initial-state">
-              <h5 id="filter-header">SEARCH FILTERS</h5>
-          
-
-              <div id="radio-filters" class="radios">
-
-                <fieldset id="roomType-options" name="filter-options" class="radio-subGroup">                 
-                  <legend class="subGroup-header">ROOM TYPE OPTIONS</legend> 
-  
-                  <input type="radio" id="single-room" name="roomType" class="radio" value="single room"> 
-                  <label for="single-room" class="radio-label">Single Room</label>
-  
-  
-                  <fieldset id="suite-options" class="radio-subGroup">
-                    <legend class="subGroup-header">SUITE OPTIONS</legend>
-                    
-                    <input type="radio" id="residential-suite" name="roomType" class="suite-subGroup radio" value="residential suite"> 
-                    <label for="residential-suite" class="radio-label">Residential Suite</label>
-      
-                    <input type="radio" id="suite" name="roomType" class="suite-subGroup radio" value="suite"> 
-                    <label for="suite" class="radio-label">Standard Suite</label>
-    
-                    <input type="radio" id="junior-suite" name="roomType" class="suite-subGroup radio" value="junior suite"> 
-                    <label for="junior-suite" class="radio-label">Junior Suite</label>
-                  </fieldset>
-  
-                </fieldset>  
-
-                <fieldset id="bedSize-options" class="radio-subGroup">                                                      
-                  <legend class="subGroup-header">BED SIZE OPTIONS</legend>
+                <div id="no-upcoming-bookings" class="no-bookings no-data-text">
+                  <p id="no-upcoming-bookings-text"> INSERT "no bookings txt" HERE </p>
+                  <!-- <button id="new-booking-btn" name="new-booking" value="guestName" class="new-booking-btn">NEW RESERVATION</button> -->
+                </div>
                   
-                  <input type="radio" id="kingBed" name="bedSize" class="radio" value="king"> 
-                  <label for="kingBed" class="radio-label">King bed</label>
-  
-                  <input type="radio" id="queenBed" name="bedSize" class="radio" value="queen"> 
-                  <label for="queenBed" class="radio-label">Queen Bed</label>
-  
-                  <input type="radio" id="fullBed" name="bedSize" class="radio" value="full"> 
-                  <label for="fullBed" class="radio-label">Full Bed</label>
-  
-                  <input type="radio" id="twinBed" name="bedSize" class="radio" value="twin"> 
-                  <label for="twinBed" class="radio-label">Twin Bed</label>  
-                </fieldset>
-  
-                <fieldset id="numBeds-options" class="radio-subGroup">                  
-                  <legend class="subGroup-header">NUMBER OF BEDS</legend>
-  
-                  <input type="radio" id="1bed" name="numBeds" class="radio" value=1> 
-                  <label for="1bed" class="radio-label">1</label>
-  
-                  <input type="radio" id="2beds" name="numBeds" class="radio" value=2> 
-                  <label for="2beds" class="radio-label">2</label>                
-                </fieldset>
-  
-              </div> 
-          
-            </aside> 
+              </div>
+              
+              <div id="past-bookings" class="hidden initial-state">         
+                <h4 id="past-bookings-heading">PAST RESERVATIONS:</h4>  
+                
+                <div id="past-bookings-list" class="list">
+                  <!-- rendered past bookings -->
+                </div>
+                
+                <div id="no-past-bookings" class="no-bookings no-data-text">
+                  <p id="no-past-bookings-text"> INSERT "no bookings txt" HERE </p>
+                  <!-- <button id="new-booking-btn" name="new-booking" value="guestName" class="new-booking-btn">NEW RESERVATION</button> -->
+                </div>
+              
+              </div>
 
-            <div id="filter-btns" class="btn-wrapper">
-              <button id="reset-filters" class="filter-btn hidden initial-state initial-txt">
-                RESET FILTERS
-              </button>
-              <button id="filter-btn" value="show" name="filters" class="room-search-btn filter-btn initial-txt">
-                FILTERS
-              </button>
-            </div>
-
+            </section>
           </div>
+        
+        </article>
+
+        <section id="new-reservation" class="hidden page guest-reservation-form new-reservation form-wrapper">
+            
+          <form id="room-search-form">
+
+            <div id="room-search-inputs">
+
+              <div id="datePicker">
+                <input id="date" type="date" value=""/>
+              </div>
+
+              <div id="filters" class="hidden initial-state">
+                <h6 id="filter-header">SEARCH FILTERS</h6>
+
+                <article id="radio-filters" class="radios">
+
+                  <fieldset id="roomType-options" name="filter-options" class="radio-subGroup">                 
+                    <legend class="subGroup-header">ROOM TYPE</legend> 
+                    
+                    <label for="single-room" class="radio-label">
+                      <input type="radio" id="single-room" name="roomType" class="radio" value="single room">
+                      Single Room
+                    </label>
+      
+                    <!-- <fieldset id="suite-options" class="radio-subGroup"> -->
+                    <!-- <legend class="subGroup-header">SUITES</legend> -->
+
+                    <label for="residential-suite" class="radio-label">
+                      <input type="radio" id="residential-suite" name="roomType" class="radio" value="residential suite">
+                      Residential Suite
+                    </label>
+                      
+                    <label for="suite" class="radio-label">
+                      <input type="radio" id="suite" name="roomType" class="radio" value="suite">
+                      Standard Suite
+                    </label>
+    
+                    <label for="junior-suite" class="radio-label">
+                      <input type="radio" id="junior-suite" name="roomType" class="radio" value="junior suite">
+                      Junior Suite
+                    </label>
+                    <!-- </fieldset> -->
+                  </fieldset>  
+
+                  <fieldset id="bedSize-options" class="radio-subGroup">                                                      
+                    <legend class="subGroup-header">BED SIZE</legend>
+
+                    <label for="kingBed" class="radio-label">
+                      <input type="radio" id="kingBed" name="bedSize" class="radio" value="king">
+                      King
+                    </label>
+                    
+                    <label for="queenBed" class="radio-label">
+                      <input type="radio" id="queenBed" name="bedSize" class="radio" value="queen">
+                      Queen
+                    </label>
+                    
+                    <label for="fullBed" class="radio-label">
+                      <input type="radio" id="fullBed" name="bedSize" class="radio" value="full">
+                      Full
+                    </label>
+
+                    <label for="twinBed" class="radio-label">
+                      <input type="radio" id="twinBed" name="bedSize" class="radio" value="twin">
+                      Twin
+                    </label>  
+                  </fieldset>
+    
+                  <fieldset id="numBeds-options" class="radio-subGroup">                  
+                    <legend class="subGroup-header">BED #</legend>
+
+                    <label for="1bed" class="radio-label">
+                      <input type="radio" id="1bed" name="numBeds" class="radio" value=1>
+                      1
+                    </label>
+                    
+                    <label for="2beds" class="radio-label">        
+                      <input type="radio" id="2beds" name="numBeds" class="radio" value=2>
+                      2
+                    </label>
+                  </fieldset>
+
+                </article>
+              </div>
+
+              <div id="filter-btns" class="btn-wrapper">
+                <button id="reset-filters" class="filter-btn hidden initial-state">
+                  RESET FILTERS
+                </button>
+                <button id="filter-btn" value="show" name="filters" class="room-search-btn filter-btn toggle-btn">
+                  FILTERS
+                </button>
+              </div>
+
+              <div id="input-button" class="btn-wrapper">
+                <input type="submit" id="submit-room-search" value="FIND ROOMS" disabled/>
+              </div>
+
+            </div>        
+            
+            
+
+          </form>
 
           <div id="available-rooms" class="hidden initial-state">
-            <div id="available-rooms-list" class="list rm-list"></div>
-          
-          
-            <div id="no-available-rooms" class="no-rooms">
+            <h5 id="available-rooms-header"></h5>
+            <div id="available-rooms-list" class="list rm-list">
+            </div>  
+
+            <div id="no-available-rooms" class="no-rooms no-data-text">
               <p id="no-available-rooms-text"> INSERT "no bookings txt" HERE </p>
             </div> 
           </div>
 
-          <div id="input-button">
-            <input type="submit" id="submit-room-search" value="FIND ROOMS" disabled>
-          </div>
 
-        </form>
-      </section>  
-        <!-- 
-          * I should be able to select a date for which I’d like to book a room for myself
-          * Upon selecting a date, I should be shown a list of room details for only rooms that are available on that date
-          * I should be able to filter the list of available rooms by their roomType property
-          * I should be able to select a room for booking
-          * In the event that no rooms are available for the date/roomType selected, 
-            (display a message fiercely apologizing to the user and asking them to adjust their room search)
-        -->
+          
+        </section>
+
+      </section> 
+
+      <!-- 
+        dashboard page: 
+        * Any room bookings I have made (past or present/upcoming)
+        * The total amount I have spent on rooms 
+      
+        * I should be able to select a date for which I’d like to book a room for myself
+        * Upon selecting a date, I should be shown a list of room details for only rooms that are available on that date
+        * I should be able to filter the list of available rooms by their roomType property
+        * I should be able to select a room for booking
+        * In the event that no rooms are available for the date/roomType selected, 
+          (display a message fiercely apologizing to the user and asking them to adjust their room search)
+      -->
 
       <section id="user-page" class="page login guest-search form-wrapper">
         

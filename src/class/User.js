@@ -8,33 +8,34 @@ class User {
     this.password = password;
     this.date = new dayjs().format("MM/DD/YYYY");
 
-    this.type = "login";
-    this.labelInput = "username";
-    this.input = "submit";
-    this.placeHolder = "customer00";
+    this.type;
+    // this.labelInput = "username";
+    // this.input = "submit";
+    // this.placeHolder = "customer00";
 
-    this.userID;
+    this.id;
   };
 
   formatUser() {
-    console.log('this.username.includes("customer"): ', this.username.includes('customer'));
+    // console.log('this.username.includes("customer"): ', this.username.includes('customer'));
     this.username.includes('customer') ? (
-      this.userID = parseInt(this.username.split('customer')[1]),
+      this.id = parseInt(this.username.split('customer')[1]),
       this.username = 'guest'
     ) : null;
-    console.log('this @formatUser: ', this);  
+    //// console.log('this @formatUser: ', this);  
     return this;
   }
 
   validateUser(userNum) {
-    //console.log('validation(guestsNum): ', validation(guestsNum));
+    //// console.log('validation(guestsNum): ', validation(guestsNum));
     const validPassword = this.password === "overlook2020" ? true : alert("invalid password!") 
     const validUsername = 
       this.username != "manager" 
-      ? this.userID > userNum 
+      ? this.id > userNum 
       ? alert("invalid username") : this.username === "guest" 
       : this.username === "manager";
-    //!this.userID ? this.username != "manager" ? alert("wrong username") : this.userID > users ? alert("wrong customerID") : ;
+    this.type = this.username;
+   
     return validPassword && validUsername;
   };
   
