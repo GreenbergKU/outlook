@@ -1,10 +1,10 @@
 class RenderDOM {
 
   assignBtnToUser(user) {
-      // console.log('user @btnDOM: ', user);
+      // // console.log('user @btnDOM: ', user);
     const userBtnSec = document.querySelector(".user-btn-sec");
     userBtnSec.id = `${user.type}-btn-sec`;
-      // console.log('userBtnSec.id : ', userBtnSec.id );
+      // // console.log('userBtnSec.id : ', userBtnSec.id );
     const btnTxt = user.btnChildText.split("-").join(" ").toUpperCase();
     userBtnSec.firstElementChild.innerText = btnTxt;
     userBtnSec.firstElementChild.name = user.btnChildText;
@@ -12,7 +12,7 @@ class RenderDOM {
   };
 
   displaySection(type, tagName) {
-    // console.log('user@DOM dispSec(): ', user);
+    // // console.log('user@DOM dispSec(): ', user);
     const sections = document.getElementsByTagName(tagName);
     Array.from(sections).map((sec) => {
       return sec.id.includes(type) ? sec.classList.remove("hidden") : sec.classList.add("hidden")
@@ -22,22 +22,22 @@ class RenderDOM {
   };
 
   displaySearchForm(target) {
-      console.log('target: ', target);
-      // console.log('target.parentNode;: ', target.parentNode);
+      // console.log('target: ', target);
+      // // console.log('target.parentNode;: ', target.parentNode);
     const parentDiv = target.parentNode;
-      //console.log('parentDiv: ', parentDiv);
+      //// console.log('parentDiv: ', parentDiv);
     const divID = target.name;
     document.querySelector(`.${divID}`).classList.remove('hidden');
-      //console.log('document.getElementById(parentDiv.id): ', document.getElementById(parentDiv.id));
+      //// console.log('document.getElementById(parentDiv.id): ', document.getElementById(parentDiv.id));
     document.getElementById(parentDiv.id).classList.add('hidden');
     
     return this;
   };
 
   updateSearchBtn(userSearch) {
-      console.log('userSearch: ', userSearch);
+      // console.log('userSearch: ', userSearch);
     const searchBtn = document.querySelector(".submit-user");    
-      console.log('searchBtn: ', searchBtn);
+      // console.log('searchBtn: ', searchBtn);
     searchBtn.value = userSearch.toUpperCase();
     userSearch = userSearch.split(" ").join("-");
     const btnText = `${userSearch}-btn`;
@@ -46,13 +46,13 @@ class RenderDOM {
   };
 
   customizeSection(userInputs, user) {
-      console.log('user@DOM.custSec: ', user);
-      console.log("userInputs: ", userInputs);
-      // console.log('parentNode.innerHTML: ', userInputs.nameInput.parentNode.innerHTML);
+      // console.log('user@DOM.custSec: ', user);
+      // console.log("userInputs: ", userInputs);
+      // // console.log('parentNode.innerHTML: ', userInputs.nameInput.parentNode.innerHTML);
     const inputSec = userInputs.nameInput.parentNode;
-      console.log('inputSec: ', inputSec);
+      // console.log('inputSec: ', inputSec);
     const inputType = user.labelInput === "date" ? "date" : "text";
-      // console.log('inputType: ', inputType);
+      // // console.log('inputType: ', inputType);
     const labelHTML = `
       <label for="name" id="name-label" class="login-label txt-label manager guest">${user.labelInput}</label>
     `;
@@ -69,30 +69,30 @@ class RenderDOM {
   };
 
   displayManager(manager) {
-    console.log(' *** @displayManager(manager) *** ');
+    // console.log(' *** @displayManager(manager) *** ');
     const managerKids = document.getElementById("manager-dashboard").children;
     let kidHTML = '';
     Array.from(managerKids).map(kid => {
       kidHTML = `
-        <p id="${kid.id}-txt" class="mDash-txt">${manager[kid.id]}</p>
+        <h6 id="${kid.id}-txt" class="mDash-txt">${manager[kid.id]}</h6>
       `;
       kid.insertAdjacentHTML("beforeend", kidHTML);
-      //console.log('kidHTML @displayManager: ', kidHTML);
+      //// console.log('kidHTML @displayManager: ', kidHTML);
     });
   };
 
   displayGuest(guest) {
-    console.log(' *** displayGuest(guest) *** ');
-      console.log('guest: ', guest);
-      console.log('guest-heading.innerHTML: ', document.getElementById("guest-heading").innerHTML);
+    // console.log(' *** displayGuest(guest) *** ');
+      // console.log('guest: ', guest);
+      // console.log('guest-heading.innerHTML: ', document.getElementById("guest-heading").innerHTML);
     document.getElementById("guest-heading").innerHTML += ` ${guest.name.toUpperCase()}!`;
-      console.log('guest-heading.innerHTML: ', document.getElementById("guest-heading").innerHTML);
+      // console.log('guest-heading.innerHTML: ', document.getElementById("guest-heading").innerHTML);
     //const bookings = document.getElementById("guest-bookings");
-    const amtSpent = document.getElementById("amountSpent");
-    const amtSpentHTML = `
-      <p id="amtSpent-txt" class="gDash-txt">${guest.amountSpent}</p>
-    `;
-    amtSpent.insertAdjacentHTML("beforeend", amtSpentHTML);
+    const amtSpentTxt = document.getElementById("amountSpent-txt");
+    amtSpentTxt.innerText = `${guest.amountSpent}`
+    //   <p id="amtSpent-txt" class="gDash-txt">${guest.amountSpent}</p>
+    // `;
+    // amtSpent.insertAdjacentHTML("beforeend", amtSpentHTML);
     //this.displayBookings(guest.bookings, bookings);
     return this
   };
@@ -103,37 +103,38 @@ class RenderDOM {
   };
 
   displayBookingsBtnTxt(btn) {
-      // console.log("@DOM.dsplyBksBtnTxt(btn)");
-      // console.log('btn @DOM.dsplyBksBtnTxt(btn): ', btn);
+      // // console.log("@DOM.dsplyBksBtnTxt(btn)");
+      // // console.log('btn @DOM.dsplyBksBtnTxt(btn): ', btn);
     const btnVal = btn.value;
     const btnTxt = btn.name.split("-").join(" ");
-      // console.log('btnTxt: ', btnTxt);
+      // // console.log('btnTxt: ', btnTxt);
     btn.innerText = `${btnVal} ${btnTxt}`.toUpperCase();
     //btn.value = btnVal === "show" ? "hide" : "show";
-      // console.log('btn.value: ', btn.value);
+      // // console.log('btn.value: ', btn.value);
     return this
   };
 
   assignNoDataTxt(section, name) {
-      console.log('section: ', section);
+      // console.log('section: ', section);
     const type = section.split("-").join(" ");
     document.getElementById(`no-${section}-text`).innerText = `There are no ${type} for ${name}.`
   }
 
-  designBookingHTML(booking, className) { 
+  designBookingHTML(booking, className, formatDate) { 
     const id = booking.id;
     const rmNum = booking.roomNumber;
     const num = booking.count
+    const date = formatDate(booking.date, 'numbers');
     return `
       <article id="booking-${num}" class="${className} booking" value="${id}" room=${rmNum}>
         <span id="booking${num}" class="details-wrapper">
-          <h6 id="bk-date">check-in date: ${booking.date}</h6>
+          <h6 id="bk-date">check-in date: ${date}</h6>
           <h6 id="bk-confCode">confirmation code: ${booking.id}</h6>
         </span>
         <div id="${className}-details-${num}" class="room-details hidden">
         </div>
         <div id="${className}-rmBooking${num}-btns" class="rmBooking-btns-wrapper">
-          <button id="${className}-details-${num}-btn" value="show" class="booking-details-btn" name="room-details" num=${num}>room details</button>
+          <button id="${className}-details-${num}-btn" value="show" class="booking-details-btn toggle-btn" name="room-details" num=${num}>room details</button>
           <button id="cancel-btn-${num}" value="CANCEL BOOKING" class="hidden booking-details-btn" number=${id}>CANCEL RESERVATION</button>
         </div>
       </article>
@@ -141,8 +142,8 @@ class RenderDOM {
   };
 
   designRoomHTML(room, className, num) {
-      // console.log('room @renderRoomHTML: ', room);
-      //console.log('booking.room: ', booking.room);
+      // // console.log('room @renderRoomHTML: ', room);
+      //// console.log('booking.room: ', booking.room);
     const imgType = room.roomType.split(" ")[0];
     const imgFile = `../images/rooms/${imgType}.${room.bedSize}.${room.numBeds}`
     const rmNum = room.number;
@@ -189,12 +190,12 @@ class RenderDOM {
   }
 
   renderRoomHTML(list, room) {
-      console.log('list @renderRoomHTML: ', list);
+      // console.log('list @renderRoomHTML: ', list);
     list.insertAdjacentHTML("beforeend", room); 
   };
 
   displayAdjustments(type) {  // `name`, `no-${type}`
-      console.log('@availableRoomsAdjustments(type): ', type);
+      // console.log('@availableRoomsAdjustments(type): ', type);
     //document.getElementById(type).classList.remove("hidden");
     document.getElementById(`no-${type}`).classList.add("hidden");
   };
@@ -202,18 +203,23 @@ class RenderDOM {
   toggleDisplay(...strIDs) {
     let element;
     strIDs.map(id => {
-        console.log('id @DOM.toggle(): ', id);
+        // console.log('id @DOM.toggle(): ', id);
       element = document.getElementById(id);
-        //console.log('element @DOM.toggle(): ', element);
+        //// console.log('element @DOM.toggle(): ', element);
       element.classList.toggle("hidden");
     });
   };
+
+  showRooms(id, date) {
+    document.getElementById(id).classList.remove("hidden");
+    document.getElementById("available-rooms-header").innerText =`AVAILABLE ROOMS for ${date}`;
+    document.getElementById("new-reservation").classList.add("new-reservation-grid");
+  }
   
   resetForm(formID) {
-    //console.log('formID: ', formID);
-    //const formID = document.getElementById("room-search-form")
+    //// console.log('formID: ', formID);
     document.getElementById(formID).reset(); 
-    //"input[type = checkbox]:checked"
+    //document.getElementById("submit-room-search").disabled = true;
   };
 };
 
@@ -225,8 +231,8 @@ export default RenderDOM
   */
 
   // renderBookingsHTML(user) {
-  //   //console.log('bookings @renderBookingsHTML(user): ', bookings);
-  //   console.log('user @renderBookingsHTML: ', user);
+  //   //// console.log('bookings @renderBookingsHTML(user): ', bookings);
+  //   // console.log('user @renderBookingsHTML: ', user);
   //   let bookingHTML;
   //   user.sortedBookings.map(bookingTypes => {
   //     const bookingsList = document.getElementById(bookingTypes.name);
@@ -265,16 +271,16 @@ export default RenderDOM
 
 
 //   renderRoomsHTML(data) {
-//       console.log('user @renderRoomsHTML: ', user);
+//       // console.log('user @renderRoomsHTML: ', user);
 //     let rmNum, room, className, roomHTML;
 //     data.map(type => {
 //       className = type.name.slice(0, -1);
-//         console.log('className @renderRoomsHTML: ', className);
+//         // console.log('className @renderRoomsHTML: ', className);
 //       type.data.map(booking => {
-//           console.log('booking @renderRoomsHTML: ', booking);
+//           // console.log('booking @renderRoomsHTML: ', booking);
 //         room = booking.rmDetails;
 //         roomID = room.id;
-//           console.log('room @renderRoomsHTML: ', room);
+//           // console.log('room @renderRoomsHTML: ', room);
 //         rmNum = room.number;
 //         //parent = target.name; 
 //         roomHTML = "";
@@ -323,8 +329,8 @@ export default RenderDOM
   // </div>
 
   // designRoomHTML(rooms, html, className) {
-  //   console.log('html: ', html);
-  //   console.log('rooms: ', rooms);
+  //   // console.log('html: ', html);
+  //   // console.log('rooms: ', rooms);
   //   let roomHTML = "";
   //   rooms.map(room => {
   //     roomHTML = `
@@ -356,7 +362,7 @@ export default RenderDOM
 
   // toggleBookings(btn) {
   //   document.getElementById("past-bookings").classList.toggle("hidden");
-  //     console.log('btn.value (b4): ', btn.value);
+  //     // console.log('btn.value (b4): ', btn.value);
   //   return btn.value = btn.value === "true" ? "false" : "true";
   // };
 /*
@@ -376,9 +382,9 @@ export default RenderDOM
   // index.js:119
 
   customizeInputs(user, nameInput) {
-    console.log('user: ', user);
-    console.log('nameInput: ', nameInput);
-    //console.log(' name.parentNode.innerText: ',  name.parentNode.innerText);
+    // console.log('user: ', user);
+    // console.log('nameInput: ', nameInput);
+    //// console.log(' name.parentNode.innerText: ',  name.parentNode.innerText);
     //name.parentNode.innerText = 
   };
 

@@ -8,16 +8,16 @@ import RoomsData from './RoomsData.js';
 class HotelData {
   
   constructor(data) {
-    console.log('data @HotelData: ', data);
+    // console.log('data @HotelData: ', data);
 
     this.usersData = new UsersData(data.users);
-    console.log('this.usersData: ', this.usersData);
+    // console.log('this.usersData: ', this.usersData);
     
     this.bookingsData = new BookingsData(data.bookings);
-    console.log('this.bookingsData: ', this.bookingsData);
+    // console.log('this.bookingsData: ', this.bookingsData);
     
     this.roomsData = new RoomsData(data.rooms);
-    console.log('this.roomsData: ', this.roomsData);
+    // console.log('this.roomsData: ', this.roomsData);
     
     // this.date;
   
@@ -31,12 +31,11 @@ class HotelData {
   }
 
   calculateAmountTotals(data) {
-    console.log('data @calculateAmountTotals: ', data);
-
+      // console.log('data @calculateAmountTotals: ', data);
     let sum = 0;
-
     data.map(booking => {
-      sum += this.roomsData.findRoomsByProperty("number", booking.roomNumber)[0].costPerNight;
+      // console.log('booking: ', booking);
+      sum += this.roomsData.findRoomsByProperty("number", parseInt(booking.roomNumber))[0].costPerNight;
     });
     return sum;  
   };
@@ -54,16 +53,16 @@ class HotelData {
   }
 
   findAvailableRooms(bookedRooms) {
-    console.log('bookedRooms: ', bookedRooms);
+    // console.log('bookedRooms: ', bookedRooms);
     const allRooms = this.roomsData.data;
-      console.log('allRooms: ', allRooms);
+      // console.log('allRooms: ', allRooms);
 
     bookedRooms.map(bookedRoom => allRooms.splice(allRooms.findIndex(room => room.number === bookedRoom.number)), 1);
     return allRooms
   };
 
   addTotals() {
-      // console.log('this.usersData: ', this.usersData);
+      // // console.log('this.usersData: ', this.usersData);
     this.totalUsers = this.usersData.data.length;
     this.totalRooms = this.roomsData.data.length;
     return this
