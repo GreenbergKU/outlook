@@ -1,23 +1,27 @@
 class RenderDOM {
 
   assignBtnToUser(user) {
-      // // console.log('user @btnDOM: ', user);
+      // console.log('user @btnDOM: ', user);
     const userBtnSec = document.querySelector(".user-btn-sec");
     userBtnSec.id = `${user.type}-btn-sec`;
-      // // console.log('userBtnSec.id : ', userBtnSec.id );
-    const btnTxt = user.btnChildText.split("-").join(" ").toUpperCase();
+    const btnName = user.type === "guest" ? "new-reservation" : "guest-search";
+      // console.log('userBtnSec.id : ', userBtnSec.id );
+    const btnTxt = btnName.split("-").join(" ").toUpperCase();
     userBtnSec.firstElementChild.innerText = btnTxt;
-    userBtnSec.firstElementChild.name = user.btnChildText;
+    userBtnSec.firstElementChild.name = btnName;
     return this
   };
 
-  displaySection(type, tagName) {
+  displaySection(type) {
     // // console.log('user@DOM dispSec(): ', user);
-    const sections = document.getElementsByTagName(tagName);
-    Array.from(sections).map((sec) => {
+    //const sections = document.getElementsByTagName("section");
+    // document.querySelector(".user-btn-sec").id = `${type}-btn-sec`;
+    document.querySelector("html").style.background = "silver";
+
+    Array.from(document.getElementsByTagName("section")).map((sec) => {
       return sec.id.includes(type) ? sec.classList.remove("hidden") : sec.classList.add("hidden")
     });
-    document.getElementById("body").style.background = "silver";
+
     return this
   };
 
@@ -34,24 +38,30 @@ class RenderDOM {
     return this;
   };
 
-  updateSearchBtn(userSearch) {
-      // console.log('userSearch: ', userSearch);
+  updateSearchBtn(type) {
+      // console.log('@DOM updateSearch type: ', type);
+    let search = type === "guest" ? "find rooms" : "find guest";
+      // console.log('@DOM updateSearch search: ', search);
+    // renderOutlook.updateSearchBtn(btnTxt);
+
     const searchBtn = document.querySelector(".submit-user");    
       // console.log('searchBtn: ', searchBtn);
-    searchBtn.value = userSearch.toUpperCase();
-    userSearch = userSearch.split(" ").join("-");
-    const btnText = `${userSearch}-btn`;
+    searchBtn.value = search.toUpperCase();
+    search = search.split(" ").join("-");
+    const btnText = `${search}-btn`;
     searchBtn.id = btnText;
     searchBtn.classList.add("room-search-btn")
+    return this
   };
 
-  customizeSection(userInputs, user) {
-      // console.log('user@DOM.custSec: ', user);
-      // console.log("userInputs: ", userInputs);
+  customizeSection(user) {
+     console.log('user@DOM.custSec: ', user.type);
+     //console.log("userInputs: ", userInputs);
       // // console.log('parentNode.innerHTML: ', userInputs.nameInput.parentNode.innerHTML);
-    const inputSec = userInputs.nameInput.parentNode;
-      // console.log('inputSec: ', inputSec);
-    const inputType = user.labelInput === "date" ? "date" : "text";
+    const inputSec = document.getElementById("login-name");
+    // userInputs.nameInput.parentNode;
+     console.log('inputSec @DOM customizeSection():  ', inputSec);
+    const inputType = user.type === "guest" ? "date" : "text";
       // // console.log('inputType: ', inputType);
     const labelHTML = `
       <label for="name" id="name-label" class="login-label txt-label manager guest">${user.labelInput}</label>
@@ -85,7 +95,7 @@ class RenderDOM {
     // console.log(' *** displayGuest(guest) *** ');
       // console.log('guest: ', guest);
       // console.log('guest-heading.innerHTML: ', document.getElementById("guest-heading").innerHTML);
-    document.getElementById("guest-heading").innerHTML += ` ${guest.name.toUpperCase()}!`;
+    document.getElementById("guest-heading").innerText = `WELCOME BACK ${guest.name.toUpperCase()}!`;
       // console.log('guest-heading.innerHTML: ', document.getElementById("guest-heading").innerHTML);
     //const bookings = document.getElementById("guest-bookings");
     const amtSpentTxt = document.getElementById("amountSpent-txt");
@@ -97,8 +107,8 @@ class RenderDOM {
     return this
   };
 
-  displayGuestHeader() {
-    document.getElementById("guest-heading").innerText = `Guest Info For: `;
+  displayGuestHeader(guest) {
+    document.getElementById("guest-heading").innerHTML = `Guest Info For: ${guest.name.toUpperCase()}`;
     return this
   };
 
@@ -230,7 +240,7 @@ export default RenderDOM
     <button id="details-btn-20" name="btn-2" value="20" class="rm-details-btn hidden">ROOM DETAILS</button>
   */
 
-  // renderBookingsHTML(user) {
+  // renderBookingsHTML(guest) {
   //   //// console.log('bookings @renderBookingsHTML(user): ', bookings);
   //   // console.log('user @renderBookingsHTML: ', user);
   //   let bookingHTML;

@@ -1,5 +1,6 @@
 class UsersData {
   constructor(data) {
+    console.log('data @UsersData: ', data);
     this.data = data;
   };
   
@@ -10,6 +11,11 @@ class UsersData {
   findUserByProperty(property, value) {
     return this.data.filter(user => user[property] === value)
   };
+
+
+  // findUserByProperty(property, value) {
+  //   return this.data.filter(user => user[property] === value)
+  // };
 
 }
 

@@ -1,4 +1,4 @@
-function deleteBooking(booking, loadPage, update, userX) {
+function deleteBooking(booking) { //, loadPage, update, userX) {
 
   let promise = fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', {
     method: 'DELETE',
@@ -20,9 +20,7 @@ function deleteBooking(booking, loadPage, update, userX) {
       Please keep a record of your confirmation code: 
       ${confCode}
     `);
-  })
-  .then(loadPage())
-  .then(update(userX))
+  });
 }
 
 export default deleteBooking;

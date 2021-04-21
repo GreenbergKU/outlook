@@ -7,7 +7,7 @@ $primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,1
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-size-adjust: .4;
+  font-size-adjust: .5;
   // p {
   //   -webkit-text-size-adjust: auto;
   //   text-size-adjust: auto;
@@ -19,15 +19,17 @@ html {
   // height: 100vh;
   display: grid;
   justify-content: center;
+  background: center / cover no-repeat url(../images/hotel-lobby-small.jpg);
+  height: 100%;
 }
 
 body {
   display: grid;
-  width: 98vw;
-  height: 100vh;
-  color: black;
   justify-items: center;
-  background: center / cover no-repeat url(../images/hotel-lobby-small.jpg);
+  // width: 98vw;
+  // height: 100vh;
+  height: 100%;
+  color: black;
 }
 
 header, main {
@@ -36,7 +38,7 @@ header, main {
 }
 
 main > section, .new-reservation {
-  width: 90vw;
+  width: 95vw;
   display: grid;
   align-items: center;
   text-align: center;
@@ -86,6 +88,31 @@ p {
   font-size: 12px;
 }
 
+
+button, input[type="submit"] {
+  display: grid;
+  align-content: center;
+  padding: .5em;
+  // margin: 5px 0;
+  // max-width: max-content;
+  // min-width: min-content;
+  // padding: 2px;
+}
+
+.btn-wrapper {
+  display: grid;
+  justify-content: center;
+  align-items: end;
+  width: 100%;
+}
+
+.btns-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: end;
+}
+
 .form-wrapper {
   // display: grid;
   // align-items: flex-end;
@@ -104,17 +131,41 @@ form {
   width: auto;
 }
 
-.user-search {
-  width: 60vw;
+
+label { 
+  text-align: left;
+  padding: 1.5%;
+  font-size: 0.75em;
+  // padding: 1%;
 }
+// .user-search {
+//   width: 60vw;
+// }
 
 .dashboard {
-  padding: 2%;
   display: grid;
   border: 3px black solid;
   justify-items: center;
-  padding-bottom: 0;
   width: 80vw;
+  justify-self: center;
+  // padding: 2%;
+}
+
+.manager-dash {
+  padding: 5%;
+}
+
+.guest-dash {
+  padding: 5%;
+  padding-bottom: 0;
+}
+.no-bookings {
+  padding: 10%;
+}
+
+.rmBooking-btns-wrapper {
+  //justify-content: space-around;
+  width: 65%;
   justify-self: center;
 }
 
@@ -127,23 +178,14 @@ form {
 //   justify-self: center;
 // }
 
-.booking {
-  display: grid;
-  border: 2px solid black;
-  // padding: 10px 10px 5px;
-  justify-self: center;
-  width: 60vw;
-  padding: 1%;
-}
-
 .list {
   display: grid;
-  grid-row-gap: 5px;
+  grid-row-gap: 10px;
+  //! width: max-content;
+  margin-top: 10px;
+  
+  // grid-row-gap: 5px;
 }
-
-// #available-rooms {
-//   padding: inherit;
-// }
 
 #available-rooms-list {
   padding: 5px;
@@ -153,32 +195,69 @@ form {
   width: 60vw;
 } 
 
-.room-details {
-  background-color: white;
-  padding: 0;
+.booking,
+.no-data-text {
+  display: grid;
+  padding: 2%;
+  background-color: grey;
+  
+  // padding: 1%;
+  // border: 2px solid black;
+  // justify-self: center;
+
+  // width: 60vw;
+  // padding: 10px 10px 5px;
 }
 
-.rm-wrapper {  
-  height: inherit;
+.details-wrapper {
   display: grid;
-  margin: 1% 0;
+  align-items: center;
+  // *height: inherit;
+  // *align-content: space-around;
+  // *padding: 0;
+}
+
+
+.booking-details-btn {
+  margin-bottom: 0;
+}
+
+
+.rm-wrapper {  
+  display: grid;
+  height: inherit;
+  margin: .5% 0;
   background: white;
+  // margin: 1% 0;
 }
 
 .rm-grid {
   display: grid;
   grid-template-columns: 53% 45%;
   background: silver;
-  margin: 2.5% 3%;
+  margin: 2% 2.5%;
   padding: 3%;
   column-gap: 2%;
+  
+  // margin: 2.5% 3%;
   // height: 156px;
   // grid-template-columns: 55% 45%;
+}
+
+.room-details {
+  background-color: white;
+  // padding: 0;
+  margin: 5%;
 }
 
 .img-wrapper {
   background-color: grey;
   display: grid;
+}
+
+.img-wrapper {
+  grid-template-rows: 80% 20%;
+  //grid-template-rows: auto;
 }
 
 .img-grid {
@@ -191,57 +270,17 @@ form {
   height: 100%;
 }
 
-.details-wrapper {
-  display: grid;
-  align-items: center;
-  height: inherit;
-  align-content: space-around;
-  padding: 0;
-}
-
-button, input[type="submit"] {
-  padding: 2px; 
-  align-content: center;
-  display: grid;
-  margin: 5px 0;
-}
-
-.btn-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: end;
-  width: 100%;
-}
-
-.btns-wrapper {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  align-items: end;
-}
-
-// .rmBooking-btns-wrapper {
-//   margin-top: 2%;
-// }
-
-.booking-details-btn {
-  margin-bottom: 0;
-}
-
 .input-sec {  
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 1vh 2vw;
-}
+  align-content: center;
 
-label { 
-  padding: 1%;
-  text-align: left;
+  padding: 1vh 2vw;
+  // align-items: center;
 }
 
 #new-reservation {
-  margin: 5% 0 0;
+  margin: 5% 0;
   justify-items: center;
   padding-top: 3%;
 
@@ -255,22 +294,47 @@ label {
     justify-items: center;
     // padding: 5%;
     // width: auto;
-    padding: 10%;
+    padding: 7vw;
   }
   
   fieldset {
     //display: grid;
     //margin: 5%;
-    padding: 3%;
+    padding: 4%;
     //width: max-content;
     //width: auto;
     //align-items: center;
    // align-content: space-around;
     //align-self: center;
+    legend {
+      font-size: 12px;
+    };
   }
 
-  legend {
-    font-size: 12px;
+  .btn-wrapper {
+    align-items: center;
+  }
+
+  .radios {
+    display: flex;
+  }
+
+  .radio {
+    width: auto;
+    height: 100%;
+    //margin-right: 5%;
+    margin: 0 5% 5% 0;
+  }
+
+  .radio-label {
+    display: flex;
+    // width: 100%;
+    width: auto;
+    font-size: 11px;
+    align-items: center;
+    margin: 5% 0;
+    //padding-left: 5%;
+    // padding: 0;
   }
 
   // #bedSize-options {
@@ -280,15 +344,6 @@ label {
   // #numBeds-options {
   //   height: 30%;
   // }
- 
-  .img-wrapper {
-    // grid-template-rows: 80% 20%;
-    grid-template-rows: auto;
-  }
-}
-
-.radios {
-  display: flex;
 }
 
 .new-reservation-grid {
@@ -300,42 +355,36 @@ label {
   
   form {
     height: 100%;
-  }
+  };
 
   #radio-filters {
     display: grid
   };
 
+  #datePicker {
+    margin: 5% 0;
+    width: auto;
+  }
+
   fieldset {
     margin: 3% 0;
-  }
-}
-
-.radio-label {
-  display: flex;
-  // width: 100%;
-  width: auto;
-  font-size: 11px;
-  align-items: center;
-  margin: 5% 0;
-  //padding-left: 5%;
-  // padding: 0;
-}
-
-.radio {
-  width: auto;
-  height: 100%;
-  //margin-right: 5%;
-  margin: 0 5% 5% 0;
+  };
 }
 
 .txt-input {
-  margin-left: 5%;
+  margin-left: 3%;
+  height: 100%;
+  border-width: 1px;
+  display: grid;
+  padding: 1% 2%;
+
+  // margin-left: 5%;
 }
 
 .astrik {
   margin-top: 2%;
 }
+
 
 // #room-search-form {
 //   display: grid;
@@ -343,14 +392,14 @@ label {
 //   padding: 3% 3% 0 3%;
 // }
 
-#datePicker {
-  margin: 5% 0;
-  width: auto;
-}
-
-#input-button {
+#input-btn-wrapper {
   /* margin: 5%; */
   margin: 3% 0;
+  padding: .5em;
+}
+
+#user-submit {
+   padding: .3em;
 }
 
 #submit-room-search {
@@ -362,24 +411,38 @@ label {
   margin: 0;
 
   .filter-btn {
+    padding: 2% 0 0 0;
+    margin: 0;
     background: transparent;
     border: none;
     color: blue;
     font-weight: 600;
-    // padding: 2% 1% 0 1%;
-    padding: 2% 0 0 0;
-    margin: 0;
   }
   
   .dark-red {
     color: darkred;
   }
-  
+}
+
+#guest-bookings-wrapper { 
+  // display: grid;
+  // justify-content: center;
+  width: 55vw;
 }
 
 #guest-bookings {
-  padding: 1%;
+  margin-bottom: 15px;
+
+  // display: grid;
+  // width: max-content;
+  // justify-self: center;
+  // justify-content: center;
+  
+  // padding: 20px 1%;
+  
+  // padding: 1%;
 }
+
 
 .hidden {
   display: none;
