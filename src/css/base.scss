@@ -7,7 +7,7 @@ $primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,1
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-  font-size-adjust: .4;
+  font-size-adjust: .5;
   // p {
   //   -webkit-text-size-adjust: auto;
   //   text-size-adjust: auto;
@@ -88,6 +88,31 @@ p {
   font-size: 12px;
 }
 
+
+button, input[type="submit"] {
+  display: grid;
+  align-content: center;
+  padding: .5em;
+  // margin: 5px 0;
+  // max-width: max-content;
+  // min-width: min-content;
+  // padding: 2px;
+}
+
+.btn-wrapper {
+  display: grid;
+  justify-content: center;
+  align-items: end;
+  width: 100%;
+}
+
+.btns-wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: end;
+}
+
 .form-wrapper {
   // display: grid;
   // align-items: flex-end;
@@ -106,9 +131,16 @@ form {
   width: auto;
 }
 
-.user-search {
-  width: 60vw;
+
+label { 
+  text-align: left;
+  padding: 1.5%;
+  font-size: 0.75em;
+  // padding: 1%;
 }
+// .user-search {
+//   width: 60vw;
+// }
 
 .dashboard {
   display: grid;
@@ -124,11 +156,18 @@ form {
 }
 
 .guest-dash {
-  padding: 2%;
+  padding: 5%;
   padding-bottom: 0;
 }
+.no-bookings {
+  padding: 10%;
+}
 
-
+.rmBooking-btns-wrapper {
+  //justify-content: space-around;
+  width: 65%;
+  justify-self: center;
+}
 
 // #guest-dashboard {
 //   display: grid;
@@ -138,6 +177,23 @@ form {
 //   width: 80vw;
 //   justify-self: center;
 // }
+
+.list {
+  display: grid;
+  grid-row-gap: 10px;
+  //! width: max-content;
+  margin-top: 10px;
+  
+  // grid-row-gap: 5px;
+}
+
+#available-rooms-list {
+  padding: 5px;
+  background: white;
+  background: black;
+  // width: 70vw;
+  width: 60vw;
+} 
 
 .booking,
 .no-data-text {
@@ -153,36 +209,25 @@ form {
   // padding: 10px 10px 5px;
 }
 
-.list {
+.details-wrapper {
   display: grid;
-  grid-row-gap: 10px;
-  //! width: max-content;
-  margin-top: 10px;
-  
-  // grid-row-gap: 5px;
+  align-items: center;
+  // *height: inherit;
+  // *align-content: space-around;
+  // *padding: 0;
 }
 
 
-#available-rooms-list {
-  padding: 5px;
-  background: white;
-  background: black;
-  // width: 70vw;
-  width: 60vw;
-} 
-
-.room-details {
-  background-color: white;
-  // padding: 0;
-  margin: 2%;
+.booking-details-btn {
+  margin-bottom: 0;
 }
+
 
 .rm-wrapper {  
   display: grid;
   height: inherit;
   margin: .5% 0;
   background: white;
-
   // margin: 1% 0;
 }
 
@@ -199,9 +244,20 @@ form {
   // grid-template-columns: 55% 45%;
 }
 
+.room-details {
+  background-color: white;
+  // padding: 0;
+  margin: 5%;
+}
+
 .img-wrapper {
   background-color: grey;
   display: grid;
+}
+
+.img-wrapper {
+  grid-template-rows: 80% 20%;
+  //grid-template-rows: auto;
 }
 
 .img-grid {
@@ -214,47 +270,6 @@ form {
   height: 100%;
 }
 
-.details-wrapper {
-  display: grid;
-  align-items: center;
-  // *height: inherit;
-  // *align-content: space-around;
-  // *padding: 0;
-}
-
-button, input[type="submit"] {
-  display: grid;
-  align-content: center;
-  max-width: max-content;
-  min-width: min-content;
-  padding: .5em;
-  margin: 5px 0;
-  
-  // padding: 2px;
-}
-
-.btn-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: end;
-  width: 100%;
-}
-
-.btns-wrapper {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  align-items: end;
-}
-
-// .rmBooking-btns-wrapper {
-//   margin-top: 2%;
-// }
-
-.booking-details-btn {
-  margin-bottom: 0;
-}
-
 .input-sec {  
   display: flex;
   justify-content: center;
@@ -262,14 +277,6 @@ button, input[type="submit"] {
 
   padding: 1vh 2vw;
   // align-items: center;
-}
-
-label { 
-  text-align: left;
-  padding: 1.5%;
-  font-size: 0.75em;
-
-  // padding: 1%;
 }
 
 #new-reservation {
@@ -287,31 +294,47 @@ label {
     justify-items: center;
     // padding: 5%;
     // width: auto;
-    padding: 10%;
+    padding: 7vw;
   }
   
   fieldset {
     //display: grid;
     //margin: 5%;
-    padding: 3%;
+    padding: 4%;
     //width: max-content;
     //width: auto;
     //align-items: center;
    // align-content: space-around;
     //align-self: center;
-  }
-
-  legend {
-    font-size: 12px;
-  }
-
-  .img-wrapper {
-    grid-template-rows: 80% 20%;
-    //grid-template-rows: auto;
+    legend {
+      font-size: 12px;
+    };
   }
 
   .btn-wrapper {
     align-items: center;
+  }
+
+  .radios {
+    display: flex;
+  }
+
+  .radio {
+    width: auto;
+    height: 100%;
+    //margin-right: 5%;
+    margin: 0 5% 5% 0;
+  }
+
+  .radio-label {
+    display: flex;
+    // width: 100%;
+    width: auto;
+    font-size: 11px;
+    align-items: center;
+    margin: 5% 0;
+    //padding-left: 5%;
+    // padding: 0;
   }
 
   // #bedSize-options {
@@ -321,10 +344,6 @@ label {
   // #numBeds-options {
   //   height: 30%;
   // }
-}
-
-.radios {
-  display: flex;
 }
 
 .new-reservation-grid {
@@ -342,27 +361,14 @@ label {
     display: grid
   };
 
+  #datePicker {
+    margin: 5% 0;
+    width: auto;
+  }
+
   fieldset {
     margin: 3% 0;
   };
-}
-
-.radio-label {
-  display: flex;
-  // width: 100%;
-  width: auto;
-  font-size: 11px;
-  align-items: center;
-  margin: 5% 0;
-  //padding-left: 5%;
-  // padding: 0;
-}
-
-.radio {
-  width: auto;
-  height: 100%;
-  //margin-right: 5%;
-  margin: 0 5% 5% 0;
 }
 
 .txt-input {
@@ -379,25 +385,21 @@ label {
   margin-top: 2%;
 }
 
+
 // #room-search-form {
 //   display: grid;
 //   justify-items: center;
 //   padding: 3% 3% 0 3%;
 // }
 
-#datePicker {
-  margin: 5% 0;
-  width: auto;
-}
-
-#input-button {
+#input-btn-wrapper {
   /* margin: 5%; */
   margin: 3% 0;
   padding: .5em;
 }
 
 #user-submit {
-   padding: .5em;
+   padding: .3em;
 }
 
 #submit-room-search {
@@ -415,8 +417,6 @@ label {
     border: none;
     color: blue;
     font-weight: 600;
-
-    // padding: 2% 1% 0 1%;
   }
   
   .dark-red {
@@ -427,7 +427,7 @@ label {
 #guest-bookings-wrapper { 
   // display: grid;
   // justify-content: center;
-  width: 100%;
+  width: 55vw;
 }
 
 #guest-bookings {
@@ -441,10 +441,6 @@ label {
   // padding: 20px 1%;
   
   // padding: 1%;
-}
-
-.no-bookings {
-  padding: 10%;
 }
 
 

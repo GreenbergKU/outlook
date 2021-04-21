@@ -44,11 +44,13 @@ class HotelData {
   }
 
   calculateAmountTotals(data) {
-      // console.log('data @calculateAmountTotals: ', data);
+     console.log('data @calculateAmountTotals: ', data[0]);
+
     let sum = 0;
     data.map(booking => {
-      // console.log('booking: ', booking);
-      sum += this.roomsData.findRoomsByProperty("number", parseInt(booking.roomNumber))[0].costPerNight;
+       console.log('booking: ', booking.roomNumber);
+      const room = this.roomsData.findRoomsByProperty("number", parseInt(booking.roomNumber));
+      sum += room[0].costPerNight;
     });
     return sum;  
   };

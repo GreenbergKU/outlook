@@ -202,6 +202,7 @@ function differentiateUsers() {
   // user.subType = "manager-guest";
   //activateSearchBtn(user);
   //customizeUser(user);
+  return user
 };
 
 function createUser(inputs) {
@@ -266,14 +267,14 @@ function customizeGuest(guest) {
     // console.log("guest.amountSpent @customizeGuest: ", guest.amountSpent);
     console.log('guest @ CUSTOMIZE GUEST(guest): ', guest);
   
-  guest.subType = "manager-guest";
+  
   displayBookings(guest);
 
   activateBookingBtns("booking-btn");
   activateRmDetailsBtns("booking-details-btn", guest);
   activateRoomSearchBtns(guest);
   activateFilter(guest);
-  guest.subType = "";
+  
   return guest;
 };
 
@@ -520,12 +521,16 @@ function customizeRoomBtns(userX, btns) {
 function activateRoomBtn(userX, roomBtn) {
     //// console.log('roomBtn @activateRoomBtn(btn): ', roomBtn);
   renderOutlook.toggleDisplay(roomBtn.id);
-  roomBtn.addEventListener("click", (e) => {
+  
+  
+  const handleRoomBtn = (e) => {
     e.preventDefault();
     roomBtn.innerText === "CANCEL ROOM" ? cancelRoom(roomBtn, userX)
     : roomBtn.innerText === "BOOK ROOM" ? bookRoom(roomBtn, userX)
     : null 
-  });
+  };
+  
+  roomBtn.addEventListener("click", handleRoomBtn);
 };
 
 function displayInfo(element, property) {
@@ -548,8 +553,6 @@ function assignBtnsInnerText(btns) {
 };
 
 function activateRmDetailsBtns(btnName, userX) {
-    console.log('userX.subType @actRmDetailsBtns: ', userX.subType);
-    console.log('user.subType @actRmDetailsBtns: ', user.subType);
     console.log('btnName @actRmDetailsBtns(btnName): ', btnName);
   const btns = document.getElementsByClassName(btnName); 
     // console.log('btns: ', btns);
@@ -703,9 +706,9 @@ function bookRoom(btn, userX) {
    console.log('newBooking @bookRoom: ', newBooking);
   addBooking(newBooking, formatDate) //,  loadOutlook, updateData, userX)
   .then(loadOutlook())
-  .then(refreshSite(userX))
-  .then(updateData(userX))
+  .then(refreshSite(user, userX))
   .catch(err => console.log('err: ', err));
+  return user
 };
 
 function cancelBooking(id, userX) {
@@ -725,9 +728,7 @@ function cancelBooking(id, userX) {
     deleteBooking(booking)
     // .then(loadOutlook())  
     .then(loadOutlook())
-    .then(user => {
-      return user = refreshSite(userX);
-    })
+    .then(refreshSite(user, userX))
     .catch(err => console.log('err: ', err));
     console.log("user: ", user)
   };
@@ -741,7 +742,7 @@ function updateData(userX) {
   return updatedUser
 };
 
-function refreshSite(userX) {
+function refreshSite(user, userX) {
   let types = [user.type]
   //resetPage(`${user.type}-page`);
   //differentiateUsers();
@@ -776,7 +777,7 @@ function resetPage(types) {
     noDataTexts.map(noData => noData.classList.remove("hidden"));
 
     document.querySelector(".user-btn-sec").classList.remove("hidden");
-    renderOutlook.toggleDisplay("user-page");
+    // renderOutlook.toggleDisplay("user-page");
   });
   
   //clearRadios();
