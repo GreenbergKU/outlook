@@ -3,10 +3,11 @@ class Manager {
     this.name = "Manager";
     this.date = date;
     this.type = "manager";
+    this.guestAdmin;
 
     this.btnChildText = "guest-search";
     this.searchBtn = "find guest";
-
+    
     this.labelInput = "Full Name",
     this.placeHolder = "First Last";
 
@@ -17,7 +18,6 @@ class Manager {
     //this.bookedRooms;
     //this.revenue; //= data.ammountSpent;
     //this.roomsOccupied;
-
     //this.guestAdmin; // Leatha Ullrich
   }
 

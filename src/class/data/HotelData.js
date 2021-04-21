@@ -8,22 +8,35 @@ import RoomsData from './RoomsData.js';
 class HotelData {
   
   constructor(data) {
-    // console.log('data @HotelData: ', data);
+     console.log('data @HotelData: ', data);
 
-    this.usersData = new UsersData(data.users);
-    // console.log('this.usersData: ', this.usersData);
+    this.usersData = new UsersData(data.usersData);
+     console.log('this.usersData: ', this.usersData);
     
-    this.bookingsData = new BookingsData(data.bookings);
-    // console.log('this.bookingsData: ', this.bookingsData);
+    this.bookingsData = new BookingsData(data.bookingsData);
+     console.log('this.bookingsData: ', this.bookingsData);
     
-    this.roomsData = new RoomsData(data.rooms);
-    // console.log('this.roomsData: ', this.roomsData);
+    this.roomsData = new RoomsData(data.roomsData);
+     console.log('this.roomsData: ', this.roomsData);
     
-    // this.date;
-  
     this.totalUsers = this.usersData.data.length;
     this.totalRooms = this.roomsData.data.length;
   };
+  // constructor(data) {
+  //   console.log('data @HotelData: ', data);
+
+  //   this.usersData = new UsersData();
+  //     console.log('this.usersData: ', this.usersData);
+    
+  //   this.bookingsData = new BookingsData();
+  //     console.log('this.bookingsData: ', this.bookingsData);
+    
+  //   this.roomsData = new RoomsData();
+  //     console.log('this.roomsData: ', this.roomsData);
+
+  //   this.totalUsers = this.usersData.length;
+  //   this.totalRooms = this.roomsData.length;
+  // };
 
 
   findGuestByProperty(property, value) {

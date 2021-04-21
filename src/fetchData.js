@@ -29,7 +29,6 @@ function fetchData() {
       data.rooms = jsonData[2];
       //const data = jsonData;
       console.log('data@Fetch: ', data);
-
       return data;
     });
 }

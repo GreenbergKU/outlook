@@ -7,7 +7,6 @@ class Guest {
     // console.log("data@guest: ", data);
     this.id = data.id;
     this.name = data.name;
-    
     this.type = "guest";
     this.date = date;
 
@@ -20,13 +19,12 @@ class Guest {
     this.totalUsers; //= user.totalUsers;
     this.totalRooms; //= user.totalRooms;
 
-    this.bookings = []; //= user.guestBookings;
+    // this.bookings = []; //= user.guestBookings;
     
-    this.sortedBookings = [];
+    // this.sortedBookings = [];
 
-    this.amountSpent; //= data.ammountSpent;
+    // this.amountSpent; //= data.ammountSpent;
     this.availableRooms;
-    this.filters;
   };
 
   sortByDate(userData, formatDate) {
@@ -41,11 +39,11 @@ class Guest {
       formatDate(dayjs(booking.date),"sort") <= date ? pastBookings.push(booking) : upcomingBookings.push(booking);  
     }); 
 
-    this.sortedBookings.push({ name: "upcoming-bookings", data: upcomingBookings}, {name: "past-bookings", data: pastBookings});
+    return [{ name: "upcoming-bookings", data: upcomingBookings}, {name: "past-bookings", data: pastBookings}];
       // console.log('this @Guest.sortByDate: ', this);
     //this.sortedBookings.upcomingBookings = upcomingBookings;
     //this.sortedBookings.pastBookings = pastBookings; 
-    return this.sortedBookings
+    //return this.sortedBookings
   };
 
   sortChronically(data, formatDate) {

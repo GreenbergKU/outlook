@@ -299,18 +299,21 @@ function showSearch(e) {
 
 function activateSearchBtn() {
   const searchBtn = document.querySelector(".submit-user");
-    // console.log('user.subType @activateUserBtn(): ', user.subType); 
-  const nameInput = document.getElementById("name");
+  //   // console.log('user.subType @activateUserBtn(): ', user.subType); 
+  // const nameInput = document.getElementById("name");
+  // const findGuestInput = (e) => {
+  //   e.preventDefault();
+  //   const nameInput = document.getElementById("name").value;
+  //   console.log('nameInput: ', nameInput);
+  //   return findGuestAdmin(nameInput);
+  // };
   
-  const handleSearchBtn = (e) => {
+  searchBtn.addEventListener("click", function handleSearchBtn(e) {
     e.preventDefault();
-   
-    let nameInput = document.getElementById("name").value;
+    const nameInput = document.getElementById("name").value;
     console.log('nameInput: ', nameInput);
-    return findGuestAdmin(nameInput);
-  };
-  
-  searchBtn.addEventListener("click", handleSearchBtn);
+    return user.guestAdmin = findGuestAdmin(nameInput);
+  });
   // (event) => {
   //   event.preventDefault();
   //   findGuestAdmin();
@@ -321,12 +324,12 @@ function findGuestAdmin(name) {
   // console.log('@ findGuestAdmin(btn): ');
   //e.preventDefault();
   //const nameInput = document.getElementById("name");
-  user.guestAdmin = createGuest("name", name, user.date);
+  const guestAdmin = createGuest("name", name, user.date);
   //user.guestAdmin = customizeUser(guest);
-  activateUserBtn(user.guestAdmin);
-  displayGuestAdmin(user.guestAdmin);
+  activateUserBtn(guestAdmin);
+  displayGuestAdmin(guestAdmin);
     // console.log('document.getElementById("new-reservation-btn"): ', document.getElementById("new-reservation-btn"));
-  return user
+  return guestAdmin
 }; 
 
 function displayGuestAdmin(user) {
@@ -700,8 +703,8 @@ function bookRoom(btn, userX) {
    console.log('newBooking @bookRoom: ', newBooking);
   addBooking(newBooking, formatDate) //,  loadOutlook, updateData, userX)
   .then(loadOutlook())
-  .then(updateData(userX))
   .then(refreshSite(userX))
+  .then(updateData(userX))
   .catch(err => console.log('err: ', err));
 };
 
@@ -719,19 +722,23 @@ function cancelBooking(id, userX) {
   const cancelMessage = `You are about to cancel your reservation for ${date} which CANNOT BE UNDONE! Do you wish to continue?`
   
   if (confirm(cancelMessage)) {
-    // deleteBooking(booking)
+    deleteBooking(booking)
     // .then(loadOutlook())  
-    loadOutlook();
-    updateData(userX);
-    refreshSite(userX);
+    .then(loadOutlook())
+    .then(user => {
+      return user = refreshSite(userX);
+    })
+    .catch(err => console.log('err: ', err));
+    console.log("user: ", user)
   };
+  return user
 };
 
 function updateData(userX) {  
   //resetRoomSearch(`${user.type}-page`);
-  differentiateUsers(); //creates new guest/managher
-  userX != user ? findGuestAdmin(userX.name) : null;
-  return user
+  const updatedUser = differentiateUsers(); //creates new guest/managher
+  user.name != userX.name ? updatedUser.guestAdmin = findGuestAdmin(userX.name) : null;
+  return updatedUser
 };
 
 function refreshSite(userX) {
@@ -743,7 +750,7 @@ function refreshSite(userX) {
     //findGuestAdmin(userX.name);
   };
   resetPage(types);
-  return this
+  return user = updateData(userX);
 };
 
 function resetPage(types) {
@@ -767,6 +774,9 @@ function resetPage(types) {
 
     const noDataTexts = Array.from(page.querySelectorAll(".no-data-text"));
     noDataTexts.map(noData => noData.classList.remove("hidden"));
+
+    document.querySelector(".user-btn-sec").classList.remove("hidden");
+    renderOutlook.toggleDisplay("user-page");
   });
   
   //clearRadios();
