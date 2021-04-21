@@ -19,15 +19,17 @@ html {
   // height: 100vh;
   display: grid;
   justify-content: center;
+  background: center / cover no-repeat url(../images/hotel-lobby-small.jpg);
+  height: 100%;
 }
 
 body {
   display: grid;
-  width: 98vw;
-  height: 100vh;
-  color: black;
   justify-items: center;
-  background: center / cover no-repeat url(../images/hotel-lobby-small.jpg);
+  // width: 98vw;
+  // height: 100vh;
+  height: 100%;
+  color: black;
 }
 
 header, main {
@@ -36,7 +38,7 @@ header, main {
 }
 
 main > section, .new-reservation {
-  width: 90vw;
+  width: 95vw;
   display: grid;
   align-items: center;
   text-align: center;
@@ -109,14 +111,24 @@ form {
 }
 
 .dashboard {
-  padding: 2%;
   display: grid;
   border: 3px black solid;
   justify-items: center;
-  padding-bottom: 0;
   width: 80vw;
   justify-self: center;
+  // padding: 2%;
 }
+
+.manager-dash {
+  padding: 5%;
+}
+
+.guest-dash {
+  padding: 2%;
+  padding-bottom: 0;
+}
+
+
 
 // #guest-dashboard {
 //   display: grid;
@@ -127,23 +139,29 @@ form {
 //   justify-self: center;
 // }
 
-.booking {
+.booking,
+.no-data-text {
   display: grid;
-  border: 2px solid black;
+  padding: 2%;
+  background-color: grey;
+  
+  // padding: 1%;
+  // border: 2px solid black;
+  // justify-self: center;
+
+  // width: 60vw;
   // padding: 10px 10px 5px;
-  justify-self: center;
-  width: 60vw;
-  padding: 1%;
 }
 
 .list {
   display: grid;
-  grid-row-gap: 5px;
+  grid-row-gap: 10px;
+  //! width: max-content;
+  margin-top: 10px;
+  
+  // grid-row-gap: 5px;
 }
 
-// #available-rooms {
-//   padding: inherit;
-// }
 
 #available-rooms-list {
   padding: 5px;
@@ -155,23 +173,28 @@ form {
 
 .room-details {
   background-color: white;
-  padding: 0;
+  // padding: 0;
+  margin: 2%;
 }
 
 .rm-wrapper {  
-  height: inherit;
   display: grid;
-  margin: 1% 0;
+  height: inherit;
+  margin: .5% 0;
   background: white;
+
+  // margin: 1% 0;
 }
 
 .rm-grid {
   display: grid;
   grid-template-columns: 53% 45%;
   background: silver;
-  margin: 2.5% 3%;
+  margin: 2% 2.5%;
   padding: 3%;
   column-gap: 2%;
+  
+  // margin: 2.5% 3%;
   // height: 156px;
   // grid-template-columns: 55% 45%;
 }
@@ -194,16 +217,20 @@ form {
 .details-wrapper {
   display: grid;
   align-items: center;
-  height: inherit;
-  align-content: space-around;
-  padding: 0;
+  // *height: inherit;
+  // *align-content: space-around;
+  // *padding: 0;
 }
 
 button, input[type="submit"] {
-  padding: 2px; 
-  align-content: center;
   display: grid;
+  align-content: center;
+  max-width: max-content;
+  min-width: min-content;
+  padding: .5em;
   margin: 5px 0;
+  
+  // padding: 2px;
 }
 
 .btn-wrapper {
@@ -231,13 +258,18 @@ button, input[type="submit"] {
 .input-sec {  
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-content: center;
+
   padding: 1vh 2vw;
+  // align-items: center;
 }
 
 label { 
-  padding: 1%;
   text-align: left;
+  padding: 1.5%;
+  font-size: 0.75em;
+
+  // padding: 1%;
 }
 
 #new-reservation {
@@ -273,6 +305,15 @@ label {
     font-size: 12px;
   }
 
+  .img-wrapper {
+    grid-template-rows: 80% 20%;
+    //grid-template-rows: auto;
+  }
+
+  .btn-wrapper {
+    align-items: center;
+  }
+
   // #bedSize-options {
   //   height: 60%;
   // }
@@ -280,11 +321,6 @@ label {
   // #numBeds-options {
   //   height: 30%;
   // }
- 
-  .img-wrapper {
-    // grid-template-rows: 80% 20%;
-    grid-template-rows: auto;
-  }
 }
 
 .radios {
@@ -300,7 +336,7 @@ label {
   
   form {
     height: 100%;
-  }
+  };
 
   #radio-filters {
     display: grid
@@ -308,7 +344,7 @@ label {
 
   fieldset {
     margin: 3% 0;
-  }
+  };
 }
 
 .radio-label {
@@ -330,7 +366,13 @@ label {
 }
 
 .txt-input {
-  margin-left: 5%;
+  margin-left: 3%;
+  height: 100%;
+  border-width: 1px;
+  display: grid;
+  padding: 1% 2%;
+
+  // margin-left: 5%;
 }
 
 .astrik {
@@ -351,6 +393,11 @@ label {
 #input-button {
   /* margin: 5%; */
   margin: 3% 0;
+  padding: .5em;
+}
+
+#user-submit {
+   padding: .5em;
 }
 
 #submit-room-search {
@@ -362,24 +409,44 @@ label {
   margin: 0;
 
   .filter-btn {
+    padding: 2% 0 0 0;
+    margin: 0;
     background: transparent;
     border: none;
     color: blue;
     font-weight: 600;
+
     // padding: 2% 1% 0 1%;
-    padding: 2% 0 0 0;
-    margin: 0;
   }
   
   .dark-red {
     color: darkred;
   }
-  
+}
+
+#guest-bookings-wrapper { 
+  // display: grid;
+  // justify-content: center;
+  width: 100%;
 }
 
 #guest-bookings {
-  padding: 1%;
+  margin-bottom: 15px;
+
+  // display: grid;
+  // width: max-content;
+  // justify-self: center;
+  // justify-content: center;
+  
+  // padding: 20px 1%;
+  
+  // padding: 1%;
 }
+
+.no-bookings {
+  padding: 10%;
+}
+
 
 .hidden {
   display: none;

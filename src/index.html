@@ -21,11 +21,11 @@
         <section id="manager-heading-sec" class="sec-heading hidden"></section>
         
         <!-- <h5>Manager Dashboard</h5> -->
-        <div id="manager-dashboard" class="dashboard">    
+        <article id="manager-dashboard" class="dashboard manager-dash">    
           <div id="availableRoomsNum" class="daily-dash">available rooms:</div>
           <div id="revenue" class="daily-dash">revenue:</div>
           <div id="roomsOccupied" class="daily-dash">rooms occupied:</div>
-        </div>       
+        </article>       
       </section>   
         
         <!-- 
@@ -44,20 +44,21 @@
 
         <h5 id="guest-dashboard-heading" class="">ACCOUNT INFORMATION:</h5>
         
-        <article id="guest-dashboard" name="guestName" class="dashboard guest-dashboard">   
+        <article id="guest-dashboard" name="guestName" class="dashboard guest-dash">   
           
           <div id="amountSpent" class="guest-amountSpent">Total amount spent:
             <h6 id="amountSpent-txt" class="gDash-txt"></h6>
-
           </div>
           
           <div id="bookings-btns-wrapper" class="btns-wrapper">
+
             <button id="upcoming-bookings-btn" name="upcoming-bookings" class="booking-btn toggle-btn" value="show">
               UPCOMING BOOKINGS
             </button>
             <button id="past-bookings-btn" name="past-bookings" class="booking-btn toggle-btn" value="show">
               PAST BOOKINGS
             </button>
+
           </div>        
           
           <div id="guest-bookings-wrapper">
@@ -104,10 +105,10 @@
             <div id="room-search-inputs">
 
               <div id="datePicker">
-                <input id="date" type="date" value=""/>
+                <input id="date" type="date" placeholder="MM/DD/YYYY" value=""/>
               </div>
 
-              <div id="filters" class="hidden initial-state">
+              <div id="filters" class="hidden">
                 <h6 id="filter-header">SEARCH FILTERS</h6>
 
                 <article id="radio-filters" class="radios">
@@ -190,18 +191,18 @@
                 </button>
               </div>
 
+              <!-- ROOM SEARCH BTN -->
               <div id="input-button" class="btn-wrapper">
                 <input type="submit" id="submit-room-search" value="FIND ROOMS" disabled/>
               </div>
 
             </div>        
-            
-            
 
           </form>
 
           <div id="available-rooms" class="hidden initial-state">
             <h5 id="available-rooms-header"></h5>
+            
             <div id="available-rooms-list" class="list rm-list">
             </div>  
 
@@ -209,9 +210,7 @@
               <p id="no-available-rooms-text"> INSERT "no bookings txt" HERE </p>
             </div> 
           </div>
-
-
-          
+ 
         </section>
 
       </section> 
@@ -243,6 +242,8 @@
             <input type="password" id="password" class="login-input txt-input" placeholder="password" value="" required/>
           </section>
           
+          <!-- LOGIN BUTTON & GUEST SEARCH BTN --> 
+          <!-- getLogin(e)  <->   findGuestAdmin()  -->
           <fieldset id="submit-wrapper" style="border: none;" class="input-sec">
             <input type="submit" id="user-submit" class="submit-user" value="SUBMIT">
           </fieldset>
@@ -250,8 +251,16 @@
         </form>
       </section>
 
+      <!-- MANAGER's GUEST SEARCH BUTTON -->
+      <!-- click: showSearchUser() -->
+
+      <!-- 
       <section id="user-btn-sec" class="user-btn-sec btn-wrapper hidden">
         <button id="userBtn">add function</button>       
+      </section> 
+      -->
+      <section id="manager-btn-sec" class="user-btn-sec btn-wrapper hidden">
+        <button id="userBtn" name="guest-search">GUEST SEARCH</button>       
       </section>
     
     </main>
