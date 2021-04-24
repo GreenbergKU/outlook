@@ -37,7 +37,9 @@ header, main {
   // display: grid;
 }
 
-main > section, .new-reservation {
+main > section, 
+.user-search, 
+.new-reservation {
   width: 95vw;
   display: grid;
   align-items: center;
@@ -129,8 +131,8 @@ form {
 
 .sign-in {
   width: auto;
+  padding: 5%;
 }
-
 
 label { 
   text-align: left;
@@ -279,7 +281,7 @@ label {
   // align-items: center;
 }
 
-#new-reservation {
+#new-reservation, #user-search {
   margin: 5% 0;
   justify-items: center;
   padding-top: 3%;
