@@ -38,6 +38,43 @@ class HotelData {
   //   this.totalRooms = this.roomsData.length;
   // };
 
+  validateUser(user) {
+    let isValid = false, found;
+      console.log('user.password && user.password != "overlook2020": ', user.password && user.password != "overlook2020");
+    
+    if (user.password && user.password.toLowerCase() != "overlook2020") {
+        console.log('user.password: ', user.password);
+      alert("invalid password!");
+      return isValid;
+    };
+      console.log('user.username && user.username === "manager": ', user.username && user.username === "manager"); 
+    
+    if (user.username && user.username.toLowerCase() === "manager") return isValid = true;  
+      //console.log('typeof(user.id) === "number": ', typeof(user.id) === "number", typeof(user.id), !isNaN(user.id));
+    
+    if (user.fullName && user.fullName.split(" ").length != 2) {
+      //let name = user.fullName;
+        console.log("user.fullName: ", user.fullName);
+      alert("First and last name is required!")
+      return isValid;
+    }
+    if (user.fullName) {
+        console.log("user.fullName: ", user.fullName);
+      found = this.usersData.data.find(userData => userData.name === user.fullName);
+      return !found ? alert("user not found, check spelling and try again!") : isValid = true;
+    }
+    if (user.id && typeof(user.id) === "number") {
+      found = this.usersData.data.find(userData => userData.id === user.id);
+        console.log('found: ', found);
+      return !found ? alert("invalid username!") : isValid = true;
+    } else alert("invalid form");
+    return isValid;
+  }
+
+  userValidation(properties) {
+    console.log('properties: ', properties);
+
+  }
 
   findGuestByProperty(property, value) {
     return this.usersData.findUserByProperty(property, value)[0];
@@ -48,7 +85,7 @@ class HotelData {
 
     let sum = 0;
     data.map(booking => {
-       console.log('booking: ', booking.roomNumber);
+       // console.log('booking: ', booking.roomNumber);
       const room = this.roomsData.findRoomsByProperty("number", parseInt(booking.roomNumber));
       sum += room[0].costPerNight;
     });

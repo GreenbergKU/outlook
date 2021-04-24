@@ -1,5 +1,5 @@
 class RenderDOM {
-
+  // assignBtnToUser(user), updateSearchBtn(type),
   assignBtnToUser(user) {
       // console.log('user @btnDOM: ', user);
     const userBtnSec = document.querySelector(".user-btn-sec");
@@ -58,7 +58,7 @@ class RenderDOM {
      console.log('user@DOM.custSec: ', user.type);
      //console.log("userInputs: ", userInputs);
       // // console.log('parentNode.innerHTML: ', userInputs.nameInput.parentNode.innerHTML);
-    const inputSec = document.getElementById("login-name");
+    const inputSec = document.getElementById("login-username");
     // userInputs.nameInput.parentNode;
      console.log('inputSec @DOM customizeSection():  ', inputSec);
     const inputType = user.type === "guest" ? "date" : "text";
