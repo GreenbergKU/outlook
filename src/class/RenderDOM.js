@@ -145,7 +145,7 @@ class RenderDOM {
         </div>
         <div id="${className}-rmBooking${num}-btns" class="rmBooking-btns-wrapper">
           <button id="${className}-details-${num}-btn" value="show" class="booking-details-btn toggle-btn" name="room-details" num=${num}>room details</button>
-          <button id="cancel-btn-${num}" value="CANCEL BOOKING" class="hidden booking-details-btn" number=${id}>CANCEL RESERVATION</button>
+          <button id="cancel-btn-${num}" class="hidden booking-details-btn" number=${id} value="CANCEL BOOKING" date="${date}">CANCEL RESERVATION</button>
         </div>
       </article>
     `;
