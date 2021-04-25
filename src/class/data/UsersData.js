@@ -1,9 +1,18 @@
 class UsersData {
   constructor(data) {
-    console.log('data @UsersData: ', data);
+    // console.log('data @UsersData: ', data);
     this.data = data;
   };
-  
+
+  findUserByProperty(property, value) {
+    return this.data.filter(user => user[property] === value)
+  };
+
+}
+
+export default UsersData;
+
+/* 
   countUsers() {
     return this.data.length
   };
@@ -12,11 +21,4 @@ class UsersData {
     return this.data.filter(user => user[property] === value)
   };
 
-
-  // findUserByProperty(property, value) {
-  //   return this.data.filter(user => user[property] === value)
-  // };
-
-}
-
-export default UsersData;
+*/
