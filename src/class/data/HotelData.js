@@ -6,7 +6,6 @@
 
 
 class HotelData {
-
   constructor(data) {
     console.log('data @HotelData: ', data);
 
@@ -52,7 +51,6 @@ class HotelData {
   }
 
   findGuestByProperty(property, value) {
-    // return this.usersData.findUserByProperty(property, value)[0];
     return this.findDataByProperty("usersData", property, value)[0];
   }
 
@@ -68,22 +66,6 @@ class HotelData {
   calculatePercentage(num, total) {
     return num / total;
   }
-  // findBoookings(user, "date") {
-  //   hotelRepo.findDataByProperty("bookingsData", "date", manager.date); 
-  // }
-
-  // findCustomizedData(userData, property, value) {
-  //   return userData.filter(data => data[property] === value);
-  // }
- // //   // return this.bookingsData.findBookingsByProperty(property, value);
-  // //   //return alert("changed to findDataByProperty(dataSet, property, value)")
-  // //   return user.id ? this.findDataByProperty("bookingsData", property, user.id) :
-  // //   this.findDataByProperty("bookingsData", property, user[property]); 
-
-  // findRoom(property, value) {
-  //   // return this.roomsData.findRoomsByProperty(property, value);
-  //   return alert("changed to findDataByProperty(dataSet, property, value)")
-  // }
 
   findAvailableRooms(bookedRooms) {    
     const allRooms = this.roomsData;    
@@ -99,6 +81,7 @@ class HotelData {
 export default HotelData;
 
 
+
   // findGuest(id) {
   //   return this.usersData.findUserByProperty("id", id)[0];
   // };
@@ -109,4 +92,21 @@ export default HotelData;
 
   // findGuestBookings(id) {
   //   return this.bookingsData.findBookingsByProperty("userID", id);
+  // }
+
+  // findBoookings(user, "date") {
+  //   hotelRepo.findDataByProperty("bookingsData", "date", manager.date); 
+  // }
+
+  // findCustomizedData(userData, property, value) {
+  //   return userData.filter(data => data[property] === value);
+  // }
+ // //   // return this.bookingsData.findBookingsByProperty(property, value);
+  // //   //return alert("changed to findDataByProperty(dataSet, property, value)")
+  // //   return user.id ? this.findDataByProperty("bookingsData", property, user.id) :
+  // //   this.findDataByProperty("bookingsData", property, user[property]); 
+
+  // findRoom(property, value) {
+  //   // return this.roomsData.findRoomsByProperty(property, value);
+  //   return alert("changed to findDataByProperty(dataSet, property, value)")
   // }

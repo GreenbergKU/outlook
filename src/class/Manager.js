@@ -13,35 +13,34 @@ class Manager {
 
     this.totalUsers = data.totalUsers;
     this.totalRooms = data.totalRooms;
-
-    //this.roomsAvailable;
-    //this.bookedRooms;
-    //this.revenue; //= data.ammountSpent;
-    //this.roomsOccupied;
-    //this.guestAdmin; // Leatha Ullrich
   }
 
-  percentBooked() {
-    this.roomsOccupied = this.bookedRooms.length / this.totalRooms * 100;
-    
-    // console.log('this.totalRooms: ', this.totalRooms);
-    // console.log('this.bookedRooms.length: ', this.bookedRooms.length);
-    //// console.log('this.bookedRooms.length / this.totalRooms: ', this.bookedRooms.length / this.totalRooms);
-    // console.log('this.roomsOccupied: ', this.roomsOccupied);
-    return this.roomsOccupied
-  }
+  // percentBooked() {
+  //   this.roomsOccupied = this.bookedRooms.length / this.totalRooms * 100;
+  //   return this.roomsOccupied
+  // };
 
-  getBookingID() {
-    return this.guestAdmin.id
-  };
-
-  defineBtn(btn) {
-    // console.log('btn: ', btn);
-    return btn
-  }
-
+  // getBookingID() {
+  //   return this.guestAdmin.id;
+  // };
 
 
 }
 
 export default Manager;
+
+    //this.roomsAvailable;
+  //this.bookedRooms;
+  //this.revenue; //= data.ammountSpent;
+  //this.roomsOccupied;
+  //this.guestAdmin; // Leatha Ullrich;
+
+  
+  // console.log('this.totalRooms: ', this.totalRooms);
+  // console.log('this.bookedRooms.length: ', this.bookedRooms.length);
+  //// console.log('this.bookedRooms.length / this.totalRooms: ', this.bookedRooms.length / this.totalRooms);
+  // console.log('this.roomsOccupied: ', this.roomsOccupied);
+
+  // defineBtn(btn) {
+  //   return btn;
+  // }

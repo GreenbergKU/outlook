@@ -1,6 +1,6 @@
-const dayjs = require('dayjs');
-//import dayjs from 'dayjs' // ES 2015
-dayjs().format();
+// const dayjs = require('dayjs');
+// //import dayjs from 'dayjs' // ES 2015
+// dayjs().format();
 
 class Guest {
   constructor(data, date) {
@@ -16,8 +16,8 @@ class Guest {
     this.labelInput = "date";
     this.placeHolder = "YY/MM/DD";
 
-    this.totalUsers; //= user.totalUsers;
-    this.totalRooms; //= user.totalRooms;
+    this.totalUsers;
+    this.totalRooms; 
 
     this.availableRooms;
   };
@@ -25,10 +25,10 @@ class Guest {
   sortByDate(userData, formatDate) {
       // console.log('userData @Guest.sortByDate(): ', userData);
     let pastBookings = [], upcomingBookings = [];
-    const currDate = formatDate(new dayjs(), "sort");
-    const date = this.date ? formatDate(this.date, "sort") : currDate;
+    //const currDate = formatDate(new dayjs(), "sort");
+    const date = formatDate(this.date, "sort");
     userData.map(booking => {
-      formatDate(dayjs(booking.date),"sort") <= date ? pastBookings.push(booking) : upcomingBookings.push(booking);  
+      formatDate(booking.date, "sort") <= date ? pastBookings.push(booking) : upcomingBookings.push(booking);  
     }); 
     return [{ name: "upcoming-bookings", data: upcomingBookings}, {name: "past-bookings", data: pastBookings}];
   };
@@ -37,7 +37,12 @@ class Guest {
       // console.log('formatDate: ', formatDate);
     //return data.sort( (a,b) => dayjs(a.date).format("YYYYMMDD") - dayjs(b.date).format("YYYYMMDD") );
     return data.sort( (a, b) => formatDate(a.date, "sort") - formatDate(b.date, "sort") )
-  }
+  };
+
+}
+
+
+export default Guest
 
   // addData(property, value) {
   //     // console.log('this: ', this);
@@ -53,9 +58,9 @@ class Guest {
   //   return this.availableRooms
   // }
 
-  getBookingID() {
-    return this.id
-  };
+  // getBookingID() {
+  //   return this.id
+  // };
    
   // sayMyName() {
   //     // console.log("NAME: ", this.name, "TYPE: ", this.type)
@@ -154,7 +159,3 @@ class Guest {
   //   return Math.round(sum);  
   // };
 
-}
-
-
-export default Guest

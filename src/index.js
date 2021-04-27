@@ -104,8 +104,16 @@ function formatDate(date, style) {
   return style === 'sort' ? dayjs(date).format("YYYYMMDD")
     : style === 'words' ? dayjs(date).format("MMMM D, YYYY") 
     : style === 'numbers' ? dayjs(date).format("MM/DD/YYYY")
+    : style === 'min' ? dayjs(date).format("YYYY-MM-DD")
     : dayjs(date).format("YYYY/MM/DD"); 
 };
+
+function setDate() {
+  const currDate = new dayjs();
+  const minDate = formatDate(currDate.add(1,"day"), "min");
+  document.getElementById("date").min = minDate;
+  return formatDate(currDate);
+}
 
 // ***** FOR TESTING PURPOSES ONLY *****
 function makeCurrent(data) {
@@ -121,27 +129,26 @@ function makeCurrent(data) {
 // ***** FOR TESTING PURPOSES ONLY *****
 
 function activateLogin() {
-  console.log('*@ activateLogin(): *');
-  const minDate = new dayjs().add(1,"day").format("YYYY-MM-DD");
-  document.getElementById("date").min = minDate;
+  console.log('*@ activateLogin(): *'); 
+  // const minDate = new dayjs().add(1,"day").format("YYYY-MM-DD");
+  // document.getElementById("date").min = minDate;
   document.getElementById('user-submit').addEventListener("click", getLogin);
-  console.log('hotelRepo @ activateLogin(): ', hotelRepo);
+  //console.log('hotelRepo @ activateLogin(): ', hotelRepo);
   return user
 };
 
 function getLogin(e) { 
   e.preventDefault();
+  const date = setDate();
   const form = document.getElementById("login");
   const userInputs = findInputs(form);
-    console.log('userInputs: ', userInputs);
+    // console.log('userInputs: ', userInputs);
   const validInputs = validateInputs(userInputs); 
-    console.log('validInputs: ', validInputs);
+    // console.log('validInputs: ', validInputs);
   validInputs ? (
-    user = createUser(userInputs),
-      // console.log('user @getLogin: ', user),
-    // ******
-    user.isValid = validateUser(user),
-      console.log('user.isValid: ', user.isValid)
+    user = createUser(userInputs, date),
+    user.isValid = validateUser(user)
+      // console.log('user.isValid: ', user.isValid)
   ) : alert("All Fields Are Required!");
   user = checkValidity(user);
   if (user) {
@@ -150,16 +157,11 @@ function getLogin(e) {
     return user
   } else null;
       //console.log('user @getLogin(e): ', user),
+      
 };
 
 function validateUser(user) {
   return hotelRepo.validateUser(user);
-};
-
-function checkValidity(user) {
-  if (user.isValid) {
-    return user.fullName ? findGuestAdmin(user.fullName) : differentiateUsers(user);
-  } else null 
 };
 
 function findInputs(form) {
@@ -177,7 +179,6 @@ function findInputs(form) {
   return inputs;
 };
 
-
 function validateInputs(inputs) {
   const isValid = inputs.arr.map(input => {
     if(!input.value) console.log('input.invalid = true: ', input.invalid = true);
@@ -187,15 +188,51 @@ function validateInputs(inputs) {
   return isValid === undefined;  
 };
 
-function createUser(inputs) {
+function createUser(inputs, date) {
   // console.log('inputs: ', inputs, inputs.username, inputs.password);
-  return new User(inputs.username.value, inputs.password.value).formatUser();
+  return new User(inputs.username.value, inputs.password.value, date).formatUser();
+};
+
+
+function checkValidity(user) {
+  return user.isValid ? 
+    user.fullName ? findGuestAdmin(user) : differentiateUsers()
+  : null 
 };
 
 function differentiateUsers() {
-  const date = formatDate(new dayjs());
-  user = user.type === "guest" ? createGuest("id", user.id, user.date) : createManager(hotelRepo, user.date); 
+  // const date = formatDate(new dayjs());
+  user = user.type === "guest" ? createGuest(user, "id") : createManager(hotelRepo, user.date); 
   return user
+};
+
+function findGuestAdmin(user) {
+  user.name = user.name || user.fullName;
+  console.log('user.name: ', user.name);
+  return createGuest(user, "name"); // user.fullName, user.date
+};
+
+function createGuest(user, property) {
+  const userData = hotelRepo.findDataByProperty("usersData", property, user[property])[0];
+    console.log('userData @createGuest: ', userData);
+  const guest = new Guest(userData, user.date);
+    console.log('guest @createGuest: ', guest);
+  return customizeGuest(guest);
+};
+
+function customizeGuest(guest) {
+  const USD = new Intl.NumberFormat('en-US', { 
+    style: 'currency', 
+    currency: 'USD' 
+  });
+  const bookings = findBookings("userID", guest.id);
+  guest.bookings = guest.sortChronically(bookings, formatDate);
+  guest.sortedBookings = guest.sortByDate(guest.bookings, formatDate);
+  guest.amountSpent = USD.format(hotelRepo.calculateAmountTotals(guest.bookings));
+  displayBookings(guest);
+  activateRmDetailsBtns("booking-details-btn", guest);
+    console.log("guest @customizeGuest", guest);
+  return guest;
 };
 
 function createManager(hotelRepo, date) {
@@ -219,26 +256,43 @@ function customizeManager(manager) {
   return manager
 };
 
-function createGuest(property, value) {
-  const userData = hotelRepo.findDataByProperty("usersData", property, value)[0];
-  const guest = new Guest(userData, user.date);
-  console.log('guest @createGuest: ', guest);
-  
-  return customizeGuest(guest);
+function activateUserSearchBtn() {
+  const searchName = {};
+  const userSearchBtn = document.getElementById("find-guest-btn");
+  userSearchBtn.addEventListener("click", function handleSearchBtn(e) {
+    e.preventDefault();
+    searchName.date = setDate();
+    const form = document.getElementById("user-search");
+    const userInputs = findInputs(form);
+      console.log('userInputs: ', userInputs);
+    const validInputs = validateInputs(userInputs); 
+      console.log('validInputs: ', validInputs);
+    validInputs ? (
+      searchName.fullName = userInputs.fullName.value,
+      // searchName.name = userInputs.fullName.value,
+        console.log('searchName: ', searchName),
+      // ******
+      searchName.isValid = validateUser(searchName),
+      //searchName.isValid = validate(searchName.id, searchName.password),
+        console.log('searchName.isValid: ', searchName.isValid)
+      ) : alert("full name is required!");
+    const guestAdmin = checkValidity(searchName);
+    if (guestAdmin) {
+      user.guestAdmin = guestAdmin;
+      addListeners(user.guestAdmin);
+      displayGuestAdmin(user.guestAdmin);
+      return user
+    } else null;
+  });
+  return user
 };
 
-function customizeGuest(guest) {
-  const USD = new Intl.NumberFormat('en-US', { 
-    style: 'currency', 
-    currency: 'USD' 
-  });
-  const bookings = findBookings("userID", guest.id);
-  guest.bookings = guest.sortChronically(bookings, formatDate);
-  guest.sortedBookings = guest.sortByDate(guest.bookings, formatDate);
-  guest.amountSpent = USD.format(hotelRepo.calculateAmountTotals(guest.bookings));
-  displayBookings(guest);
-    console.log("guest @customizeGuest", guest);
-  return guest;
+function displayGuestAdmin(user) {
+  renderOutlook
+  .displayGuest(user)
+  .displayGuestHeader(user)
+  .toggleDisplay("guest-page", "user-search", "guest-heading-sec", "guest-bookings", "guest-btn-sec");
+  return user;  
 };
 
 function findBookings(property, value) {
@@ -263,7 +317,7 @@ function addListeners(user) {
     activateUserSearchBtn(user);
   } else {
     activateBookingBtns("booking-btn");
-    activateRmDetailsBtns("booking-details-btn", user);
+    //activateRmDetailsBtns("booking-details-btn", user);
     activateFilter(user);
     activateRoomSearchBtns(user);
   };
@@ -283,45 +337,6 @@ function showSearch(e) {
   renderOutlook.displayBookingsBtnTxt(filterBtn);
   //renderOutlook.toggleDisplay("login-name");
 };  
-
-function activateUserSearchBtn() {
-  const searchName = {};
-  const userSearchBtn = document.getElementById("find-guest-btn");
-  userSearchBtn.addEventListener("click", function handleSearchBtn(e) {
-    e.preventDefault();
-    const form = document.getElementById("user-search");
-    const userInputs = findInputs(form);
-      console.log('userInputs: ', userInputs);
-    const validInputs = validateInputs(userInputs); 
-      console.log('validInputs: ', validInputs);
-    validInputs ? (
-      searchName.fullName = userInputs.fullName.value,
-        console.log('searchName: ', searchName),
-      // ******
-      searchName.isValid = validateUser(searchName),
-      //searchName.isValid = validate(searchName.id, searchName.password),
-        console.log('searchName.isValid: ', searchName.isValid)
-      ) : alert("full name is required!");
-    user.guestAdmin = checkValidity(searchName);
-    user.guestAdmin ? (
-      addListeners(user.guestAdmin),
-      displayGuestAdmin(user.guestAdmin)
-    ) : null;
-  });
-  return user
-};
-
-function findGuestAdmin(name) {
-  return createGuest("name", name, user.date);
-}; 
-
-function displayGuestAdmin(user) {
-  renderOutlook
-  .displayGuest(user)
-  .displayGuestHeader(user)
-  .toggleDisplay("guest-page", "user-search", "guest-heading-sec", "guest-bookings", "guest-btn-sec");
-  return user;  
-};
 
 function activateRoomSearchBtns(user) {
   const inputDate = document.getElementById("date");
@@ -454,8 +469,8 @@ function activateRoomBtn(userX, roomBtn) {
   
   const handleRoomBtn = (e) => {
     e.preventDefault();
-    roomBtn.innerText === "CANCEL ROOM" ? cancelRoom(roomBtn, userX)
-    : roomBtn.innerText === "BOOK ROOM" ? bookRoom(roomBtn, userX)
+    roomBtn.innerText.includes("CANCEL") ? cancelBooking(roomBtn, userX)
+    : roomBtn.innerText.includes("BOOK") ? bookRoom(roomBtn, userX)
     : null 
   };
   roomBtn.addEventListener("click", handleRoomBtn);
@@ -661,7 +676,7 @@ function cancelBooking(btn, userX) {
 function updateData(userX) {  
   //resetRoomSearch(`${user.type}-page`);
   const updatedUser = differentiateUsers(); //creates new guest/managher
-  user.name != userX.name ? updatedUser.guestAdmin = findGuestAdmin(userX.name) : null;
+  user.name != userX.name ? updatedUser.guestAdmin = findGuestAdmin(userX) : null;
   return updatedUser
 };
 
@@ -728,7 +743,7 @@ function updateDOM(user) {
 
 // HELPER FUNCTIONS
 
-
+/*
 // function loadOutlook() {
 //   fetchData()
 //   .then(data => data.bookings = makeCurrent(data.bookings))
@@ -791,3 +806,4 @@ function updateDOM(user) {
 //   console.log('userX: ', userX);
 
 // }
+*/
