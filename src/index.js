@@ -67,50 +67,36 @@ const dayjs = require('dayjs');
 //import dayjs from 'dayjs' // ES 2015
 dayjs().format();
 
-
 /*//// ALL FUNCTIONS /////*/
 
 // EVENT LISTNERS
-window.onload = () => {
-  loadOutlook()
-  .then(activateLogin());
-}
+window.onload = loadOutlook(activateLogin);
+  //.then(activateLogin());
+
 // EVENT HANDLERS
 
-// function loadOutlook() {
-//   fetchData()
-//   .then(data => data.bookings = makeCurrent(data.bookings))
-//      // ***** FOR TESTING PURPOSES ONLY *****
-//     //return data;
-  
-//   .then(data => {
-//     hotelRepo = new HotelData(data)
-//   })
-//   .then( console.log('hotelRepo: ', hotelRepo)
-//   )
-//   .catch(err => console.log("err", err));
-//   //console.log('hotelRepo: ', hotelRepo);
-// };
-
-function loadOutlook() {
+function loadOutlook(toDo) {
   console.log('*@ loadOutlook(): *');
   const promise = fetchData()
   .then(data => {
     hotel.usersData = data.users;
-    hotel.bookingsData = makeCurrent(data.bookings);
+    hotel.bookingsData = makeCurrent(data.bookings); //***TESTING PURPOSES***
     hotel.roomsData = data.rooms;
     return hotel
   })
-     // ***** FOR TESTING PURPOSES ONLY *****
-    //return data;
-  
   .then(hotel => {
     console.log('hotel: ', hotel);
     return hotelRepo = new HotelData(hotel);
   })
-  .then( hotelRepo => console.log('hotelRepo: ', hotelRepo) )
+  .then(hotelRepo => console.log('hotelRepo: ', hotelRepo) )
+  .then(hotelRepo => {
+    //console.log('hotelRepo: ', hotelRepo);
+    toDo();
+    return hotelRepo
+  })
   .catch(err => console.log("err", err));
   return promise;
+  
   //console.log('hotelRepo: ', hotelRepo);
 };
 
@@ -141,6 +127,7 @@ function activateLogin() {
   document.getElementById("date").min = minDate;
   document.getElementById('user-submit').addEventListener("click", getLogin);
   console.log('hotelRepo @ activateLogin(): ', hotelRepo);
+  return user
 };
 
 function getLogin(e) { 
@@ -148,59 +135,38 @@ function getLogin(e) {
   const form = document.getElementById("login");
   const userInputs = findInputs(form);
     console.log('userInputs: ', userInputs);
-    // findInputs("login");
-    // console.log('userInputs: ', userInputs);
-    //console.log('Array.from(userInputs): ', Array.from(userInputs));
   const validInputs = validateInputs(userInputs); 
-  console.log('validInputs: ', validInputs);
-  
+    console.log('validInputs: ', validInputs);
   validInputs ? (
     user = createUser(userInputs),
-      // console.log('user: ', user),
+      // console.log('user @getLogin: ', user),
     // ******
     user.isValid = validateUser(user),
-    //user.isValid = validate(user.id, user.password),
       console.log('user.isValid: ', user.isValid)
   ) : alert("All Fields Are Required!");
-  // console.log('user.isValid: ', user.isValid);
   user = checkValidity(user);
-    // console.log('user: ', user);
-  user ? (
-      console.log('user @getLogin(e): ', user),
-    addListeners(user),
-    updateDOM(user)
-    //document.getElementById("form-user").classList.remove("sign-in");
-    //document.querySelector(".submit-user").removeEventListener("click", getLogin);
-   ) : null;
+  if (user) {
+    addListeners(user);
+    updateDOM(user);
+    return user
+  } else null;
+      //console.log('user @getLogin(e): ', user),
 };
 
 function validateUser(user) {
   return hotelRepo.validateUser(user);
-}
-
-// function validate(id, password) {
-//   return hotelRepo.userValidation(id, password);
-// }
+};
 
 function checkValidity(user) {
   if (user.isValid) {
-      // console.log('user @:checkValidity ', user);
-    return user.fullName ? findGuestAdmin(user.fullName)
-    : differentiateUsers(user);
-    // updateDOM(user);
-    // document.getElementById("form-user").classList.remove("sign-in");
-    // document.querySelector(".submit-user").removeEventListener("click", getLogin);
-    //return user
+    return user.fullName ? findGuestAdmin(user.fullName) : differentiateUsers(user);
   } else null 
 };
 
 function findInputs(form) {
   const inputs = {};
-  //const form = document.getElementById(`${formID}`);
   const selector = `input[class ~= "${form.id}-input"]`
-  //const selector = "input[class ~= " + `"${iClass}"]`
     console.log('selector: ', selector);
-    //console.log('("input[class ~= " + `${iClass}]`: ', `input[class ~= ${iClass}]`);
   inputs.arr = Array.from(form.querySelectorAll(selector))
   .map(input => {
     return inputs[`${input.id}`] = {
@@ -209,35 +175,9 @@ function findInputs(form) {
       value: input.value,    
     };
   });
-  //console.log('allInputs: ', allInputs);
-  // console.log('inputs: ', inputs);
-  // console.log("Array.from(inputs): ", Array.from(inputs));
-  return inputs
-  // console.log("inputs: ", inputs);
-  // return Array.from(inputs)
+  return inputs;
 };
 
-
-
-// function getInputs() {
-//   const nameInput = document.getElementById("name");
-//   const passwordInput = document.getElementById("password");
-//     // console.log("nameInput.value:", nameInput.value.toLowerCase());
-//   return  {
-//     nameInput: nameInput,
-//     name: `${nameInput.value.toLowerCase()}`,
-//     passwordInput: passwordInput, 
-//     password: `${passwordInput.value}`
-//   };
-// };
-
-// function validateForm(user) {
-//   //const validInputs = validateInputs(formInputs);
-//   //const validLogin = validateLogin(formInputs);
-//   //const allUsers = hotelRepo.totalUsers;
-//   return hotelRepo.validateLogin(user);
-//   //return !!validInputs && !!validLogin;
-// };
 
 function validateInputs(inputs) {
   const isValid = inputs.arr.map(input => {
@@ -458,34 +398,6 @@ function activateRoomSearchBtns(user) {
   
   roomSearchBtn.addEventListener("click", displayRooms);
 };
-  // (e) => {
-  //     // console.log('e.target @actRmSearchBtns(datePicker): ', e.target); 
-  //   const datePicked = dayjs(e.target.value);
-  //   const validDate = () => formatDate(datePicked);
-  //   datePicked.isValid ? findAvailableRooms(user, validDate(), roomSearchBtn) : null       
-  // });
-    // (e) => {
-  //   e.preventDefault();
-  //   displayRooms();
-  // });
-
-
-function findGuestBookings(user) {
-    // console.log('hotelRepo.findBookings("userID", userID): ', hotelRepo.findBookings("userID", userID));
-  const userBookings = hotelRepo.findBookings("userID", user.id);
-  return user.sortChronically(userBookings, formatDate);
-};
-
-function sortBookingsByDate(user) {
-    // console.log('user @sortBookingsByDate: ', user);
-    // console.log('user.bookings @sortBookingsByDate: ', user.bookings);
- return user.sortByDate(user.bookings, formatDate);
-};
-
-function findTotalAmount(data) {
-    // console.log('data: ', data);  
-  return hotelRepo.calculateAmountTotals(data);
-};
 
 function displayBookings(user) {
   let bookingHTML, num, roomHTML;
@@ -505,7 +417,7 @@ function displayBookings(user) {
 
     bookingTypes.data.map(booking => {
       booking.count = num;
-      booking.room = hotelRepo.findRoom("number", parseInt(booking.roomNumber))[0];
+      // booking.room = hotelRepo.findRoom("number", parseInt(booking.roomNumber))[0];
       bookingHTML = renderOutlook.designBookingHTML(booking, className, formatDate);
       roomHTML = renderOutlook.designRoomHTML(booking.room, className, booking.count);
       renderOutlook.renderBookingHTML(bookingsList, bookingHTML, roomHTML);
@@ -665,10 +577,14 @@ function activateRmDetailsBtns(btnName, userX) {
       console.log('e.target @displayRmDetails: ', e.target);
     const targetText = e.target.innerText;
     const targetName = e.target.name;
-      // console.log('e.target.attributes[3].nodeValue: ', e.target.attributes[3].nodeValue);
-    const id = e.target.attributes[3].nodeValue;
-      console.log('id @displayRmDetails: ', id);
-    targetText.includes("CANCEL") ? cancelBooking(id, userX) : 
+      console.log('e.target.attributes: ', e.target.attributes);
+      console.log('e.target.attributes["date"]: ', e.target.attributes["date"]);
+      console.log('e.target.attributes.date: ', e.target.attributes.date);
+
+    //const bkID = e.target.attributes.number.nodeValue;
+    //const bkDate = e.target.attributes.date.nodeValue;
+      //console.log('id @displayRmDetails: ', id);
+    targetText.includes("CANCEL") ? cancelBooking(e.target, userX) : 
     targetText.includes("BOOK") ?  bookRoom(e.target, userX) :
     displayInfo(e.target, "id"); 
   };  
@@ -712,7 +628,7 @@ function activateFilterBtns(userX) {
     const roomSearchBtn = document.getElementById("submit-room-search");
     //resetRoomSearch("new-reservation");
     clearRadios();
-    findAvailableRooms(user, user.searchDate, roomSearchBtn);
+    findAvailableRooms(userX, userX.searchDate, roomSearchBtn);
   };
 
   resetBtn.addEventListener("click", resetFilters);
@@ -788,18 +704,6 @@ const filterRooms = (rooms, allChecks) => {
   return rooms;
 };
 
-// function findCheckID(check) {
-//   if (check.name === "roomType") {
-//     return check.id.split("-").join(" ");
-//    };
-//    if (check.name === "bedSize") {
-//      return check.id;
-//    };
-//    if (check.name === "numBed") {
-//      return Number(check.id);
-//    };
-// };
-
 function bookRoom(btn, userX) {
      //console.log('btn @bookRoom(): ', btn);
     console.log('userX.type @bookRoom: ', userX.type);
@@ -810,34 +714,47 @@ function bookRoom(btn, userX) {
     roomNumber: Number(btn.value)
   };
    console.log('newBooking @bookRoom: ', newBooking);
-  addBooking(newBooking, formatDate) //,  loadOutlook, updateData, userX)
-  .then(loadOutlook())
-  .then(refreshSite(user, userX))
-  .catch(err => console.log('err: ', err));
+  const refresh = () => refreshSite(userX);
+  addBooking(newBooking)
+  .then(json => {
+    confirm(`
+      YOUR RESERVATION HAS BEEN CONFIRMED!
+      
+      BOOKING CONFIRMATION (for your records):
+        
+      Check-in Date: ${formatDate(json.date, "numbers")}
+      Room Number: ${json.roomNumber}
+      Confirmation Code: ${json.id}
+    `) ? loadOutlook(refresh) : null;
+  })
+  .catch(err => console.log("err", err))
   return user
 };
 
-function cancelBooking(id, userX) {
+function cancelBooking(btn, userX) { 
     console.log('userX.type @cancelBooking: ', userX.type);
     console.log('user.type @cancelBooking: ', user.type);
-    // console.log('btn @cancelBooking(btn): ', btn);
-  const booking = {}
-    // console.log('typeof(id): ', typeof(id));
-  booking.id = Number(id);
-     console.log('booking @cancelBooking(): ', booking);
-  const bk = userX.filterData(userX.sortedBookings[0].data, "id", id)
-    // console.log('bk @cancelBooking(): ', bk);
-  const date = formatDate(bk.date, "numbers");
-  const cancelMessage = `You are about to cancel your reservation for ${date} which CANNOT BE UNDONE! Do you wish to continue?`
-  
-  if (confirm(cancelMessage)) {
+    console.log('btn @cancelBooking(btn): ', btn);
+  const booking = {};
+  const bkID = btn.attributes.number.nodeValue;
+  const bkDate = btn.attributes.date.nodeValue;
+  booking.id = Number(bkID);
+    console.log('booking @cancelBooking(): ', booking);
+  const cancelMessage = `You are about to cancel your reservation for ${bkDate} which CANNOT BE UNDONE! Do you wish to continue?`
+  const refresh = () => refreshSite(userX);
+  confirm(cancelMessage) ? (
     deleteBooking(booking)
-    // .then(loadOutlook())  
-    .then(loadOutlook())
-    .then(refreshSite(user, userX))
-    .catch(err => console.log('err: ', err));
-    console.log("user: ", user)
-  };
+    .then(json => {
+      const confCode = json.message.split(" ")[1];
+      console.log('json.message: ', json.message);
+      confirm(`
+        ${json.message}.
+        Please keep a record of your confirmation code: 
+        ${confCode}
+      `) ? loadOutlook(refresh) : null;
+    })
+    .catch(err => console.log('err: ', err))
+  ) : null;
   return user
 };
 
@@ -848,7 +765,7 @@ function updateData(userX) {
   return updatedUser
 };
 
-function refreshSite(user, userX) {
+function refreshSite(userX) {
   let types = [user.type]
   //resetPage(`${user.type}-page`);
   //differentiateUsers();
@@ -857,7 +774,9 @@ function refreshSite(user, userX) {
     //findGuestAdmin(userX.name);
   };
   resetPage(types);
-  return user = updateData(userX);
+  user = updateData(userX);
+  console.log('user @refreshSite: ', user);
+  return user
 };
 
 function resetPage(types) {
@@ -878,7 +797,7 @@ function resetPage(types) {
     hideAll.map(hide => hide.classList.add("hidden"));
     const noDataTexts = Array.from(page.querySelectorAll(".no-data-text"));
     noDataTexts.map(noData => noData.classList.remove("hidden"));
-    document.querySelector(`.${type}-btn-sec`).classList.remove("hidden");
+    document.getElementById(`${type}-btn-sec`).classList.remove("hidden");
     // renderOutlook.toggleDisplay("user-page");
   });
   //clearRadios();

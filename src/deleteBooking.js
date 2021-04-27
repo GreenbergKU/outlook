@@ -13,14 +13,14 @@ function deleteBooking(booking) { //, loadPage, update, userX) {
   .catch(error => console.log('error.message: ', error.message));
   
   return promise
-  .then(json => {
-    const confCode = json.message.split(" ")[1];
-    alert(`
-      ${json.message}.
-      Please keep a record of your confirmation code: 
-      ${confCode}
-    `);
-  });
+  // .then(json => {
+  //   const confCode = json.message.split(" ")[1];
+  //   alert(`
+  //     ${json.message}.
+  //     Please keep a record of your confirmation code: 
+  //     ${confCode}
+  //   `);
+  // });
 }
 
 export default deleteBooking;
