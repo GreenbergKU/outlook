@@ -3,9 +3,6 @@ class BookingsData {
     this.data = data;
   };
 
-  countBookings() {
-    return this.data.length;
-  };
 
   findBookingsByProperty(property, value) {
     return this.data.filter(booking => booking[property] === value);

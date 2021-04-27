@@ -6,7 +6,7 @@ class User {
   constructor(username, password) {
     this.username = username;
     this.password = password;
-    this.date = new dayjs().format("MM/DD/YYYY");
+    this.date = new dayjs().format("YYYY/MM/DD");
 
     this.type;
     // this.labelInput = "username";

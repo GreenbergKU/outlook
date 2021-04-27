@@ -1,38 +1,27 @@
 // import fetchedData from './fetchedData.js';
-import UsersData from './UsersData.js';
+// import UsersData from './UsersData.js';
 //import GuestsData from './data/GuestsData.js';
-import BookingsData from './BookingsData.js';
-import RoomsData from './RoomsData.js';
+// import BookingsData from './BookingsData.js';
+// import RoomsData from './RoomsData.js';
 
 
 class HotelData {
-  
+
   constructor(data) {
-    //  console.log('data @HotelData: ', data);
-    this.usersData = new UsersData(data.usersData);
-    //  console.log('this.usersData: ', this.usersData);    
-    this.bookingsData = new BookingsData(data.bookingsData);
-    //  console.log('this.bookingsData: ', this.bookingsData);    
-    this.roomsData = new RoomsData(data.roomsData);
-    //  console.log('this.roomsData: ', this.roomsData);    
-    this.totalUsers = this.usersData.data.length;
-    this.totalRooms = this.roomsData.data.length;
+    console.log('data @HotelData: ', data);
+
+    this.usersData = data.usersData;
+      console.log('this.usersData: ', this.usersData);
+    
+    this.bookingsData = data.bookingsData;
+      console.log('this.bookingsData: ', this.bookingsData);
+    
+    this.roomsData = data.roomsData;
+      console.log('this.roomsData: ', this.roomsData);
+
+    this.totalUsers = this.usersData.length;
+    this.totalRooms = this.roomsData.length;
   };
-  // constructor(data) {
-  //   console.log('data @HotelData: ', data);
-
-  //   this.usersData = new UsersData();
-  //     console.log('this.usersData: ', this.usersData);
-    
-  //   this.bookingsData = new BookingsData();
-  //     console.log('this.bookingsData: ', this.bookingsData);
-    
-  //   this.roomsData = new RoomsData();
-  //     console.log('this.roomsData: ', this.roomsData);
-
-  //   this.totalUsers = this.usersData.length;
-  //   this.totalRooms = this.roomsData.length;
-  // };
 
   validateUser(user) {
     let isValid = false, found;
@@ -51,51 +40,60 @@ class HotelData {
     };
     if (user.fullName) {
         console.log("user.fullName: ", user.fullName);
-      found = this.usersData.data.find(userData => userData.name === user.fullName);
+      found = this.usersData.find(userData => userData.name === user.fullName);
       return !found ? alert("user not found, check spelling and try again!") : isValid = true;
     };
     if (user.id && typeof(user.id) === "number") {
-      found = this.usersData.data.find(userData => userData.id === user.id);
+      found = this.usersData.find(userData => userData.id === user.id);
         console.log('found: ', found);
       return !found ? alert("invalid username!") : isValid = true;
-    } else alert("invalid form");
+    } else alert("invalid login");
     return isValid;
   }
 
   findGuestByProperty(property, value) {
-    return this.usersData.findUserByProperty(property, value)[0];
+    // return this.usersData.findUserByProperty(property, value)[0];
+    return this.findDataByProperty("usersData", property, value)[0];
   }
 
-  calculateAmountTotals(data) {    let sum = 0;
+  calculateAmountTotals(data) {    
+    let sum = 0;
     data.map(booking => {
-      const room = this.roomsData.findRoomsByProperty("number", parseInt(booking.roomNumber));
+      const room = this.findDataByProperty("roomsData", "number", parseInt(booking.roomNumber));
       sum += room[0].costPerNight;
     });
     return sum;  
   }
 
-  calculatePercentage(total, num) {
-    return total / num;
+  calculatePercentage(num, total) {
+    return num / total;
   }
+  // findBoookings(user, "date") {
+  //   hotelRepo.findDataByProperty("bookingsData", "date", manager.date); 
+  // }
 
-  findBookings(property, value) {
-    return this.bookingsData.findBookingsByProperty(property, value);
-  }
+  // findCustomizedData(userData, property, value) {
+  //   return userData.filter(data => data[property] === value);
+  // }
+ // //   // return this.bookingsData.findBookingsByProperty(property, value);
+  // //   //return alert("changed to findDataByProperty(dataSet, property, value)")
+  // //   return user.id ? this.findDataByProperty("bookingsData", property, user.id) :
+  // //   this.findDataByProperty("bookingsData", property, user[property]); 
 
-  findRoom(property, value) {
-    return this.roomsData.findRoomsByProperty(property, value);
-  }
+  // findRoom(property, value) {
+  //   // return this.roomsData.findRoomsByProperty(property, value);
+  //   return alert("changed to findDataByProperty(dataSet, property, value)")
+  // }
 
-  findAvailableRooms(bookedRooms) {    const allRooms = this.roomsData.data;    bookedRooms.map(bookedRoom => allRooms.splice(allRooms.findIndex(room => room.number === bookedRoom.number)), 1);
+  findAvailableRooms(bookedRooms) {    
+    const allRooms = this.roomsData;    
+    bookedRooms.map(bookedRoom => allRooms.splice(allRooms.findIndex(room => room.number === bookedRoom.number)), 1);
     return allRooms
   }
 
-  addTotals() {
-    this.totalUsers = this.usersData.data.length;
-    this.totalRooms = this.roomsData.data.length;
-    return this
-  };
-
+  findDataByProperty(dataSet, property, value) {
+    return this[dataSet].filter(data => data[property] === value);
+  }
 }
 
 export default HotelData;

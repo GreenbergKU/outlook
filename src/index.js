@@ -46,9 +46,7 @@ import './images/suite-twin-1.jpg';
 import fetchData from './fetchData.js';
 import addBooking from './addBooking.js';
 import deleteBooking from './deleteBooking.js';
-//import fetchedData from './fetchedData.js';
 
-// classes
 /* 
   import className from './classes/.js';
   import classNameData from './class/data/classNameData.js';
@@ -59,13 +57,9 @@ import Guest from './class/Guest.js';
 import Manager from './class/Manager.js';
 import HotelData from './class/data/HotelData.js';
 
-// import BookingsData from './class/data/BookingsData.js';
-// import RoomsData from './class/data/RoomsData';
-
 /*//// GLOBAL VARIABLES ////*/
 
 let user, hotelRepo; 
-//const hotel = {usersData: null, bookingsData: null, roomsData: null};
 const hotel = {};
 const renderOutlook = new RenderDOM();
 
@@ -298,53 +292,59 @@ function customizeManager(manager) {
   const percent = new Intl.NumberFormat('en-US' , {
     style: 'percent'
   });
-  const bookedRooms = hotelRepo.findBookings("date", manager.date);
-  manager.roomsAvailable =  hotelRepo.findAvailableRooms(bookedRooms);
+  const bookedRooms = findBookings("date", manager.date); 
+  manager.roomsAvailable = hotelRepo.findAvailableRooms(bookedRooms);
   manager.availableRoomsNum = manager.roomsAvailable.length;
-  manager.revenue = USD.format(findTotalAmount(bookedRooms));
+  manager.revenue = USD.format(hotelRepo.calculateAmountTotals(bookedRooms));
   manager.roomsOccupied = percent.format(hotelRepo.calculatePercentage(bookedRooms.length, manager.totalRooms));
-    // console.log('manager @customizeManager(manager): ', manager);
-
-  //activateSearchBtn(manager);
   return manager
 };
 
-function createGuest(property, value, date) {
-  const userData = hotelRepo.findGuestByProperty(property, value);
-    // console.log('hotelRepo @createGuest: ', hotelRepo);
-    // console.log('userData @createGuest: ', userData);
-  const guest = new Guest(userData, date);
+function createGuest(property, value) {
+  const userData = hotelRepo.findDataByProperty("usersData", property, value)[0];
+  const guest = new Guest(userData, user.date);
+  console.log('guest @createGuest: ', guest);
   
   return customizeGuest(guest);
 };
 
 function customizeGuest(guest) {
-    //console.log('@ CUSTOMIZE GUEST(guest):');
-    // console.log('guest1: ', guest);
-
   const USD = new Intl.NumberFormat('en-US', { 
     style: 'currency', 
     currency: 'USD' 
   });
-  guest.bookings = findGuestBookings(guest);
-    // console.log('guest2: ', guest);
-    // console.log("hotelRepo.roomsData: ", hotelRepo.roomsData)
+  // const guestBookings = () => {
+  //   const bookings = hotelRepo.findDataByProperty("bookingsData", "userID", guest.id)
+  //   .map(booking => booking.room = findRoom(booking.roomNumber));
+  //   return guest.sortChronically(bookings, formatDate);
+  // };
+  const bookings = findBookings("userID", guest.id);
 
-  guest.sortedBookings = sortBookingsByDate(guest);
-    // console.log('guest3: ', guest);
-
-  guest.amountSpent = USD.format(findTotalAmount(guest.bookings));
-    // console.log("guest.amountSpent @customizeGuest: ", guest.amountSpent);
-    // console.log('guest @ CUSTOMIZE GUEST(guest): ', guest);
-
+  guest.bookings = guest.sortChronically(bookings, formatDate);
+  guest.sortedBookings = guest.sortByDate(guest.bookings, formatDate);
+  guest.amountSpent = USD.format(hotelRepo.calculateAmountTotals(guest.bookings));
   displayBookings(guest);
-
-  //activateBookingBtns("booking-btn");
-  //activateRmDetailsBtns("booking-details-btn", guest);
-  //activateRoomSearchBtns(guest);
-  //activateFilter(guest);
-  
+    console.log("guest @customizeGuest", guest);
   return guest;
+};
+
+// function findBookingsByDate(user) {
+//   hotelRepo.findDataByProperty("bookingsData", "userID", guest.id);
+//   return guest.sortChronically(bookings, formatDate);
+// };
+
+function findBookings(property, value) {
+  let bookings = hotelRepo.findDataByProperty("bookingsData", property, value)
+  .map(booking => {
+    booking.room = findRoom(booking.roomNumber);
+    return booking
+  });
+  console.log('bookings @findBookings: ', bookings);
+  return bookings
+};
+
+const findRoom = (roomNum) => {
+  return hotelRepo.findDataByProperty("roomsData", "number", roomNum)[0]
 };
 
 //const showSearchUser = (e) => showSearch(e, user);
@@ -745,9 +745,8 @@ function findAvailableRooms(userX, date, btn) {
     // console.log('date @findAvailableRooms(user): ', date);
   userX.searchDate = date;
   btn.disabled = false;
-  const roomsBooked = hotelRepo.findBookings("date", date);
-  const availableRooms = hotelRepo.findAvailableRooms(roomsBooked);
-  userX.availableRooms = availableRooms;
+  const roomsBooked = findBookings("date", date);
+  userX.availableRooms = hotelRepo.findAvailableRooms(roomsBooked);
   filterAvailableRooms(userX);
   return userX; 
 };
