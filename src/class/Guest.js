@@ -1,6 +1,6 @@
-const dayjs = require('dayjs');
-//import dayjs from 'dayjs' // ES 2015
-dayjs().format();
+// const dayjs = require('dayjs');
+// //import dayjs from 'dayjs' // ES 2015
+// dayjs().format();
 
 class Guest {
   constructor(data, date) {
@@ -16,59 +16,51 @@ class Guest {
     this.labelInput = "date";
     this.placeHolder = "YY/MM/DD";
 
-    this.totalUsers; //= user.totalUsers;
-    this.totalRooms; //= user.totalRooms;
+    this.totalUsers;
+    this.totalRooms; 
 
-    // this.bookings = []; //= user.guestBookings;
-    
-    // this.sortedBookings = [];
-
-    // this.amountSpent; //= data.ammountSpent;
     this.availableRooms;
   };
 
   sortByDate(userData, formatDate) {
       // console.log('userData @Guest.sortByDate(): ', userData);
     let pastBookings = [], upcomingBookings = [];
-    const currDate = new dayjs().format("YYYYMMDD");
-      // console.log('currDate @sortByDate(userData): ', currDate);
-
-    const date = this.date ? formatDate(this.date, "sort") : currDate;
-      // console.log('date @ sortByDate: ', date);
+    //const currDate = formatDate(new dayjs(), "sort");
+    const date = formatDate(this.date, "sort");
     userData.map(booking => {
-      formatDate(dayjs(booking.date),"sort") <= date ? pastBookings.push(booking) : upcomingBookings.push(booking);  
+      formatDate(booking.date, "sort") <= date ? pastBookings.push(booking) : upcomingBookings.push(booking);  
     }); 
-
     return [{ name: "upcoming-bookings", data: upcomingBookings}, {name: "past-bookings", data: pastBookings}];
-      // console.log('this @Guest.sortByDate: ', this);
-    //this.sortedBookings.upcomingBookings = upcomingBookings;
-    //this.sortedBookings.pastBookings = pastBookings; 
-    //return this.sortedBookings
   };
 
   sortChronically(data, formatDate) {
       // console.log('formatDate: ', formatDate);
     //return data.sort( (a,b) => dayjs(a.date).format("YYYYMMDD") - dayjs(b.date).format("YYYYMMDD") );
-    return data.sort( (a,b) => formatDate(a.date, "sort") - formatDate(b.date, "sort") )
-  }
-
-  addData(property, value) {
-      // console.log('this: ', this);
-      // console.log('property: ', property);
-      // console.log('value: ', value);
-    this[property] = value;
-    return this
-  }
-
-  filterData(data, property, value) {
-    this.availableRooms = data.filter(obj => obj[property] === value);
-      // console.log('this.availableRooms @GUEST.filterData(): ', this.availableRooms);
-    return this.availableRooms
-  }
-
-  getBookingID() {
-    return this.id
+    return data.sort( (a, b) => formatDate(a.date, "sort") - formatDate(b.date, "sort") )
   };
+
+}
+
+
+export default Guest
+
+  // addData(property, value) {
+  //     // console.log('this: ', this);
+  //     // console.log('property: ', property);
+  //     // console.log('value: ', value);
+  //   this[property] = value;
+  //   return this
+  // }
+
+  // filterData(data, property, value) {
+  //   this.availableRooms = data.filter(obj => obj[property] === value);
+  //     // console.log('this.availableRooms @GUEST.filterData(): ', this.availableRooms);
+  //   return this.availableRooms
+  // }
+
+  // getBookingID() {
+  //   return this.id
+  // };
    
   // sayMyName() {
   //     // console.log("NAME: ", this.name, "TYPE: ", this.type)
@@ -167,7 +159,3 @@ class Guest {
   //   return Math.round(sum);  
   // };
 
-}
-
-
-export default Guest

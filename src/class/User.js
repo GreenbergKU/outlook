@@ -1,12 +1,13 @@
-const dayjs = require('dayjs');
-//import dayjs from 'dayjs' // ES 2015
-dayjs().format();
+// const dayjs = require('dayjs');
+// //import dayjs from 'dayjs' // ES 2015
+// dayjs().format();
 
 class User {
-  constructor(username, password) {
+  constructor(username, password, date) {
     this.username = username;
     this.password = password;
-    this.date = new dayjs().format("MM/DD/YYYY");
+    this.date = date;
+    //new dayjs().format("YYYY/MM/DD");
 
     this.type;
     // this.labelInput = "username";

@@ -1,4 +1,4 @@
-function addBooking(newBooking, formatDate) { //loadPage, update, userX) {
+function addBooking(newBooking) { //loadPage, update, userX) {
   console.log('newBooking: ', newBooking);
   //let confCode;
   let promise = fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', {
@@ -12,20 +12,20 @@ function addBooking(newBooking, formatDate) { //loadPage, update, userX) {
     return response.json()
   })
   .catch(err => console.log('err.message: ', err.message));
-
   return promise
-    .then(json => {
-      //const confCode = json.id;
-      alert(`
-        YOUR RESERVATION HAS BEEN CONFIRMED!
+
+    // .then(json => {
+    //   //const confCode = json.id;
+    //   if(confirm(`
+    //     YOUR RESERVATION HAS BEEN CONFIRMED!
         
-        BOOKING CONFIRMATION (for your records):
+    //     BOOKING CONFIRMATION (for your records):
           
-        Check-in Date: ${formatDate(json.date, "numbers")}
-        Room Number: ${json.roomNumber}
-        Confirmation Code: ${json.id}
-      `);
-  });
+    //     Check-in Date: ${formatDate(json.date, "numbers")}
+    //     Room Number: ${json.roomNumber}
+    //     Confirmation Code: ${json.id}
+    //   `)) return loadPage();
+    // });
   // .then(json => console.log('Request success: ', json))
   // .catch(err => console.log('err.message: ', err.message))
   // .then(loadPage())
