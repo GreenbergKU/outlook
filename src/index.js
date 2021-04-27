@@ -96,7 +96,6 @@ function loadOutlook(toDo) {
   })
   .catch(err => console.log("err", err));
   return promise;
-  
   //console.log('hotelRepo: ', hotelRepo);
 };
 
@@ -181,15 +180,10 @@ function findInputs(form) {
 
 function validateInputs(inputs) {
   const isValid = inputs.arr.map(input => {
-    // console.log("input.value: ", input.value);
     if(!input.value) console.log('input.invalid = true: ', input.invalid = true);
-    //input.invalid = true;
-      // console.log('input: ', input);
     return input;
   })     
   .find(input => input.invalid === true);
-    // console.log('isValid: ', isValid);
-    // console.log('isValid === undefined: ', isValid === undefined); 
   return isValid === undefined;  
 };
 
@@ -198,25 +192,11 @@ function createUser(inputs) {
   return new User(inputs.username.value, inputs.password.value).formatUser();
 };
 
-// function validateLogin(user) {
-//   const allUsers = hotelRepo.totalUsers;
-//   return user.validateUser(inputs, allUsers);
-// };
-
 function differentiateUsers() {
-    // console.log('user@diff: ', user);
   const date = formatDate(new dayjs());
-    // console.log('date: ', date);
   user = user.type === "guest" ? createGuest("id", user.id, user.date) : createManager(hotelRepo, user.date); 
-  //console.log('user @differentiateUsers: ', user);
-  // addListeners(user);
-  // activateUserBtn(user); 
   return user
 };
-
-// function customizeUser(user) {  
-//   return user.type === "guest" ? customizeGuest(user) : customizeManager(user);
-// };
 
 function createManager(hotelRepo, date) {
   const manager = new Manager(hotelRepo, date);
@@ -224,7 +204,6 @@ function createManager(hotelRepo, date) {
 };
 
 function customizeManager(manager) {
-
   const USD = new Intl.NumberFormat('en-US', { 
     style: 'currency', 
     currency: 'USD' 
@@ -253,13 +232,7 @@ function customizeGuest(guest) {
     style: 'currency', 
     currency: 'USD' 
   });
-  // const guestBookings = () => {
-  //   const bookings = hotelRepo.findDataByProperty("bookingsData", "userID", guest.id)
-  //   .map(booking => booking.room = findRoom(booking.roomNumber));
-  //   return guest.sortChronically(bookings, formatDate);
-  // };
   const bookings = findBookings("userID", guest.id);
-
   guest.bookings = guest.sortChronically(bookings, formatDate);
   guest.sortedBookings = guest.sortByDate(guest.bookings, formatDate);
   guest.amountSpent = USD.format(hotelRepo.calculateAmountTotals(guest.bookings));
@@ -267,11 +240,6 @@ function customizeGuest(guest) {
     console.log("guest @customizeGuest", guest);
   return guest;
 };
-
-// function findBookingsByDate(user) {
-//   hotelRepo.findDataByProperty("bookingsData", "userID", guest.id);
-//   return guest.sortChronically(bookings, formatDate);
-// };
 
 function findBookings(property, value) {
   let bookings = hotelRepo.findDataByProperty("bookingsData", property, value)
@@ -292,10 +260,8 @@ function addListeners(user) {
     console.log('user.type @addListeners(): ', user.type);
   activateUserBtn(user);
   if (user.type === "manager") {
-      // console.log('user @addListeners(manager): ', user);
     activateUserSearchBtn(user);
   } else {
-      // console.log('user @addListeners(!manager): ', user);
     activateBookingBtns("booking-btn");
     activateRmDetailsBtns("booking-details-btn", user);
     activateFilter(user);
@@ -304,9 +270,6 @@ function addListeners(user) {
 }
 
 function activateUserBtn(user) {
-    //console.log('@activateUserBtn: ', user.subType);   
-  // const btnTxt = user.type === "guest" ? "find rooms" : "find guest";  
-  // renderOutlook.updateSearchBtn(btnTxt);
   const showSearchUser = (e) => showSearch(e);
   document.getElementById(`${user.type}-btn`).addEventListener("click", showSearchUser);
 }; 
@@ -348,31 +311,12 @@ function activateUserSearchBtn() {
   return user
 };
 
-  /* console.log('user.subType @activateUserBtn(): ', user.subType); 
-    const nameInput = document.getElementById("name");
-    const findGuestInput = (e) => {
-      e.preventDefault();
-      const nameInput = document.getElementById("name").value;
-      console.log('nameInput: ', nameInput);
-      return findGuestAdmin(nameInput);
-    };
-  */
-
 function findGuestAdmin(name) {
-  // console.log('@ findGuestAdmin(btn): ');
-  //e.preventDefault();
-  //const nameInput = document.getElementById("name");
   return createGuest("name", name, user.date);
-  //user.guestAdmin = customizeUser(guest);
-  //activateUserBtn(guestAdmin);
-  //displayGuestAdmin(guestAdmin);
-    // console.log('document.getElementById("new-reservation-btn"): ', document.getElementById("new-reservation-btn"));
-  //return guestAdmin
 }; 
 
 function displayGuestAdmin(user) {
   renderOutlook
-  //.assignBtnToUser(user)
   .displayGuest(user)
   .displayGuestHeader(user)
   .toggleDisplay("guest-page", "user-search", "guest-heading-sec", "guest-bookings", "guest-btn-sec");
@@ -384,18 +328,14 @@ function activateRoomSearchBtns(user) {
   const roomSearchBtn = document.getElementById("submit-room-search");
   roomSearchBtn.disabled = true;  
     // console.log('roomSearchBtn @activateUserBtn(): ', roomSearchBtn);   
-  
   const handleChangeDate = (e) => datePickerChange(e, user);
   inputDate.addEventListener("change", handleChangeDate);
-  
-  
   function datePickerChange(e, user) {
      console.log('user @actRmSearchBtns(datePicker): ', user); 
     const datePicked = dayjs(e.target.value);
     const validDate = formatDate(datePicked);
     datePicked.isValid ? findAvailableRooms(user, validDate, roomSearchBtn) : null;    
   };
-  
   roomSearchBtn.addEventListener("click", displayRooms);
 };
 
@@ -404,17 +344,11 @@ function displayBookings(user) {
   const getBtnClass = (type) => type === "upcoming-bookings" ? "btns-wrapper" : "btn-wrapper";
   user.sortedBookings.map(bookingTypes => {
     const bookingType = bookingTypes.name;
-      
     const bookingsList = document.getElementById(`${bookingType}-list`);
-      // console.log('bookingsList: ', bookingsList);
     bookingsList.innerHTML = "";
     const className = bookingType.slice(0, -1);
-    // console.log('bookingTypes.data: ', bookingTypes.data);
     num = 1;
     const btnClass = getBtnClass(bookingType);
-      // console.log('bookingType: ', bookingType);
-      // console.log('btnClass: ', btnClass);
-
     bookingTypes.data.map(booking => {
       booking.count = num;
       // booking.room = hotelRepo.findRoom("number", parseInt(booking.roomNumber))[0];
@@ -424,9 +358,6 @@ function displayBookings(user) {
       document.getElementById(`${className}-rmBooking${num}-btns`).classList.add(btnClass);
       num++;
     });
-    
-    // const hasData = checkForData(bookingTypes.data);
-    // !hasData ? adjustForNoData(bookingType, user.name) : adjustForData(bookingTypes.data, bookingType);
     dataCheck(bookingTypes.data, bookingType, user.name)
   });
   return user
@@ -486,20 +417,9 @@ function activateBookingBtns(btnID) {
     // console.log('btnID @activateBookingBtns(btnID): ', btnID);
   const btns = document.getElementsByClassName(btnID);
   assignBtnsInnerText(btns);
-
   Array.from(btns).map(btn => {
     btn.addEventListener("click", handleToggleBtn);
   });  
-    // (e) => {
-    //     // console.log('e.target @activateBookingBtns(btnID): ', e.target);
-    //     // console.log('e.target.nextElementSibling: ', e.target.nextElementSibling ? true : false);
-    //   const siblingElement = e.target.nextElementSibling ? e.target.nextElementSibling : e.target.previousElementSibling;
-    //     // console.log('siblingElement: ', siblingElement);
-    //   if (siblingElement.value === 'hide') {
-    //     displayInfo(siblingElement, "name")
-    //   };
-    //   displayInfo(btn, "name");
-    // });
 };
 
 const handleToggleBtn = (e) => {
@@ -532,21 +452,16 @@ function activateRoomBtn(userX, roomBtn) {
     //// console.log('roomBtn @activateRoomBtn(btn): ', roomBtn);
   renderOutlook.toggleDisplay(roomBtn.id);
   
-  
   const handleRoomBtn = (e) => {
     e.preventDefault();
     roomBtn.innerText === "CANCEL ROOM" ? cancelRoom(roomBtn, userX)
     : roomBtn.innerText === "BOOK ROOM" ? bookRoom(roomBtn, userX)
     : null 
   };
-  
   roomBtn.addEventListener("click", handleRoomBtn);
 };
 
 function displayInfo(element, property) {
-  // console.log('element: ', element);
-  // console.log('element.num: ', element.num);
-  // console.log('property: ', property);
   const btnID = element.name === "room-details" ? element.id.split("-").splice(0, 4).join("-") : element[property];
   // console.log('btnID: ', btnID);
   element.value = swapBtnValue(element.value); 
@@ -580,10 +495,6 @@ function activateRmDetailsBtns(btnName, userX) {
       console.log('e.target.attributes: ', e.target.attributes);
       console.log('e.target.attributes["date"]: ', e.target.attributes["date"]);
       console.log('e.target.attributes.date: ', e.target.attributes.date);
-
-    //const bkID = e.target.attributes.number.nodeValue;
-    //const bkDate = e.target.attributes.date.nodeValue;
-      //console.log('id @displayRmDetails: ', id);
     targetText.includes("CANCEL") ? cancelBooking(e.target, userX) : 
     targetText.includes("BOOK") ?  bookRoom(e.target, userX) :
     displayInfo(e.target, "id"); 
@@ -618,11 +529,6 @@ function activateFilterBtns(userX) {
   };
   filterBtn.addEventListener("click", displayFilters);
   
-  // (e) => {
-  //   e.preventDefault();
-  //   displayFilterSec(filterBtn, resetBtn);
-  // });
-  
   const resetFilters = (e) => {
     e.preventDefault();
     const roomSearchBtn = document.getElementById("submit-room-search");
@@ -631,11 +537,7 @@ function activateFilterBtns(userX) {
     findAvailableRooms(userX, userX.searchDate, roomSearchBtn);
   };
 
-  resetBtn.addEventListener("click", resetFilters);
-  // (e) => {
-  //   e.preventDefault();
-  //   resetRoomSearch("new-reservation")
-  // });   
+  resetBtn.addEventListener("click", resetFilters); 
 };
 
 function displayFilterSec() { 
@@ -657,8 +559,6 @@ function displayFilterSec() {
 
 function findAvailableRooms(userX, date, btn) {
     // console.log('@findAvailableRooms(user): ');
-    // console.log('user @findAvailableRooms(user): ', user);
-    // console.log('date @findAvailableRooms(user): ', date);
   userX.searchDate = date;
   btn.disabled = false;
   const roomsBooked = findBookings("date", date);
@@ -817,11 +717,6 @@ function clearRadios() {
   Array.from(checked).map(radio => radio.checked = false);
 };
 
-// function refreshDOM(userX) {
-//   console.log('user: ', user);
-//   console.log('userX: ', userX);
-
-// }
 
 function updateDOM(user) { 
   renderOutlook
@@ -832,3 +727,67 @@ function updateDOM(user) {
 };
 
 // HELPER FUNCTIONS
+
+
+// function loadOutlook() {
+//   fetchData()
+//   .then(data => data.bookings = makeCurrent(data.bookings))
+//      // ***** FOR TESTING PURPOSES ONLY *****
+//     //return data;
+  
+//   .then(data => {
+//     hotelRepo = new HotelData(data)
+//   })
+//   .then( console.log('hotelRepo: ', hotelRepo)
+//   )
+//   .catch(err => console.log("err", err));
+//   //console.log('hotelRepo: ', hotelRepo);
+// };
+
+
+// function validate(id, password) {
+//   return hotelRepo.userValidation(id, password);
+// }
+
+
+// function getInputs() {
+//   const nameInput = document.getElementById("name");
+//   const passwordInput = document.getElementById("password");
+//     // console.log("nameInput.value:", nameInput.value.toLowerCase());
+//   return  {
+//     nameInput: nameInput,
+//     name: `${nameInput.value.toLowerCase()}`,
+//     passwordInput: passwordInput, 
+//     password: `${passwordInput.value}`
+//   };
+// };
+
+// function validateForm(user) {
+//   //const validInputs = validateInputs(formInputs);
+//   //const validLogin = validateLogin(formInputs);
+//   //const allUsers = hotelRepo.totalUsers;
+//   return hotelRepo.validateLogin(user);
+//   //return !!validInputs && !!validLogin;
+// };
+// function validateLogin(user) {
+//   const allUsers = hotelRepo.totalUsers;
+//   return user.validateUser(inputs, allUsers);
+// };
+
+// function findBookingsByDate(user) {
+//   hotelRepo.findDataByProperty("bookingsData", "userID", guest.id);
+//   return guest.sortChronically(bookings, formatDate);
+// };
+
+  // const guestBookings = () => {
+  //   const bookings = hotelRepo.findDataByProperty("bookingsData", "userID", guest.id)
+  //   .map(booking => booking.room = findRoom(booking.roomNumber));
+  //   return guest.sortChronically(bookings, formatDate);
+  // };
+
+
+// function refreshDOM(userX) {
+//   console.log('user: ', user);
+//   console.log('userX: ', userX);
+
+// }
