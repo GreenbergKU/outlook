@@ -12,7 +12,7 @@
       <h1 id="header-text">Outlook Hotel</h1>
     </header>
 
-    <main>
+    <main id="main-page">
       <!-- */*/* MANAGER SECTION */*/* -->
       <section id="manager-page" class="page hidden initial-state">
         
@@ -22,9 +22,15 @@
         
         <!-- <h5>Manager Dashboard</h5> -->
         <article id="manager-dashboard" class="dashboard manager-dash">    
-          <div id="availableRoomsNum" class="daily-dash">available rooms:</div>
-          <div id="revenue" class="daily-dash">revenue:</div>
-          <div id="roomsOccupied" class="daily-dash">rooms occupied:</div>
+          <div id="availableRoomsNum" class="daily-dash">available rooms:
+            <h6 id="availableRoomsNum-txt" class="mDash-txt"></h6>
+          </div>
+          <div id="revenue" class="daily-dash">revenue:
+            <h6 id="revenue-txt" class="mDash-txt"></h6>
+          </div>
+          <div id="roomsOccupied" class="daily-dash">rooms occupied:
+            <h6 id="roomsOccupied-txt" class="mDash-txt"></h6>  
+          </div>
         </article>
 
         <!-- */*/* MANAGER's userSearchForm */*/* -->
@@ -252,7 +258,12 @@
         </form>
       </section>   
     </main>
-    <footer></footer>
+    <footer>
+      <div id="logout-btn-section" class="btn-wrapper hidden">
+        <button id="logout-btn"></button>
+      </div>
+      
+    </footer>
       <!-- Do not include the index.js or.bundle.js file here - it is done automatically by the webpack server -->
   </body>
   
