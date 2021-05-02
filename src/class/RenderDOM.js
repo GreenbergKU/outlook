@@ -1,29 +1,18 @@
 class RenderDOM {
-  // assignBtnToUser(user), updateSearchBtn(type),
-  assignBtnToUser(user) {
-      // console.log('user @btnDOM: ', user);
-    const userBtnSec = document.querySelector(".user-btn-sec");
-    userBtnSec.id = `${user.type}-btn-sec`;
-    const btnName = user.type === "guest" ? "new-reservation" : "guest-search";
-      // console.log('userBtnSec.id : ', userBtnSec.id );
-    const btnTxt = btnName.split("-").join(" ").toUpperCase();
-    userBtnSec.firstElementChild.innerText = btnTxt;
-    userBtnSec.firstElementChild.name = btnName;
-    return this
-  };
 
   displaySection(type) {
     // // console.log('user@DOM dispSec(): ', user);
-    //const sections = document.getElementsByTagName("section");
-    // document.querySelector(".user-btn-sec").id = `${type}-btn-sec`;
     document.querySelector("html").style.background = "silver";
-
     Array.from(document.getElementsByTagName("section")).map((sec) => {
-      return sec.id.includes(type) ? sec.classList.remove("hidden") : sec.classList.add("hidden")
+      sec.id.includes(type) ? sec.classList.remove("hidden") : sec.classList.add("hidden")
     });
-
-    return this
+    return this;
   };
+
+  displayUser(user) {
+    user.id ? this.displayGuest(user) : this.displayManager(user);
+    return this;
+  }
 
   displaySearchForm(target) {
       // console.log('target: ', target);
@@ -34,98 +23,40 @@ class RenderDOM {
     document.querySelector(`.${divID}`).classList.remove('hidden');
       //// console.log('document.getElementById(parentDiv.id): ', document.getElementById(parentDiv.id));
     document.getElementById(parentDiv.id).classList.add('hidden');
-    
     return this;
-  };
-
-  updateSearchBtn(type) {
-      // console.log('@DOM updateSearch type: ', type);
-    let search = type === "guest" ? "find rooms" : "find guest";
-      // console.log('@DOM updateSearch search: ', search);
-    // renderOutlook.updateSearchBtn(btnTxt);
-
-    const searchBtn = document.querySelector(".submit-user");    
-      // console.log('searchBtn: ', searchBtn);
-    searchBtn.value = search.toUpperCase();
-    search = search.split(" ").join("-");
-    const btnText = `${search}-btn`;
-    searchBtn.id = btnText;
-    searchBtn.classList.add("room-search-btn")
-    return this
-  };
-
-  customizeSection(user) {
-     console.log('user@DOM.custSec: ', user.type);
-     //console.log("userInputs: ", userInputs);
-      // // console.log('parentNode.innerHTML: ', userInputs.nameInput.parentNode.innerHTML);
-    const inputSec = document.getElementById("login-username");
-    // userInputs.nameInput.parentNode;
-     console.log('inputSec @DOM customizeSection():  ', inputSec);
-    const inputType = user.type === "guest" ? "date" : "text";
-      // // console.log('inputType: ', inputType);
-    const labelHTML = `
-      <label for="name" id="name-label" class="login-label txt-label manager guest">${user.labelInput}</label>
-    `;
-    const nameHTML = `
-      <input type=${inputType} id="name" class="txt-input" name=${user.type} placeholder="${user.placeHolder}" value="" required="">
-    `;
-    inputSec.innerHTML = `
-      ${labelHTML}
-      ${nameHTML}
-    `;
-    document.getElementById("user-page").name = user.btnChildText;
-    user.id ? this.displayGuest(user) : this.displayManager(user);
-    return this
   };
 
   displayManager(manager) {
     // console.log(' *** @displayManager(manager) *** ');
     const managerKids = document.getElementById("manager-dashboard").children;
-    let kidHTML = '';
-    Array.from(managerKids).map(kid => {
-      kidHTML = `
-        <h6 id="${kid.id}-txt" class="mDash-txt">${manager[kid.id]}</h6>
-      `;
-      kid.insertAdjacentHTML("beforeend", kidHTML);
-      //// console.log('kidHTML @displayManager: ', kidHTML);
+    Array.from(managerKids).map(kid => {  
+      kid.firstElementChild.innerText = manager[kid.id];
     });
   };
 
-  displayGuest(guest) {
+  displayGuest(user) {
     // console.log(' *** displayGuest(guest) *** ');
-      // console.log('guest: ', guest);
-      // console.log('guest-heading.innerHTML: ', document.getElementById("guest-heading").innerHTML);
-    document.getElementById("guest-heading").innerText = `WELCOME BACK ${guest.name.toUpperCase()}!`;
-      // console.log('guest-heading.innerHTML: ', document.getElementById("guest-heading").innerHTML);
-    //const bookings = document.getElementById("guest-bookings");
-    const amtSpentTxt = document.getElementById("amountSpent-txt");
-    amtSpentTxt.innerText = `${guest.amountSpent}`
-    //   <p id="amtSpent-txt" class="gDash-txt">${guest.amountSpent}</p>
-    // `;
-    // amtSpent.insertAdjacentHTML("beforeend", amtSpentHTML);
-    //this.displayBookings(guest.bookings, bookings);
-    return this
-  };
-
-  displayGuestHeader(guest) {
-    document.getElementById("guest-heading").innerHTML = `Guest Info For: ${guest.name.toUpperCase()}`;
+    const guest = user.guestAdmin ? user.guestAdmin : user;
+    const headerTxt = user.guestAdmin ? `Guest Info For: ${guest.name.toUpperCase()}` : `WELCOME BACK ${guest.name.toUpperCase()}!`;
+    document.getElementById("guest-heading").innerText = headerTxt;
+    document.getElementById("amountSpent-txt").innerText = `${guest.amountSpent}`
     return this
   };
 
   displayBookingsBtnTxt(btn) {
-      // // console.log("@DOM.dsplyBksBtnTxt(btn)");
-      // // console.log('btn @DOM.dsplyBksBtnTxt(btn): ', btn);
     const btnVal = btn.value;
     const btnTxt = btn.name.split("-").join(" ");
-      // // console.log('btnTxt: ', btnTxt);
     btn.innerText = `${btnVal} ${btnTxt}`.toUpperCase();
-    //btn.value = btnVal === "show" ? "hide" : "show";
-      // // console.log('btn.value: ', btn.value);
     return this
   };
 
+  // const assignRoomBtnTxt = (name) => {
+  //   return name === "upcoming-booking" ? "CANCEL ROOM" 
+  //   : name === "available-room" ? "BOOK ROOM" 
+  //   : null;
+  // };
+
   assignNoDataTxt(section, name) {
-      // console.log('section: ', section);
     const type = section.split("-").join(" ");
     document.getElementById(`no-${section}-text`).innerText = `There are no ${type} for ${name}.`
   }
@@ -133,17 +64,18 @@ class RenderDOM {
   designBookingHTML(booking, className, formatDate) { 
     const id = booking.id;
     const rmNum = booking.roomNumber;
-    const num = booking.count
+    const num = booking.count;
+    const btnClass = booking.btnClass;
     const date = formatDate(booking.date, 'numbers');
     return `
       <article id="booking-${num}" class="${className} booking" value="${id}" room=${rmNum}>
         <span id="booking${num}" class="details-wrapper">
           <h6 id="bk-date">check-in date: ${date}</h6>
-          <h6 id="bk-confCode">confirmation code: ${booking.id}</h6>
+          <h6 id="bk-confCode">confirmation code: ${id}</h6>
         </span>
         <div id="${className}-details-${num}" class="room-details hidden">
         </div>
-        <div id="${className}-rmBooking${num}-btns" class="rmBooking-btns-wrapper">
+        <div id="${className}-rmBooking${num}-btns" class="rmBooking-btns-wrapper ${btnClass}">
           <button id="${className}-details-${num}-btn" value="show" class="booking-details-btn toggle-btn" name="room-details" num=${num}>room details</button>
           <button id="cancel-btn-${num}" class="hidden booking-details-btn" number=${id} value="CANCEL BOOKING" date="${date}">CANCEL RESERVATION</button>
         </div>
@@ -153,15 +85,14 @@ class RenderDOM {
 
   designRoomHTML(room, className, num) {
       // // console.log('room @renderRoomHTML: ', room);
-      //// console.log('booking.room: ', booking.room);
     const imgType = room.roomType.split(" ")[0];
-    const imgFile = `../images/rooms/${imgType}.${room.bedSize}.${room.numBeds}`
+    const imgFile = `../images/${imgType}-${room.bedSize}-${room.numBeds}.jpg`
     const rmNum = room.number;
     return `
       <div class="rm-wrapper">
         <div class="rm-grid">
           <span id="img-wrapper-${num}" class="img-wrapper">
-            <img src="../images/${imgType}-${room.bedSize}-${room.numBeds}.jpg" alt="hotel room stock photo" id="room${num}-img" class="room-img"/>
+            <img src="${imgFile}" alt="hotel room stock photo" id="room${num}-img" class="room-img"/>
             <div id="${className}-btn-wrapper-${num}" class="btn-wrapper hidden">
               <button id="${className}-btn-${num}" class="hidden" name="${className}" value="${rmNum}">BOOK ROOM</button>
             </div>
@@ -187,8 +118,7 @@ class RenderDOM {
               </p>
             </span>
           </div>
-        </div>        
-         
+        </div>                 
       </div>  
     `;
   };
@@ -200,13 +130,11 @@ class RenderDOM {
   }
 
   renderRoomHTML(list, room) {
-      // console.log('list @renderRoomHTML: ', list);
     list.insertAdjacentHTML("beforeend", room); 
   };
 
   displayAdjustments(type) {  // `name`, `no-${type}`
       // console.log('@availableRoomsAdjustments(type): ', type);
-    //document.getElementById(type).classList.remove("hidden");
     document.getElementById(`no-${type}`).classList.add("hidden");
   };
 
@@ -224,7 +152,7 @@ class RenderDOM {
     document.getElementById(id).classList.remove("hidden");
     document.getElementById("available-rooms-header").innerText =`AVAILABLE ROOMS for ${date}`;
     document.getElementById("new-reservation").classList.add("new-reservation-grid");
-  }
+  };
   
   resetForm(formID) {
     //// console.log('formID: ', formID);
@@ -235,10 +163,66 @@ class RenderDOM {
 
 export default RenderDOM
 
+/*
 
-  /*
-    <button id="details-btn-20" name="btn-2" value="20" class="rm-details-btn hidden">ROOM DETAILS</button>
-  */
+  // displayGuestHeader(guest) {
+  //   document.getElementById("guest-heading").innerHTML = `Guest Info For: ${guest.name.toUpperCase()}`;
+  //   return this
+  // };
+
+  // assignBtnToUser(user), updateSearchBtn(type),
+  // assignBtnToUser(user) {
+  //     // console.log('user @btnDOM: ', user);
+  //   const userBtnSec = document.querySelector(".user-btn-sec");
+  //   userBtnSec.id = `${user.type}-btn-sec`;
+  //   const btnName = user.type === "guest" ? "new-reservation" : "guest-search";
+  //     // console.log('userBtnSec.id : ', userBtnSec.id );
+  //   const btnTxt = btnName.split("-").join(" ").toUpperCase();
+  //   userBtnSec.firstElementChild.innerText = btnTxt;
+  //   userBtnSec.firstElementChild.name = btnName;
+  //   return this
+  // };
+
+  // updateSearchBtn(type) {
+  //     // console.log('@DOM updateSearch type: ', type);
+  //   let search = type === "guest" ? "find rooms" : "find guest";
+  //     // console.log('@DOM updateSearch search: ', search);
+  //   // renderOutlook.updateSearchBtn(btnTxt);
+
+  //   const searchBtn = document.querySelector(".submit-user");    
+  //     // console.log('searchBtn: ', searchBtn);
+  //   searchBtn.value = search.toUpperCase();
+  //   search = search.split(" ").join("-");
+  //   const btnText = `${search}-btn`;
+  //   searchBtn.id = btnText;
+  //   searchBtn.classList.add("room-search-btn")
+  //   return this
+  // };
+
+  // customizeSection(user) {
+  //    console.log('user@DOM.custSec: ', user.type);
+     //console.log("userInputs: ", userInputs);
+      // // console.log('parentNode.innerHTML: ', userInputs.nameInput.parentNode.innerHTML);
+    // const inputSec = document.getElementById("login-username");
+    // // userInputs.nameInput.parentNode;
+    //  console.log('inputSec @DOM customizeSection():  ', inputSec);
+    // const inputType = user.type === "guest" ? "date" : "text";
+    //   // // console.log('inputType: ', inputType);
+    // const labelHTML = `
+    //   <label for="name" id="name-label" class="login-label txt-label manager guest">${user.labelInput}</label>
+    // `;
+    // const nameHTML = `
+    //   <input type=${inputType} id="name" class="txt-input" name=${user.type} placeholder="${user.placeHolder}" value="" required="">
+    // `;
+    // inputSec.innerHTML = `
+    //   ${labelHTML}
+    //   ${nameHTML}
+    // `;
+    //document.getElementById("user-page").name = user.btnChildText;
+    
+  //};
+  
+  //  <button id="details-btn-20" name="btn-2" value="20" class="rm-details-btn hidden">ROOM DETAILS</button>
 
   // renderBookingsHTML(guest) {
   //   //// console.log('bookings @renderBookingsHTML(user): ', bookings);
@@ -278,7 +262,6 @@ export default RenderDOM
   //     });
   //   });
   // };
-
 
 //   renderRoomsHTML(data) {
 //       // console.log('user @renderRoomsHTML: ', user);
@@ -330,9 +313,6 @@ export default RenderDOM
 //   };
 // };
 
-
-
-
   //  <div id="bookingList-btns">
   //   <button id="details-btn-${room.roomNumber}" name="details-btn-${num}" value="${room.roomNumber}" class="rm-details-btn">ROOM DETAILS</button>
   //   <button id="cancel-btn-${room.roomNumber}" name="cancel-btn-${num}" value="${room.roomNumber}" class="rm-cancelation-btn">CANCEL RESERVATION</button>
@@ -368,14 +348,13 @@ export default RenderDOM
   //   document.getElementById("available-rooms").classList.remove("hidden");
   // }
 
-  
-
   // toggleBookings(btn) {
   //   document.getElementById("past-bookings").classList.toggle("hidden");
   //     // console.log('btn.value (b4): ', btn.value);
   //   return btn.value = btn.value === "true" ? "false" : "true";
   // };
-/*
+
+
   <div id="details-17" class="hidden">ROOM DETAILS</div> 
   
   <button id="bookingBtn-25" name="btn-17" value="17" class="rm-details-btn">ROOM DETAILS</button>

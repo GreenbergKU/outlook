@@ -3,7 +3,7 @@ class Manager {
     this.name = "Manager";
     this.date = date;
     this.type = "manager";
-    this.guestAdmin;
+    //this.guestAdmin = null;
 
     this.btnChildText = "guest-search";
     this.searchBtn = "find guest";
