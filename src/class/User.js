@@ -5,27 +5,30 @@
 class User {
   constructor(date, username, password) {
     this.username = username;
-    this.password = password ? password : null;
+    this.password = password ? password.toLowerCase() : null;
     this.date = date;
     //new dayjs().format("YYYY/MM/DD");
-
-    this.type;
+    //this.type;
     // this.labelInput = "username";
     // this.input = "submit";
     // this.placeHolder = "customer00";
-
-    this.id;
+    //this.id;
   };
 
   formatUser() {
     // console.log('this.username.includes("customer"): ', this.username.includes('customer'));
-    if (this.username.includes('customer')) {
-      this.id = parseInt(this.username.split('customer')[1]),
-      this.username = 'guest';
-    };
-    this.type = this.username;
+    if (this.username.toLowerCase() === 'manager') {
+      this.username = this.username.toLowerCase();
+      this.type = 'manager';
+    }
+    else if (this.username.toLowerCase().includes('customer')) {
+      this.username = this.username.toLowerCase(); 
+      this.id = parseInt(this.username.split('customer')[1]);
+      this.type = 'guest';
+    } else this.type = 'guest'
+    
     //) : null;
-    //// console.log('this @formatUser: ', this);  
+    //// console.log('this @formatUser: ', this); 
     return this;
   }
 
@@ -43,43 +46,68 @@ class User {
   //   return validPassword && validUsername;
   // };
 
+  // validation(user, hotelRepo) {
+  //   let isValid = false, found;
+  //   // validation: stage I for manager & guest
+  //   if (user.password && user.password != "overlook2020") {
+  //       console.log('user.password: ', user.password);
+  //     alert("invalid password!");
+  //     return isValid;
+  //   }
+  //   // validation: stage II for manager
+  //   if (user.username === "manager") return isValid = true  
+  //   // validation: stage I for guestAdmin
+  //   if (!user.password && user.username.split(" ").length != 2) {
+  //     alert("First and last name is required!")
+  //     return isValid;
+  //   }
+  //   // validation: stage II for guestAdmin
+  //   if (!user.password) {
+  //     found = hotelRepo.usersData.find(userData => userData.name === user.username);
+  //     return !found ? alert("user not found, check spelling and try again!") : isValid = true;
+  //   }
+  //   // validation: stage II for guest
+  //   if (user.id && typeof(user.id) === "number") {
+  //     found = hotelRepo.usersData.find(userData => userData.id === user.id);
+  //     return !found ? alert("invalid username!") : isValid = true;
+  //   } 
+  //   alert("invalid login");
+  //   return isValid;
+  // };
+
   validation(user, hotelRepo) {
     let isValid = false, found;
-      console.log('user.password && user.password != "overlook2020": ', user.password && user.password != "overlook2020");
     // validation: stage I for manager & guest
-    if (user.password && user.password.toLowerCase() != "overlook2020") {
+    if (user.password && user.password != "overlook2020") {
         console.log('user.password: ', user.password);
-      alert("invalid password!");
-      return isValid;
-    };
-      console.log('user.username && user.username === "manager": ', user.username && user.username === "manager"); 
+      return "invalid password!";
+      //return isValid;
+    }
     // validation: stage II for manager
-    if (user.username && user.username.toLowerCase() === "manager") return isValid = true;  
+    if (user.username === "manager") return isValid = true  
     // validation: stage I for guestAdmin
     if (!user.password && user.username.split(" ").length != 2) {
-        console.log("user.username: ", user.username);
-      alert("First and last name is required!")
-      return isValid;
-    };
+      return "First and last name is required!"
+      //return isValid;
+    }
     // validation: stage II for guestAdmin
     if (!user.password) {
-        console.log("user.username: ", user.username);
       found = hotelRepo.usersData.find(userData => userData.name === user.username);
-      return !found ? alert("user not found, check spelling and try again!") : isValid = true;
-    };
+      return !found ? "user not found, check spelling and try again!" : isValid = true;
+    }
     // validation: stage II for guest
     if (user.id && typeof(user.id) === "number") {
       found = hotelRepo.usersData.find(userData => userData.id === user.id);
-        console.log('found: ', found);
-      return !found ? alert("invalid username!") : isValid = true;
-    } else alert("invalid login");
-    console.log("isValid: ", isValid)
-    return isValid;
+      return !found ? "invalid username!" : isValid = true;
+    } 
+    return "invalid login";
+    //return isValid;
   }
 
-  findGuestByProperty(property, value) {
-    return this.findDataByProperty("usersData", property, value)[0];
-  }
+
+  // findGuestByProperty(property, value) {
+  //   return this.findDataByProperty("usersData", property, value)[0];
+  // }
 
 
   // validation(inputs, userNum, user) {

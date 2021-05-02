@@ -10,14 +10,11 @@ class HotelData {
     console.log('data @HotelData: ', data);
 
     this.usersData = data.usersData;
-      console.log('this.usersData: ', this.usersData);
-    
+      console.log('this.usersData: ', this.usersData);  
     this.bookingsData = data.bookingsData;
-      console.log('this.bookingsData: ', this.bookingsData);
-    
+      console.log('this.bookingsData: ', this.bookingsData);   
     this.roomsData = data.roomsData;
       console.log('this.roomsData: ', this.roomsData);
-
     this.totalUsers = this.usersData.length;
     this.totalRooms = this.roomsData.length;
   };
