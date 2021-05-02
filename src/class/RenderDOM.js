@@ -2,7 +2,7 @@ class RenderDOM {
 
   displaySection(type) {
     // // console.log('user@DOM dispSec(): ', user);
-    document.querySelector("html").style.background = "silver";
+    document.querySelector("html").classList.add("silver");
     Array.from(document.getElementsByTagName("section")).map((sec) => {
       sec.id.includes(type) ? sec.classList.remove("hidden") : sec.classList.add("hidden")
     });
@@ -10,6 +10,8 @@ class RenderDOM {
   };
 
   displayUser(user) {
+    document.getElementById("nav").classList.remove("hidden");
+    this.resetForm("login");
     user.id ? this.displayGuest(user) : this.displayManager(user);
     return this;
   }

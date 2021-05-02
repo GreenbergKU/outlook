@@ -73,6 +73,7 @@ class User {
         console.log('found: ', found);
       return !found ? alert("invalid username!") : isValid = true;
     } else alert("invalid login");
+    console.log("isValid: ", isValid)
     return isValid;
   }
 

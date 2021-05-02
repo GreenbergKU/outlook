@@ -145,12 +145,13 @@ function getLogin(e) {
     user = createUser(userInputs, date),
     user.isValid = validateUser(user)
   ) : alert("All Fields Are Required!");
-  user = checkValidity(user);
+  user = user ? checkValidity(user) : null;
+  console.log(user ? true:false);
   if (user) {
     addListeners(user);
     updateDOM();
     return user
-  } else null;      
+  };     
 };
 
 function validateUser(user) {//*global switch>User
@@ -175,10 +176,12 @@ function findInputs(form) {//*global
 
 function validateInputs(inputs) {//*global
   const isValid = inputs.arr.map(input => {
+    
     if(!input.value) console.log('input.invalid = true: ', input.invalid = true);
     return input;
   })     
   .find(input => input.invalid === true);
+    console.log('isValid: ', isValid === undefined);
   return isValid === undefined;  
 };
 
@@ -191,9 +194,9 @@ function createUser(inputs, date) { //*local
 
 function checkValidity(user) {//*global
   console.log('user: ', user);
-  return user.isValid ? 
-    !user.password ? findGuestAdmin(user) : differentiateUsers()
-  : null 
+  if (user.isValid) {
+    return !user.password ? findGuestAdmin(user) : differentiateUsers()
+  }
 };
 
 function differentiateUsers() {//*global
@@ -225,10 +228,8 @@ function customizeGuest(guest) {//*local switch>Guest
   guest.bookings = guest.sortChronically(bookings, formatDate);
   guest.sortedBookings = guest.sortByDate(guest.bookings, formatDate);
   guest.amountSpent = USD.format(hotelRepo.calculateAmountTotals(guest.bookings));
-  const bookingsBtns = displayBookings(guest);
-  console.log('bookingsBtns: ', bookingsBtns);
-
-  
+  displayBookings(guest);
+  //console.log('bookingsBtns: ', bookingsBtns);
   //activateRmDetailsBtns("booking-details-btn", guest);
   //  console.log("guest @customizeGuest", guest);
   return guest;
@@ -257,6 +258,7 @@ function customizeManager(manager) {//*local switch>Guest
 
 function addListeners(user) {//*global
     console.log('user.type @addListeners(): ', user.type);
+  activateLogOut();
   activateDisplySearchForm(user);
   if (user.type === "manager") {
     activateManagerSearch(user);
@@ -266,6 +268,17 @@ function addListeners(user) {//*global
     activateFilter(user);
     activateGuestSearchForm(user);
   };
+}
+
+function activateLogOut() {
+  document.getElementById("logout-btn").addEventListener("click", function logout(e) {
+    e.preventDefault();
+    refreshSite("logout");
+    let inputs = findInputs(document.getElementById("login"));
+    inputs.username.placeholder = inputs.username.placeholder;
+    
+  })
+  
 }
 
 function activateDisplySearchForm(user) {//*local
@@ -440,23 +453,22 @@ const findRoom = (roomNum) => {//*global
 function displayBookings(user) {//*global
   let bookingHTML, num, roomHTML;
   const getBtnClass = (type) => type === "upcoming-bookings" ? "btns-wrapper" : "btn-wrapper";
-  user.sortedBookings.map(bookingTypes => {
+  return user.sortedBookings.map(bookingTypes => {
     const bookingType = bookingTypes.name;
     const bookingsList = document.getElementById(`${bookingType}-list`);
     bookingsList.innerHTML = "";
     const className = bookingType.slice(0, -1);
     num = 1;
     const btnClass = getBtnClass(bookingType);
-    if (dataCheck(bookingTypes.data, bookingType, user.name)) {
-      bookingTypes.data.map(booking => {
-        booking.count = num;
-        booking.btnClass = btnClass;
-        bookingHTML = renderOutlook.designBookingHTML(booking, className, formatDate);
-        roomHTML = renderOutlook.designRoomHTML(booking.room, className, booking.count);
-        renderOutlook.renderBookingHTML(bookingsList, bookingHTML, roomHTML);
-        num++;
-      });
-    };
+    bookingTypes.data.map(booking => {
+      booking.count = num;
+      booking.btnClass = btnClass;
+      bookingHTML = renderOutlook.designBookingHTML(booking, className, formatDate);
+      roomHTML = renderOutlook.designRoomHTML(booking.room, className, booking.count);
+      renderOutlook.renderBookingHTML(bookingsList, bookingHTML, roomHTML);
+      num++;
+    });
+    dataCheck(bookingTypes.data, bookingType, user.name);
   });
 };
 
@@ -506,7 +518,7 @@ function dataCheck(data, type, str) {//*global
 // };
 
 function adjustForData(data, type) {//*local 
-    // console.log('type @adjustForData: ', type);
+    console.log('type @adjustForData: ', type);
     // console.log('data @adjustForData: ', data);
   renderOutlook.toggleDisplay(`no-${type}`);
   type === "upcoming-bookings" ? 
@@ -549,9 +561,7 @@ function activateRmDetailsBtns(btnName, userX) {
   const btns = document.getElementsByClassName(btnName); 
     // console.log('btns: ', btns);
   assignBtnsInnerText(btns);
-
-  const handleRmDetailsBtn = (e) => displayRmDetails(e, userX);
-  
+  const handleRmDetailsBtn = (e) => displayRmDetails(e, userX); 
   const displayRmDetails = (e, userX) => {
       //console.log('userX: ', userX);
       console.log('USER-X @displayRmDetails:: ', userX);
@@ -566,12 +576,10 @@ function activateRmDetailsBtns(btnName, userX) {
     targetText.includes("BOOK") ?  bookRoom(e.target, userX) :
     displayInfo(e.target, "id"); 
   };  
-
   Array.from(btns).map(btn => {
     btn.addEventListener("click", handleRmDetailsBtn); 
   });
 }; 
-
 
 function activateRoomBtns(userX, btns) {
   //// console.log('roomBtn @activateRoomBtn(btn): ', roomBtn);
@@ -621,7 +629,6 @@ function filterAvailableRooms(userX) {
   const rmBtns = designRooms(userX, filteredRooms, "available-room");
   customizeRoomBtns(rmBtns);
   activateRoomBtns(userX, rmBtns); 
-  
   const wordsDate = formatDate(userX.searchDate, "words");
     // console.log('wordsDate: ', wordsDate);
   dataCheck(filteredRooms, "available-rooms", wordsDate);
@@ -697,12 +704,19 @@ function cancelBooking(btn, userX) {
 };
 
 function refreshSite(logout) {//*global
+  const userPage = document.getElementById("user-page");
   let types = [];
-  types.push(!logout ? user.guestAdmin ? ("manager", "guest") : "guest": "main");
+  types.push(!logout ? user.guestAdmin ? ("manager", "guest") : "guest" : "body");
   console.log('types: ', types);
   resetPage(types);
-  user = updateData(userX);
-  updateDOM();
+ !logout ? (
+    user = updateData(),
+    updateDOM()
+  ) : (
+    document.querySelector("html").classList.remove("silver"),
+    Array.from(userPage.firstElementChild.children).map(sec => sec.classList.remove("hidden")),
+    userPage.classList.remove("hidden")
+  )
     console.log('user @refreshSite: ', user);
   return user
 };
@@ -734,9 +748,9 @@ function resetPage(types) {//*local
   document.getElementById("new-reservation").classList.remove("new-reservation-grid");
 };
 
-function updateData(userX) { 
+function updateData() { 
   const updatedUser = differentiateUsers(); //creates new guest/managher
-  user.name != userX.name ? updatedUser.guestAdmin = findGuestAdmin(userX) : null;
+  user.guestAdmin ? updatedUser.guestAdmin = findGuestAdmin(userX) : null;
   return updatedUser
 };
 

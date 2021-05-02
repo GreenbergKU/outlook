@@ -7,8 +7,14 @@
     <!-- <link rel="stylesheet" type="text/css" href="./css/base.css"/> -->
     <title>Outlook Hotel</title>
   </head>
-  <body id="body">
-    <header> 
+  <body id="body-page">
+    <nav id="nav" class="hidden initial-state">
+      <section id="logout-btn-section">
+        <button id="logout-btn">LOGOUT</button>
+      </section>
+    </nav>
+
+    <header>  
       <h1 id="header-text">Outlook Hotel</h1>
     </header>
 
@@ -256,12 +262,12 @@
           </fieldset>
 
         </form>
-      </section>   
+      </section>
+      <!-- */*/* LOGOUT (logout-btn) BUTTON */*/* -->
+  
     </main>
     <footer>
-      <div id="logout-btn-section" class="btn-wrapper hidden">
-        <button id="logout-btn"></button>
-      </div>
+      
       
     </footer>
       <!-- Do not include the index.js or.bundle.js file here - it is done automatically by the webpack server -->
