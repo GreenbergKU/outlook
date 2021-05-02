@@ -145,7 +145,7 @@ function getLogin(e) {
     user = createUser(userInputs, date),
     user.isValid = validateUser(user)
   ) : alert("All Fields Are Required!");
-  user = user ? checkValidity(user) : null;
+  user = checkValidity(user);
   console.log(user ? true:false);
   if (user) {
     addListeners(user);
@@ -193,10 +193,12 @@ function createUser(inputs, date) { //*local
 };
 
 function checkValidity(user) {//*global
-  console.log('user: ', user);
-  if (user.isValid) {
-    return !user.password ? findGuestAdmin(user) : differentiateUsers()
-  }
+  let validUser;
+  console.log('user.isValid: ', user.isValid);
+  user.isValid === true ? 
+    validUser = !user.password ? findGuestAdmin(user) : differentiateUsers() 
+  : alert(user.isValid)
+  return validUser
 };
 
 function differentiateUsers() {//*global
@@ -308,7 +310,7 @@ function activateManagerSearch() {//*local
     const validInputs = validateInputs(userInputs); 
       console.log('validInputs: ', validInputs);
     validInputs ? (
-      searchName = createUser(userInputs, date),
+      searchName = createUser(userInputs, user.date),
       //searchName.fullName = userInputs.fullName.value,
       // searchName.name = userInputs.fullName.value,
         console.log('searchName: ', searchName),
@@ -316,7 +318,7 @@ function activateManagerSearch() {//*local
       searchName.isValid = validateUser(searchName),
       //searchName.isValid = validate(searchName.id, searchName.password),
         console.log('searchName.isValid: ', searchName.isValid)
-      ) : alert("full name is required!");
+      ) : alert("a full name is required!");
     user.guestAdmin = checkValidity(searchName);
     console.log('user.guestAdmin: ', user.guestAdmin);
     if (user.guestAdmin) {
