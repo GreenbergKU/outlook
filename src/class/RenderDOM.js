@@ -50,6 +50,12 @@ class RenderDOM {
     return this
   };
 
+  // const assignRoomBtnTxt = (name) => {
+  //   return name === "upcoming-booking" ? "CANCEL ROOM" 
+  //   : name === "available-room" ? "BOOK ROOM" 
+  //   : null;
+  // };
+
   assignNoDataTxt(section, name) {
     const type = section.split("-").join(" ");
     document.getElementById(`no-${section}-text`).innerText = `There are no ${type} for ${name}.`
@@ -59,6 +65,7 @@ class RenderDOM {
     const id = booking.id;
     const rmNum = booking.roomNumber;
     const num = booking.count;
+    const btnClass = booking.btnClass;
     const date = formatDate(booking.date, 'numbers');
     return `
       <article id="booking-${num}" class="${className} booking" value="${id}" room=${rmNum}>
@@ -68,7 +75,7 @@ class RenderDOM {
         </span>
         <div id="${className}-details-${num}" class="room-details hidden">
         </div>
-        <div id="${className}-rmBooking${num}-btns" class="rmBooking-btns-wrapper">
+        <div id="${className}-rmBooking${num}-btns" class="rmBooking-btns-wrapper ${btnClass}">
           <button id="${className}-details-${num}-btn" value="show" class="booking-details-btn toggle-btn" name="room-details" num=${num}>room details</button>
           <button id="cancel-btn-${num}" class="hidden booking-details-btn" number=${id} value="CANCEL BOOKING" date="${date}">CANCEL RESERVATION</button>
         </div>
