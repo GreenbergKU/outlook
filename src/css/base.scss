@@ -90,15 +90,38 @@ p {
   font-size: 12px;
 }
 
-
 button, input[type="submit"] {
   display: grid;
   align-content: center;
   padding: .5em;
+  min-width: max-content;
+  // max-width: 10vw;
   // margin: 5px 0;
   // max-width: max-content;
   // min-width: min-content;
   // padding: 2px;
+}
+
+#past-bookings-btn {
+  padding-left: 2em;
+  padding-right: 2em;
+}
+
+#nav {
+  width: 100%;
+  margin-top: 3vh;
+}
+
+#logout-btn {
+  background: transparent;
+  font-weight: bold;
+  color: gray;
+}
+
+#logout-btn-section {
+  display: grid;
+  justify-content: right;
+  width: 100%;
 }
 
 .btn-wrapper {
@@ -109,10 +132,17 @@ button, input[type="submit"] {
 }
 
 .btns-wrapper {
-  display: flex;
+  display: grid;
+  grid-template-columns: 45% 45%;
+  justify-items: center;
   justify-content: space-between;
   width: 100%;
   align-items: end;
+  //display: flex;
+}
+
+.user-btn-sec {
+  height: 10vh;
 }
 
 .form-wrapper {
@@ -148,7 +178,7 @@ label {
   display: grid;
   border: 3px black solid;
   justify-items: center;
-  width: 80vw;
+  width: 85vw;
   justify-self: center;
   // padding: 2%;
 }
@@ -158,16 +188,18 @@ label {
 }
 
 .guest-dash {
-  padding: 5%;
+  padding-top: 3%;
   padding-bottom: 0;
 }
+
 .no-bookings {
   padding: 10%;
 }
 
 .rmBooking-btns-wrapper {
   //justify-content: space-around;
-  width: 65%;
+  /* width: 65%; */
+  width: 90%;
   justify-self: center;
 }
 
@@ -222,6 +254,7 @@ label {
 
 .booking-details-btn {
   margin-bottom: 0;
+  padding: .2em;
 }
 
 
@@ -449,3 +482,9 @@ label {
 .hidden {
   display: none;
 }
+
+.silver {
+  background: silver;
+}
+
+

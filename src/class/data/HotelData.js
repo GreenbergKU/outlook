@@ -22,33 +22,33 @@ class HotelData {
     this.totalRooms = this.roomsData.length;
   };
 
-  validateUser(user) {
-    let isValid = false, found;
-      console.log('user.password && user.password != "overlook2020": ', user.password && user.password != "overlook2020");
-    if (user.password && user.password.toLowerCase() != "overlook2020") {
-        console.log('user.password: ', user.password);
-      alert("invalid password!");
-      return isValid;
-    };
-      console.log('user.username && user.username === "manager": ', user.username && user.username === "manager"); 
-    if (user.username && user.username.toLowerCase() === "manager") return isValid = true;  
-    if (user.fullName && user.fullName.split(" ").length != 2) {
-        console.log("user.fullName: ", user.fullName);
-      alert("First and last name is required!")
-      return isValid;
-    };
-    if (user.fullName) {
-        console.log("user.fullName: ", user.fullName);
-      found = this.usersData.find(userData => userData.name === user.fullName);
-      return !found ? alert("user not found, check spelling and try again!") : isValid = true;
-    };
-    if (user.id && typeof(user.id) === "number") {
-      found = this.usersData.find(userData => userData.id === user.id);
-        console.log('found: ', found);
-      return !found ? alert("invalid username!") : isValid = true;
-    } else alert("invalid login");
-    return isValid;
-  }
+  // validateUser(user) {
+  //   let isValid = false, found;
+  //     console.log('user.password && user.password != "overlook2020": ', user.password && user.password != "overlook2020");
+  //   if (user.password && user.password.toLowerCase() != "overlook2020") {
+  //       console.log('user.password: ', user.password);
+  //     alert("invalid password!");
+  //     return isValid;
+  //   };
+  //     console.log('user.username && user.username === "manager": ', user.username && user.username === "manager"); 
+  //   if (user.username && user.username.toLowerCase() === "manager") return isValid = true;  
+  //   if (user.fullName && user.fullName.split(" ").length != 2) {
+  //       console.log("user.fullName: ", user.fullName);
+  //     alert("First and last name is required!")
+  //     return isValid;
+  //   };
+  //   if (user.fullName) {
+  //       console.log("user.fullName: ", user.fullName);
+  //     found = this.usersData.find(userData => userData.name === user.fullName);
+  //     return !found ? alert("user not found, check spelling and try again!") : isValid = true;
+  //   };
+  //   if (user.id && typeof(user.id) === "number") {
+  //     found = this.usersData.find(userData => userData.id === user.id);
+  //       console.log('found: ', found);
+  //     return !found ? alert("invalid username!") : isValid = true;
+  //   } else alert("invalid login");
+  //   return isValid;
+  // }
 
   findGuestByProperty(property, value) {
     return this.findDataByProperty("usersData", property, value)[0];
