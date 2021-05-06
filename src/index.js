@@ -137,16 +137,17 @@ function activateLogin() {
 
 function getLogin(e) { 
   e.preventDefault();
-  const date = setDate();
+  //const date = setDate();
   const form = document.getElementById("login");
   const userInputs = findInputs(form);
   const validInputs = validateInputs(userInputs); 
   validInputs ? (
-    user = createUser(userInputs, date),
-    user.isValid = validateUser(user)
+    user = createUser(userInputs),
+    user.isValid = validateUser(user),
+    user = checkValidity(user)
   ) : alert("All Fields Are Required!");
-  user = checkValidity(user);
-  console.log(user ? true:false);
+  // user = checkValidity(user);
+  // console.log(user ? true:false);
   if (user) {
     addListeners(user);
     updateDOM();
@@ -177,7 +178,7 @@ function findInputs(form) {//*global
 function validateInputs(inputs) {//*global
   const isValid = inputs.arr.map(input => {
     
-    if(!input.value) console.log('input.invalid = true: ', input.invalid = true);
+    if(!input.value) input.invalid = true;
     return input;
   })     
   .find(input => input.invalid === true);
@@ -185,11 +186,11 @@ function validateInputs(inputs) {//*global
   return isValid === undefined;  
 };
 
-function createUser(inputs, date) { //*local
+function createUser(inputs) { //*local
    console.log('inputs: ', inputs, inputs.username, inputs.password);
    const nameInput = inputs.arr.find(input => input.id.toLowerCase().includes("name"));
    console.log('nameInput: ', nameInput);
-  return inputs.password ? new User(date, nameInput.value, inputs.password.value).formatUser() : new User(date, nameInput.value).formatUser();
+  return inputs.password ? new User(nameInput.value, inputs.password.value).formatUser() : new User(nameInput.value).formatUser();
 };
 
 function checkValidity(user) {//*global
@@ -197,26 +198,26 @@ function checkValidity(user) {//*global
   console.log('user.isValid: ', user.isValid);
   user.isValid === true ? 
     validUser = !user.password ? findGuestAdmin(user) : differentiateUsers() 
-  : alert(user.isValid)
-  return validUser
+  : alert(user.isValid);
+  return validUser;
 };
 
 function differentiateUsers() {//*global
-  // const date = formatDate(new dayjs());
-  user = user.type === "guest" ? createGuest(user, "id") : createManager(hotelRepo, user.date); 
+  const date = setDate();
+  user = user.type === "guest" ? createGuest(user, "id", date) : createManager(hotelRepo, date); 
   return user
 };
 
-function findGuestAdmin(user) {//*global
-  user.name = user.username;
-  console.log('user.name: ', user.name);
-  return createGuest(user, "name"); // user.fullName, user.date
+function findGuestAdmin(userX) {//*global
+  userX.name = userX.username;
+  console.log('userX.name: ', userX.name);
+  return createGuest(userX, "name", user.date); // user.fullName, user.date
 };
 
-function createGuest(user, property) {//*global
+function createGuest(user, property, date) {//*global
   const userData = hotelRepo.findDataByProperty("usersData", property, user[property])[0];
     console.log('userData @createGuest: ', userData);
-  const guest = new Guest(userData, user.date);
+  const guest = new Guest(userData, date);
     console.log('guest @createGuest: ', guest);
   return customizeGuest(guest);
 };
@@ -231,18 +232,15 @@ function customizeGuest(guest) {//*local switch>Guest
   guest.sortedBookings = guest.sortByDate(guest.bookings, formatDate);
   guest.amountSpent = USD.format(hotelRepo.calculateAmountTotals(guest.bookings));
   displayBookings(guest);
-  //console.log('bookingsBtns: ', bookingsBtns);
-  //activateRmDetailsBtns("booking-details-btn", guest);
-  //  console.log("guest @customizeGuest", guest);
   return guest;
 };
 
-function createManager(hotelRepo, date) {//*global
-  const manager = new Manager(hotelRepo, date);
-  return customizeManager(manager);
+function createManager(date) {//*global
+  const manager = new Manager(date);
+  return customizeManager(manager, hotelRepo);
 };
 
-function customizeManager(manager) {//*local switch>Guest
+function customizeManager(manager, data) {//*local switch>Guest
   const USD = new Intl.NumberFormat('en-US', { 
     style: 'currency', 
     currency: 'USD' 
@@ -250,6 +248,8 @@ function customizeManager(manager) {//*local switch>Guest
   const percent = new Intl.NumberFormat('en-US' , {
     style: 'percent'
   });
+  manager.totalUsers = data.totalUsers;
+  manager.totalRooms = data.totalRooms;
   const bookedRooms = findBookings("date", manager.date); 
   manager.roomsAvailable = hotelRepo.findAvailableRooms(bookedRooms);
   manager.availableRoomsNum = manager.roomsAvailable.length;
@@ -263,7 +263,7 @@ function addListeners(user) {//*global
   activateLogOut();
   activateDisplySearchForm(user);
   if (user.type === "manager") {
-    activateManagerSearch(user);
+    activateManagerSearch();
   } else {
     activateBookingBtns("booking-btn");
     activateRmDetailsBtns("booking-details-btn", user);
@@ -276,11 +276,9 @@ function activateLogOut() {
   document.getElementById("logout-btn").addEventListener("click", function logout(e) {
     e.preventDefault();
     refreshSite("logout");
-    let inputs = findInputs(document.getElementById("login"));
-    inputs.username.placeholder = inputs.username.placeholder;
-    
+    //let inputs = findInputs(document.getElementById("login"));
+    //inputs.username.placeholder = inputs.username.placeholder;
   })
-  
 }
 
 function activateDisplySearchForm(user) {//*local
@@ -310,7 +308,7 @@ function activateManagerSearch() {//*local
     const validInputs = validateInputs(userInputs); 
       console.log('validInputs: ', validInputs);
     validInputs ? (
-      searchName = createUser(userInputs, user.date),
+      searchName = createUser(userInputs),
       //searchName.fullName = userInputs.fullName.value,
       // searchName.name = userInputs.fullName.value,
         console.log('searchName: ', searchName),
@@ -740,7 +738,11 @@ function resetPage(types) {//*local
     const noDataTexts = Array.from(page.querySelectorAll(".no-data-text"));
     noDataTexts.map(noData => noData.classList.remove("hidden"));
   });
-  renderOutlook.resetForm("room-search-form"); 
+  const allFormIDs = Array.from(document.getElementsByTagName("form"))
+  .map(form => form.id);
+  console.log('allFormIDs: ', allFormIDs);
+  // renderOutlook.resetForm("room-search-form"); 
+  renderOutlook.resetForm(...allFormIDs); 
   
   const filterBtns = document.querySelectorAll(".filter-btn");
   Array.from(filterBtns).map(btn => btn.classList.remove("dark-red"));

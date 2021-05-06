@@ -5,16 +5,16 @@
 class Guest {
   constructor(data, date) {
     // console.log("data@guest: ", data);
-    this.id = data.id;
-    this.name = data.name;
-    this.type = "guest";
     this.date = date;
-
-    this.btnChildText = "new-reservation";
-    this.searchBtn = "find rooms";
+    this.id = data ? data.id : undefined;
+    this.name = data ? data.name : "";
+    this.type = "guest";
+  
+    // this.btnChildText = "new-reservation";
+    // this.searchBtn = "find rooms";
     
-    this.labelInput = "date";
-    this.placeHolder = "YY/MM/DD";
+    // this.labelInput = "date";
+    // this.placeHolder = "YY/MM/DD";
 
     this.totalUsers;
     this.totalRooms; 

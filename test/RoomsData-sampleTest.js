@@ -36,16 +36,16 @@ describe('RoomsData', function() {
     expect(room).to.haveOwnProperty("number", 1);
   });
 
-  describe('countRooms', function() {
-    it('should be a function', function() {
-      expect(roomsData.countRooms).to.be.a("function");
-    });
+  // describe('countRooms', function() {
+  //   it('should be a function', function() {
+  //     expect(roomsData.countRooms).to.be.a("function");
+  //   });
 
-    it('should return the number of total rooms', function() {
-      const totalRooms = roomsData.countRooms();
-      expect(totalRooms).to.equal(5);
-    });
-  });
+  //   it('should return the number of total rooms', function() {
+  //     const totalRooms = roomsData.countRooms();
+  //     expect(totalRooms).to.equal(5);
+  //   });
+  // });
 
   describe('findRoomsByProperty', function() {
  

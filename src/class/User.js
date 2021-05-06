@@ -3,10 +3,10 @@
 // dayjs().format();
 
 class User {
-  constructor(date, username, password) {
+  constructor(username, password) {
     this.username = username;
     this.password = password ? password.toLowerCase() : null;
-    this.date = date;
+    //this.date = date;
     //new dayjs().format("YYYY/MM/DD");
     //this.type;
     // this.labelInput = "username";
@@ -25,7 +25,8 @@ class User {
       this.username = this.username.toLowerCase(); 
       this.id = parseInt(this.username.split('customer')[1]);
       this.type = 'guest';
-    } else this.type = 'guest'
+    } 
+    else this.type = 'guest'
     
     //) : null;
     //// console.log('this @formatUser: ', this); 
