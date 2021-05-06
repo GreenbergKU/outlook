@@ -156,9 +156,15 @@ class RenderDOM {
     document.getElementById("new-reservation").classList.add("new-reservation-grid");
   };
   
-  resetForm(formID) {
-    //// console.log('formID: ', formID);
-    document.getElementById(formID).reset(); 
+  resetForm(...formIDs) {
+    console.log('formIDs: ', formIDs);
+    //let form;
+
+    formIDs.map(formID => {
+      console.log("formID: ", formID, typeof(formID))
+      return document.getElementById(formID).reset();
+    });
+    //// console.log('formID: ', formID); 
     //document.getElementById("submit-room-search").disabled = true;
   };
 };

@@ -1,18 +1,15 @@
 class Manager {
-  constructor(data, date) {
-    this.name = "Manager";
+  constructor(date) {
     this.date = date;
+    this.name = "Manager";
     this.type = "manager";
     //this.guestAdmin = null;
 
-    this.btnChildText = "guest-search";
-    this.searchBtn = "find guest";
+    // this.btnChildText = "guest-search";
+    // this.searchBtn = "find guest";
     
-    this.labelInput = "Full Name",
-    this.placeHolder = "First Last";
-
-    this.totalUsers = data.totalUsers;
-    this.totalRooms = data.totalRooms;
+    // this.labelInput = "Full Name",
+    // this.placeHolder = "First Last";
   }
 
   // percentBooked() {
