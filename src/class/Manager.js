@@ -1,8 +1,34 @@
 class Manager {
+  
   constructor(date) {
     this.date = date;
     this.name = "Manager";
     this.type = "manager";
+  };
+
+  calculations(hotel) {//*local switch>Guest
+    const USD = new Intl.NumberFormat('en-US', { 
+      style: 'currency', 
+      currency: 'USD' 
+    });
+    const percent = new Intl.NumberFormat('en-US' , {
+      style: 'percent'
+    });
+    this.totalUsers = hotel.totalUsers;
+    const bookedRooms = hotel.findBookings("date", this.date); 
+    this.availableRoomsNum = hotel.findAvailableRooms(bookedRooms).length;
+    this.revenue = USD.format(hotel.calculateAmountTotals(bookedRooms));
+    this.roomsOccupied = percent.format(hotel.calculatePercentage(bookedRooms.length, hotel.totalRooms));
+    //this.totalRooms = hotel.totalRooms;
+    // this.roomsAvailable = hotelRepo.findAvailableRooms(bookedRooms);
+    return this;
+  };
+
+}
+
+export default Manager;
+
+
     //this.guestAdmin = null;
 
     // this.btnChildText = "guest-search";
@@ -10,7 +36,20 @@ class Manager {
     
     // this.labelInput = "Full Name",
     // this.placeHolder = "First Last";
-  }
+
+    //this.roomsAvailable;
+
+    //this.bookedRooms;
+    //this.revenue; //= data.ammountSpent;
+    //this.roomsOccupied;
+    //this.guestAdmin; // Leatha Ullrich;
+
+  
+  // console.log('this.totalRooms: ', this.totalRooms);
+  // console.log('this.bookedRooms.length: ', this.bookedRooms.length);
+  //// console.log('this.bookedRooms.length / this.totalRooms: ', this.bookedRooms.length / this.totalRooms);
+  // console.log('this.roomsOccupied: ', this.roomsOccupied);
+
 
   // percentBooked() {
   //   this.roomsOccupied = this.bookedRooms.length / this.totalRooms * 100;
@@ -20,23 +59,6 @@ class Manager {
   // getBookingID() {
   //   return this.guestAdmin.id;
   // };
-
-
-}
-
-export default Manager;
-
-    //this.roomsAvailable;
-  //this.bookedRooms;
-  //this.revenue; //= data.ammountSpent;
-  //this.roomsOccupied;
-  //this.guestAdmin; // Leatha Ullrich;
-
-  
-  // console.log('this.totalRooms: ', this.totalRooms);
-  // console.log('this.bookedRooms.length: ', this.bookedRooms.length);
-  //// console.log('this.bookedRooms.length / this.totalRooms: ', this.bookedRooms.length / this.totalRooms);
-  // console.log('this.roomsOccupied: ', this.roomsOccupied);
 
   // defineBtn(btn) {
   //   return btn;
