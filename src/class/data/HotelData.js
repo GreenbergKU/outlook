@@ -7,14 +7,14 @@
 
 class HotelData {
   constructor(data) {
-    console.log('data @HotelData: ', data);
+    // console.log('data @HotelData: ', data);
 
     this.usersData = data.usersData;
-      console.log('this.usersData: ', this.usersData);  
+      // console.log('this.usersData: ', this.usersData);  
     this.bookingsData = data.bookingsData;
-      console.log('this.bookingsData: ', this.bookingsData);   
+      // console.log('this.bookingsData: ', this.bookingsData);   
     this.roomsData = data.roomsData;
-      console.log('this.roomsData: ', this.roomsData);
+      // console.log('this.roomsData: ', this.roomsData);
     this.totalUsers = this.usersData.length;
     this.totalRooms = this.roomsData.length;
   };
@@ -50,6 +50,20 @@ class HotelData {
   findGuestByProperty(property, value) {
     return this.findDataByProperty("usersData", property, value)[0];
   }
+
+  findBookings(property, value) {//*global
+    let bookings = this.findDataByProperty("bookingsData", property, value)
+    .map(booking => {
+      booking.room = this.findRoom(booking.roomNumber);
+      return booking
+    });
+    console.log('bookings @findBookings: ', bookings);
+    return bookings
+  };
+  
+  findRoom(roomNum) {//*global
+    return this.findDataByProperty("roomsData", "number", roomNum)[0];
+  };
 
   calculateAmountTotals(data) {    
     let sum = 0;
