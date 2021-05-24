@@ -9,15 +9,75 @@ class HotelData {
   constructor(data) {
     // console.log('data @HotelData: ', data);
 
-    this.usersData = data.usersData;
+    this.usersData = data ? data.usersData : [];
       // console.log('this.usersData: ', this.usersData);  
-    this.bookingsData = data.bookingsData;
+    this.bookingsData = data ? data.bookingsData : [];
       // console.log('this.bookingsData: ', this.bookingsData);   
-    this.roomsData = data.roomsData;
+    this.roomsData = data ? data.roomsData : [];
       // console.log('this.roomsData: ', this.roomsData);
     this.totalUsers = this.usersData.length;
     this.totalRooms = this.roomsData.length;
   };
+
+  // findGuestByProperty(property, value) {
+  //   return this.findDataByProperty("usersData", property, value)[0];
+  // };
+
+  findDataByProperty(dataSet, property, value) {
+    return this[dataSet].filter(data => data[property] === value);
+  };
+
+  findRoom(roomNum) {//*global
+    return this.findDataByProperty("roomsData", "number", roomNum)[0];
+  };
+
+  findAvailableRooms(bookedRooms) {    
+    const allRooms = this.roomsData;    
+    bookedRooms.map(bookedRoom => allRooms.splice(allRooms.findIndex(room => room.number === bookedRoom.number)), 1);
+    return allRooms
+  };
+
+  findBookings(property, value, fnDate) {//*global
+    
+    const sortChronically = (data) => {
+      //console.log('data[0]: ', data[0]);
+      return data.sort( (a, b) => fnDate(b.date, "sort") - fnDate(a.date, "sort") )
+    };
+
+    let bookings = this.findDataByProperty("bookingsData", property, value);
+      //console.log('bookings.length: ', bookings.length);
+    bookings.map(booking => {
+      booking.room = this.findRoom(booking.roomNumber);
+      return booking
+    });
+    //console.log('bookings[0].room: ', bookings[0].room);
+    return sortChronically(bookings);
+  };
+
+  sortByDate(data, date, fnDate) {
+    let pastBookings = [], upcomingBookings = [];
+    const sortDate = fnDate(date, "sort");
+    data.map(booking => {
+      fnDate(booking.date, "sort") <= sortDate ? pastBookings.push(booking) : upcomingBookings.push(booking);  
+    }); 
+    return [{name: "upcoming-bookings", data: upcomingBookings}, {name: "past-bookings", data: pastBookings}];
+  };
+
+  calculateAmountTotals(data) {    
+    //console.log('data[0].room: ', data[0].room);
+    let sum = 0;
+    data.map(booking => {
+      const room = this.findDataByProperty("roomsData", "number", parseInt(booking.roomNumber));
+      sum += room[0].costPerNight;
+    });
+    return sum;  
+  };
+
+  calculatePercentage(num, total) {
+    return num / total;
+  };
+
+
 
   // validateUser(user) {
   //   let isValid = false, found;
@@ -47,46 +107,8 @@ class HotelData {
   //   return isValid;
   // }
 
-  findGuestByProperty(property, value) {
-    return this.findDataByProperty("usersData", property, value)[0];
-  }
 
-  findBookings(property, value) {//*global
-    let bookings = this.findDataByProperty("bookingsData", property, value)
-    .map(booking => {
-      booking.room = this.findRoom(booking.roomNumber);
-      return booking
-    });
-    console.log('bookings @findBookings: ', bookings);
-    return bookings
-  };
   
-  findRoom(roomNum) {//*global
-    return this.findDataByProperty("roomsData", "number", roomNum)[0];
-  };
-
-  calculateAmountTotals(data) {    
-    let sum = 0;
-    data.map(booking => {
-      const room = this.findDataByProperty("roomsData", "number", parseInt(booking.roomNumber));
-      sum += room[0].costPerNight;
-    });
-    return sum;  
-  }
-
-  calculatePercentage(num, total) {
-    return num / total;
-  }
-
-  findAvailableRooms(bookedRooms) {    
-    const allRooms = this.roomsData;    
-    bookedRooms.map(bookedRoom => allRooms.splice(allRooms.findIndex(room => room.number === bookedRoom.number)), 1);
-    return allRooms
-  }
-
-  findDataByProperty(dataSet, property, value) {
-    return this[dataSet].filter(data => data[property] === value);
-  }
 }
 
 export default HotelData;
