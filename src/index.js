@@ -142,39 +142,47 @@ function makeCurrent(data) {
 
 function activateLogin() {
   console.log('*@ activateLogin(): *'); 
+  const loginForm = document.getElementById("login");
+  const invalidMessage = "All Fields Are Required!";
   // const minDate = new dayjs().add(1,"day").format("YYYY-MM-DD");
   // document.getElementById("date").min = minDate;
-  document.getElementById('user-submit').addEventListener("click", getLogin);
-  
-  //addListeners();
-  //console.log('user: ', user);
-  //return user
-  
-};
+  document.getElementById('user-submit').addEventListener("click", function handleLogin(e) {
+    e.preventDefault();
+    user = validateForm(loginForm, user, invalidMessage);
+    //console.log('validateForm(loginForm, invalidMessage): ', validateForm(loginForm, invalidMessage));
+    //console.log('user @handleLogin: ', user);
+    if (user) updateDOM();
+    //return user
+  });
+};  
 
-function getLogin(e) { 
-  e.preventDefault();
-  //const date = setDate();
-  const form = document.getElementById("login");
+function validateForm(form, message) {
+  let formUser;
   const userInputs = findInputs(form);
   const validInputs = validateInputs(userInputs); 
-  validInputs ? (
-    user = createUser(userInputs),
-    user.isValid = validateUser(user),
-    user = checkValidity(user)
-  ) : alert("All Fields Are Required!");
-  // user = checkValidity(user);
-  // console.log(user ? true:false);
-  if (user) {
-    // addListeners(user);
-    updateDOM();
-    return user
-  };     
+    console.log('validInputs: ', validInputs);
+  !!validInputs ? (
+    formUser = createUser(userInputs),
+    console.log('formUser: ', formUser),
+    //user.isValid = user.validation(user, hotelRepo),
+    formUser = checkValidity(formUser)
+    //formUser = true
+  ) : alert(message);
+  console.log("formUser", formUser)
+  return formUser     
 }
 
-function validateUser(user) {//*global switch>User
-  //return hotelRepo.validateUser(user);
-  return user.validation(user, hotelRepo);
+function checkValidity(formUser) {//*global
+  let validUser;
+  //formUser.isValid = formUser.validation(formUser, hotelRepo);
+  formUser.isValid = formUser.validation(hotelRepo);
+  console.log('formUser: ', formUser);
+    //console.log('formUser.isValid: ', formUser.isValid);
+    //console.log('!!formUser: ', !!formUser.isValid);
+  formUser.isValid === true ?
+    validUser = !formUser.password ? findGuestAdmin(formUser) : differentiateUsers(formUser) 
+  : alert(formUser.isValid);
+  return validUser
 };
 
 function findInputs(form) {//*global
@@ -193,37 +201,22 @@ function findInputs(form) {//*global
 };
 
 function validateInputs(inputs) {//*global
-  const isValid = inputs.arr.map(input => {
-    
-    if(!input.value) input.invalid = true;
-    return input;
-  })     
-  .find(input => input.invalid === true);
-    console.log('isValid: ', isValid === undefined);
-  return isValid === undefined;  
+  console.log('inputs.arr.map(input => !input.value): ', inputs.arr.find(input => !input.value));
+  return inputs.arr.find(input => !input.value) === undefined;
 };
 
 function createUser(inputs) { //*local
    console.log('inputs: ', inputs, inputs.username, inputs.password);
-   const nameInput = inputs.arr.find(input => input.id.toLowerCase().includes("name"));
+  const nameInput = inputs.arr.find(input => input.id.toLowerCase().includes("name"));
    console.log('nameInput: ', nameInput);
   return inputs.password ? new User(nameInput.value, inputs.password.value).formatUser() : new User(nameInput.value).formatUser();
 };
 
-function checkValidity(user) {//*global
-  let validUser;
-    console.log('user.isValid: ', user.isValid);
-  !!user.isValid ? 
-    validUser = !user.password ? findGuestAdmin(user) : differentiateUsers() 
-  : alert(user.isValid);
-  return validUser;
-};
 
-function differentiateUsers() {//*global
+function differentiateUsers(formUser) {//*global
   const date = setDate();
-  user = user.type === "guest" ? createGuest(user, "id", date) : createManager(date); 
-    console.log('user: ', user);
-  return user
+  return user = formUser.type === "guest" ? createGuest(formUser, "id", date) : createManager(date); 
+    //console.log('user: ', user); 
 };
 
 function findGuestAdmin(userGuest) {//*global
@@ -234,7 +227,7 @@ function findGuestAdmin(userGuest) {//*global
 };
 
 function createManager(date) {//*global
-  return new Manager(date).calculations(hotelRepo);
+  return new Manager(date).calculations(hotelRepo, formatDate);
 };
 
 
@@ -331,36 +324,18 @@ function showSearch(e) { //*local => activateDisplySearchForm()
 };
 
 function activateManagerSearch() {//*local => addListeners()
-  let searchName = {};
+  //let searchName;
+  const userSearchForm = document.getElementById("user-search");
   const managerSearchBtn = document.getElementById("find-guest-btn");
+  const invalidMessage = "A Full Name (first and last) Is Required!";
+
   managerSearchBtn.addEventListener("click", function handleSearchBtn(e) {
     e.preventDefault();
-    searchName.date = setDate();
-    const form = document.getElementById("user-search");
-    const userInputs = findInputs(form);
-      console.log('userInputs: ', userInputs);
-    const validInputs = validateInputs(userInputs); 
-      console.log('validInputs: ', validInputs);
-    validInputs ? (
-      searchName = createUser(userInputs),
-      //searchName.fullName = userInputs.fullName.value,
-      // searchName.name = userInputs.fullName.value,
-        console.log('searchName: ', searchName),
-      // ******
-      searchName.isValid = validateUser(searchName),
-      //searchName.isValid = validate(searchName.id, searchName.password),
-        console.log('searchName.isValid: ', searchName.isValid)
-    ) : alert("a full name is required!");
-
-    user.guestAdmin = checkValidity(searchName);
-      console.log('user.guestAdmin: ', user.guestAdmin);
-      console.log('user: ', user);
-    if (user.guestAdmin) {
-      updateDOM();
-      return user
-    } else null;
+      console.log('user @handleSearchBtn: ', user);
+    user.guestAdmin = validateForm(userSearchForm, user.guestAdmin, invalidMessage);
+    if (user.guestAdmin) updateDOM();
+    return user;
   });
-  return user
 };
 
 function activateGuestSearchForm() { // *local => addListeners()
@@ -368,13 +343,14 @@ function activateGuestSearchForm() { // *local => addListeners()
   const roomSearchBtn = document.getElementById("submit-room-search");
   roomSearchBtn.disabled = true;  
     // console.log('roomSearchBtn @activateUserBtn(): ', roomSearchBtn);   
-  const handleChangeDate = (e) => datePickerChange(e, user);
+  const handleChangeDate = (e) => datePickerChange(e);
   
-  function datePickerChange(e, user) {
+  function datePickerChange(e) {
+    const guest = !user.id ? user.guestAdmin : user;
      console.log('user @actRmSearchBtns(datePicker): ', user); 
     const datePicked = dayjs(e.target.value);
     const validDate = formatDate(datePicked);
-    datePicked.isValid ? findAvailableRooms(user, validDate, roomSearchBtn) : null;    
+    datePicked.isValid ? findAvailableRooms(guest, validDate, roomSearchBtn) : null;    
   };
   inputDate.addEventListener("change", handleChangeDate);
   roomSearchBtn.addEventListener("click", displayRooms);
@@ -454,11 +430,12 @@ function handleRadioChange(e) { //*local => activateFilter()
 /////////////////////////////
 
 function findAvailableRooms(userGuest, date, btn) {
+  
     // console.log('userGuest: ', userGuest);
     console.log('userGuest @findAvailableRooms(): ', userGuest);
   userGuest.searchDate = date;
   btn.disabled = false;
-  const roomsBooked = hotelRepo.findBookings("date", date);
+  const roomsBooked = hotelRepo.findBookings("date", date, formatDate);
   userGuest.availableRooms = hotelRepo.findAvailableRooms(roomsBooked);
   filterAvailableRooms(userGuest);
   return userGuest; 
@@ -611,11 +588,12 @@ function displayInfo(element, property) {//*global
 };
 
 function updateDOM() {//*local refactor!
+    console.log('user @updateDOM: ', user);
   renderOutlook
   //.assignBtnToUser(user)
   .displaySection(user.type)
   .displayUser(user)
-  if (user.guestAdmin) {
+  if (user.guestAdmin) {  
     renderOutlook
     .displayGuest(user)
     .toggleDisplay("guest-page", "guest-heading-sec", "guest-bookings", "guest-btn-sec", "manager-btn-sec");
@@ -744,9 +722,12 @@ function cancelBooking(btn, userX) {
 };
 
 function refreshSite(logout) {//*global
+    console.log('user @refreshSite: ', user);
+    console.log('user.guestAdmin: ', user.guestAdmin);
   const userPage = document.getElementById("user-page");
   let types = [];
-  types.push(!logout ? user.guestAdmin ? ("manager", "guest") : "guest" : "body");
+  types.push(!logout ? (user.guestAdmin ? ("guest", "manager") : user.type) : "body");
+  
   console.log('types: ', types);
   resetPage(types);
  !logout ? (
@@ -793,8 +774,8 @@ function resetPage(types) {//*local
 };
 
 function updateData() { 
-  const updatedUser = differentiateUsers(); //creates new guest/managher
-  user.guestAdmin ? updatedUser.guestAdmin = findGuestAdmin(userX) : null;
+  const updatedUser = differentiateUsers(user); //creates new guest/managher
+  user.guestAdmin ? updatedUser.guestAdmin = findGuestAdmin(user.guestAdmin) : null;
   return updatedUser
 };
 
@@ -814,6 +795,31 @@ function updateData() {
 //   )
 //   .catch(err => console.log("err", err));
 //   //console.log('hotelRepo: ', hotelRepo);
+// };
+
+// function getLogin(e) { 
+//   e.preventDefault();
+//   //const date = setDate();
+//   const form = document.getElementById("login");
+//   const userInputs = findInputs(form);
+//   const validInputs = validateInputs(userInputs); 
+//   validInputs ? (
+//     user = createUser(userInputs),
+//     user.isValid = user.validation(user, hotelRepo),
+//     user = checkValidity(user)
+//   ) : alert("All Fields Are Required!");
+//   // user = checkValidity(user);
+//   // console.log(user ? true:false);
+//   if (user) {
+//     // addListeners(user);
+//     updateDOM();
+//   } else null;
+//   return user;     
+// }
+
+// function validateUser(user) {//*global switch>User
+//   //return hotelRepo.validateUser(user);
+//   return user.validation(user, hotelRepo);
 // };
 
 // function validate(id, password) {
@@ -844,6 +850,16 @@ function updateData() {
 //   const allUsers = hotelRepo.totalUsers;
 //   return user.validateUser(inputs, allUsers);
 // };
+
+//function validateInputs() {
+  // const isValid = inputs.arr.map(input => {
+  //   if(!input.value) input.invalid = true;
+  //   return input;
+  // })     
+  // .find(input => input.invalid === true);
+  //   console.log('isValid: ', isValid === undefined);
+  // return isValid === undefined;  
+//}
 
   // function createManager(date) {
     // const manager = new Manager(date);
@@ -963,3 +979,34 @@ function updateData() {
 //   console.log('user: ', user);
 //   console.log('userX: ', userX);
 // }
+
+  // managerSearchBtn.addEventListener("click", function handleSearchBtn(e) {
+  //   e.preventDefault();
+  //   //searchName.date = user.date;
+  //   const form = document.getElementById("user-search");
+  //   const userInputs = findInputs(form);
+  //     console.log('userInputs: ', userInputs);
+  //   const validInputs = validateInputs(userInputs); 
+  //     console.log('validInputs: ', validInputs);
+  //   validInputs ? (
+  //     searchName = createUser(userInputs),
+  //     //searchName.fullName = userInputs.fullName.value,
+  //     // searchName.name = userInputs.fullName.value,
+  //       console.log('searchName: ', searchName),
+  //     // ******
+  //     searchName.isValid = user.validation(user, hotelRepo),//validateUser(searchName),
+  //     //searchName.isValid = validate(searchName.id, searchName.password),
+  //       console.log('searchName.isValid: ', searchName.isValid)
+  //   ) : alert("a full name is required!");
+
+  //   user.guestAdmin = checkValidity(searchName);
+  //     console.log('user.guestAdmin: ', user.guestAdmin);
+  //     console.log('user: ', user);
+  //   if (user.guestAdmin) {
+  //     updateDOM();
+  //     return user
+  //   } else null;
+  // });
+  //return user
+
+

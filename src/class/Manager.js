@@ -6,7 +6,7 @@ class Manager {
     this.type = "manager";
   };
 
-  calculations(hotel) {//*local switch>Guest
+  calculations(hotel, formatDate) {//*local switch>Guest
     const USD = new Intl.NumberFormat('en-US', { 
       style: 'currency', 
       currency: 'USD' 
@@ -15,7 +15,7 @@ class Manager {
       style: 'percent'
     });
     this.totalUsers = hotel.totalUsers;
-    const bookedRooms = hotel.findBookings("date", this.date); 
+    const bookedRooms = hotel.findBookings("date", this.date, formatDate); 
     this.availableRoomsNum = hotel.findAvailableRooms(bookedRooms).length;
     this.revenue = USD.format(hotel.calculateAmountTotals(bookedRooms));
     this.roomsOccupied = percent.format(hotel.calculatePercentage(bookedRooms.length, hotel.totalRooms));
