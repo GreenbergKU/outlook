@@ -17,33 +17,35 @@ class User {
     return this;
   };
 
-  validation(user, hotelRepo) {
-    let isValid = false, found;
+  validation(hotelRepo) {
+    // console.log('this @validation: ', this);
+    this.isValid = false;
+    let found;
     
     // validation: stage I for manager & guest
-    if (user.password && user.password != "overlook2020") {
-        console.log('user.password: ', user.password);
+    if (this.password && this.password != "overlook2020") {
+        // console.log('this.password: ', this.password);
       return "invalid password!";
     };
     
     // validation: stage II for manager
-    if (user.username === "manager") return isValid = true; 
+    if (this.username === "manager") return this.isValid = true; 
     
     // validation: stage I for guestAdmin
-    if (!user.password && user.username.split(" ").length != 2) {
+    if (!this.password && this.username.split(" ").length != 2) {
       return "First and last name is required!"
     };
     
     // validation: stage II for guestAdmin
-    if (!user.password) {
-      found = hotelRepo.usersData.find(userData => userData.name === user.username);
-      return !found ? "user not found, check spelling and try again!" : isValid = true;
+    if (!this.password) {
+      found = hotelRepo.usersData.find(userData => userData.name === this.username);
+      return !found ? "user not found, check spelling and try again!" : this.isValid = true;
     };
 
     // validation: stage II for guest
-    if (user.id && typeof(user.id) === "number") {
-      found = hotelRepo.usersData.find(userData => userData.id === user.id);
-      return !found ? "invalid username!" : isValid = true;
+    if (this.id && typeof(this.id) === "number") {
+      found = hotelRepo.usersData.find(userData => userData.id === this.id);
+      return !found ? "invalid username!" : this.isValid = true;
     };
 
     return "invalid login";

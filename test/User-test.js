@@ -71,14 +71,14 @@ describe('User', function() {
 
     it('should return TRUE if "password" is valid AND if the "id" is found using the class methods passed as an argument', function() {
 
-      let validUser = formattedUser.validation(formattedUser, hotelData);
+      let validUser = formattedUser.validation( hotelData);
 
       expect(validUser).to.equal(true);
     });
 
     it('"manager" should return TRUE if "password" is valid AND "username" is "manager" ', function() { 
 
-      let validUser2 = formattedUser2.validation(formattedUser2, hotelData);
+      let validUser2 = formattedUser2.validation(hotelData);
 
       expect(validUser2).to.equal(true);
     });
@@ -86,20 +86,20 @@ describe('User', function() {
     it('should return true if password is null but username is found within the data supplied', function() {
       
       let user8 = new User("Leatha Ullrich").formatUser();
-      let validUser8 = user8.validation(user8, hotelData);
+      let validUser8 = user8.validation(hotelData);
       
       expect(validUser8).to.equal(true);
     });
 
     it('should return a string explaining why the validation failed if conditionals are not met', function() {
 
-      let validUser3 = formattedUser3.validation(formattedUser3, hotelData);
-      let validUser4 = formattedUser4.validation(formattedUser4, hotelData);
-      let validUser5 = formattedUser5.validation(formattedUser5, hotelData);
+      let validUser3 = formattedUser3.validation(hotelData);
+      let validUser4 = formattedUser4.validation(hotelData);
+      let validUser5 = formattedUser5.validation(hotelData);
       let user6 = new User("Sue").formatUser();
-      let validUser6 = user6.validation(user6, hotelData);
+      let validUser6 = user6.validation(hotelData);
       let user7 = new User("Sue Wolf").formatUser();
-      let validUser7 = user7.validation(user7, hotelData);
+      let validUser7 = user7.validation(hotelData);
       
       expect(validUser3).to.be.a("string");
       expect(validUser3).to.equal("invalid password!");
