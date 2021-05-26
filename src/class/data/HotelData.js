@@ -27,32 +27,30 @@ class HotelData {
     return this[dataSet].filter(data => data[property] === value);
   };
 
-  findRoom(roomNum) {//*global
-    return this.findDataByProperty("roomsData", "number", roomNum)[0];
-  };
-
-  findAvailableRooms(bookedRooms) {    
-    const allRooms = this.roomsData;    
-    bookedRooms.map(bookedRoom => allRooms.splice(allRooms.findIndex(room => room.number === bookedRoom.number)), 1);
-    return allRooms
-  };
-
   findBookings(property, value, fnDate) {//*global
     
-    const sortChronically = (data) => {
-      //console.log('data[0]: ', data[0]);
-      return data.sort( (a, b) => fnDate(b.date, "sort") - fnDate(a.date, "sort") )
-    };
+    return this.findDataByProperty("bookingsData", property, value)
+    .map(booking => booking.room = this.findDataByProperty("roomsData", "number", booking.roomNumber)[0])
+    .sort( (a, b) => fnDate(b.date, "sort") - fnDate(a.date, "sort") );
 
-    let bookings = this.findDataByProperty("bookingsData", property, value);
-      //console.log('bookings.length: ', bookings.length);
-    bookings.map(booking => {
-      booking.room = this.findRoom(booking.roomNumber);
-      return booking
-    });
-    //console.log('bookings[0].room: ', bookings[0].room);
-    return sortChronically(bookings);
+    // let roomNum;
+    //// const findRoom = (roomNum) => this.findDataByProperty("roomsData", "number", roomNum)[0];
+    // const sortChronically = (data) => {
+    //   return data.sort( (a, b) => fnDate(b.date, "sort") - fnDate(a.date, "sort") )
+    // };
+    // const bookings = this.indDataByProperty("bookingsData", property, value);
+    // bookings.map(booking => {
+    //   roomNum = booking.roomNumber;
+    //   booking.room = this.findDataByProperty("roomsData", "number", roomNum)[0];
+    //   return booking
+    // });
+    //// return sortChronically(bookings)
+    // return bookings.sort( (a, b) => fnDate(b.date, "sort") - fnDate(a.date, "sort") );
   };
+
+  // findRoom(roomNum) {//*global
+  //   return this.findDataByProperty("roomsData", "number", roomNum)[0];
+  // };
 
   sortByDate(data, date, fnDate) {
     let pastBookings = [], upcomingBookings = [];
@@ -63,8 +61,13 @@ class HotelData {
     return [{name: "upcoming-bookings", data: upcomingBookings}, {name: "past-bookings", data: pastBookings}];
   };
 
+  findAvailableRooms(bookedRooms) {    
+    const allRooms = this.roomsData;    
+    bookedRooms.map(bookedRoom => allRooms.splice(allRooms.findIndex(room => room.number === bookedRoom.number)), 1);
+    return allRooms;
+  };
+
   calculateAmountTotals(data) {    
-    //console.log('data[0].room: ', data[0].room);
     let sum = 0;
     data.map(booking => {
       const room = this.findDataByProperty("roomsData", "number", parseInt(booking.roomNumber));
