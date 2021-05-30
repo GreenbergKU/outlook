@@ -145,11 +145,6 @@ function activateLogin() {
   // const minDate = new dayjs().add(1,"day").format("YYYY-MM-DD");
   // document.getElementById("date").min = minDate;
   document.getElementById('user-submit').addEventListener("click", getLogin);
-  
-  //addListeners();
-  //console.log('user: ', user);
-  //return user
-  
 };
 
 function getLogin(e) { 
@@ -160,7 +155,7 @@ function getLogin(e) {
   const validInputs = validateInputs(userInputs); 
   validInputs ? (
     user = createUser(userInputs),
-    user.isValid = validateUser(user),
+    user.isValid = user.validation(user, hotelRepo),
     user = checkValidity(user)
   ) : alert("All Fields Are Required!");
   // user = checkValidity(user);
@@ -234,7 +229,7 @@ function findGuestAdmin(userGuest) {//*global
 };
 
 function createManager(date) {//*global
-  return new Manager(date).calculations(hotelRepo);
+  return new Manager(date).calculations(hotelRepo, formatDate);
 };
 
 
@@ -453,12 +448,13 @@ function handleRadioChange(e) { //*local => activateFilter()
 };
 /////////////////////////////
 
-function findAvailableRooms(userGuest, date, btn) {
+function findAvailableRooms(userGuest, datePicked, btn) {
     // console.log('userGuest: ', userGuest);
     console.log('userGuest @findAvailableRooms(): ', userGuest);
-  userGuest.searchDate = date;
+  userGuest.searchDate = datePicked;
   btn.disabled = false;
-  const roomsBooked = hotelRepo.findBookings("date", date);
+  const roomsBooked = hotelRepo.findBookings("date", datePicked, formatDate);
+  //hotelRepo.findDataByProperty("bookingsData", "date", datePicked);
   userGuest.availableRooms = hotelRepo.findAvailableRooms(roomsBooked);
   filterAvailableRooms(userGuest);
   return userGuest; 

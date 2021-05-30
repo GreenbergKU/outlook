@@ -16,15 +16,6 @@ const hotelData = new HotelData(sampleData);
 describe('Guest', function() {
   let guest, data, user, user2, noArguments;
 
-  // beforeEach(() => {
-  //   return (
-  //     data = {id: 1, name: "Sue"},
-  //     guest = new Guest("2021/05/03", data),
-  //     noArguments = new Guest(),
-  //     user = new User("manager", "overlook2020"),
-  //     user2 = new User("customer7", "overlook2020")
-  //   )
-  // });
 
   it('should be a function', function() {
 

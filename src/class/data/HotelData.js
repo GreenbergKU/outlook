@@ -16,7 +16,9 @@ class HotelData {
     this.roomsData = data ? data.roomsData : [];
       // console.log('this.roomsData: ', this.roomsData);
     this.totalUsers = this.usersData.length;
+      //console.log('this.totalUsers: ', this.totalUsers);
     this.totalRooms = this.roomsData.length;
+      //console.log('this.totalRooms: ', this.totalRooms);
   };
 
   // findGuestByProperty(property, value) {
@@ -28,11 +30,18 @@ class HotelData {
   };
 
   findBookings(property, value, fnDate) {//*global
+    let bookings = this.findDataByProperty("bookingsData", property, value);
+      console.log('@HotelData bookings.length: ', bookings.length);
     
-    return this.findDataByProperty("bookingsData", property, value)
-    .map(booking => booking.room = this.findDataByProperty("roomsData", "number", booking.roomNumber)[0])
+    bookings = bookings.map(booking => {
+      booking.room = this.findDataByProperty("roomsData", "number", booking.roomNumber)[0];
+      return booking
+    })
     .sort( (a, b) => fnDate(b.date, "sort") - fnDate(a.date, "sort") );
-
+      
+      console.log('@HotelData bookings.length: ', bookings.length);
+    return bookings
+    
     // let roomNum;
     //// const findRoom = (roomNum) => this.findDataByProperty("roomsData", "number", roomNum)[0];
     // const sortChronically = (data) => {
@@ -61,23 +70,33 @@ class HotelData {
     return [{name: "upcoming-bookings", data: upcomingBookings}, {name: "past-bookings", data: pastBookings}];
   };
 
-  findAvailableRooms(bookedRooms) {    
-    const allRooms = this.roomsData;    
-    bookedRooms.map(bookedRoom => allRooms.splice(allRooms.findIndex(room => room.number === bookedRoom.number)), 1);
-    return allRooms;
+  findAvailableRooms(bookedRooms) {
+      console.log('bookedRooms.length: ', bookedRooms.length);
+    let rooms = this.roomsData.slice(); //rooms = this.roomsData.slice();
+      console.log('rooms.length: ', rooms.length);  
+    bookedRooms.map(bookedRoom => rooms.splice(rooms.findIndex(room => room.number === bookedRoom.roomNumber), 1));
+      console.log('rooms.length: ', rooms.length); 
+      //console.log('this.roomsData.length: ', this.roomsData.length);
+    return rooms;
   };
 
-  calculateAmountTotals(data) {    
+  calculateAmountTotals(bookings) {
     let sum = 0;
-    data.map(booking => {
-      const room = this.findDataByProperty("roomsData", "number", parseInt(booking.roomNumber));
-      sum += room[0].costPerNight;
-    });
-    return sum;  
+    const USD = new Intl.NumberFormat('en-US', { 
+      style: 'currency', 
+      currency: 'USD' 
+    }); 
+    bookings.map(booking => sum += booking.room.costPerNight);
+    return USD.format(sum);  
+      // const room = this.findDataByProperty("roomsData", "number", parseInt(booking.roomNumber));
+      // sum += room[0].costPerNight;  
   };
 
   calculatePercentage(num, total) {
-    return num / total;
+    const percent = new Intl.NumberFormat('en-US' , {
+      style: 'percent'
+    });
+    return percent.format(num / total);
   };
 
 

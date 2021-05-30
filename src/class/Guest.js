@@ -6,31 +6,32 @@ class Guest {
     this.type = "guest";
   };
 
-  calculations(hotel, formatDate) {
-    const USD = new Intl.NumberFormat('en-US', { 
-      style: 'currency', 
-      currency: 'USD' 
-    });
-    const bookings = hotel.findBookings("userID", this.id);
-    this.bookings = this.sortChronically(bookings, formatDate);
-    this.sortedBookings = this.sortByDate(this.bookings, formatDate);
-    this.amountSpent = USD.format(hotel.calculateAmountTotals(this.bookings));
+  calculations(hotel, dateFn) {
+    // const USD = new Intl.NumberFormat('en-US', { 
+    //   style: 'currency', 
+    //   currency: 'USD' 
+    // });
+    const bookings = hotel.findBookings("userID", this.id, dateFn);
+    //this.bookings = this.sortChronically(bookings, dateFn);
+    this.sortedBookings = hotel.sortByDate(bookings, this.date, dateFn);
+    //this.amountSpent = USD.format(hotel.calculateAmountTotals(this.bookings));
+    this.amountSpent = hotel.calculateAmountTotals(bookings);
     //displayBookings(this);
     return this;
   };
 
-  sortByDate(userData, formatDate) {
-    let pastBookings = [], upcomingBookings = [];
-    const date = formatDate(this.date, "sort");
-    userData.map(booking => {
-      formatDate(booking.date, "sort") <= date ? pastBookings.push(booking) : upcomingBookings.push(booking);  
-    }); 
-    return [{name: "upcoming-bookings", data: upcomingBookings}, {name: "past-bookings", data: pastBookings}];
-  };
+  // sortByDate(userData, formatDate) {
+  //   let pastBookings = [], upcomingBookings = [];
+  //   const date = formatDate(this.date, "sort");
+  //   userData.map(booking => {
+  //     formatDate(booking.date, "sort") <= date ? pastBookings.push(booking) : upcomingBookings.push(booking);  
+  //   }); 
+  //   return [{name: "upcoming-bookings", data: upcomingBookings}, {name: "past-bookings", data: pastBookings}];
+  // };
 
-  sortChronically(data, formatDate) {
-    return data.sort( (a, b) => formatDate(a.date, "sort") - formatDate(b.date, "sort") )
-  };
+  // sortChronically(data, formatDate) {
+  //   return data.sort( (a, b) => formatDate(a.date, "sort") - formatDate(b.date, "sort") )
+  // };
 
 };
 
