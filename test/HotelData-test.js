@@ -1,5 +1,6 @@
 import chai from 'chai';
 const expect = chai.expect;
+const assert = require('chai').assert;
 
 import HotelData from "../src/class/data/HotelData.js";
 import sampleBookings from "./testData/bookings-sample.js";
@@ -43,23 +44,32 @@ describe('HotelData', function() {
     expect(hotelData).to.be.an.instanceOf(HotelData);
   });
 
-  it('Should have a "usersData", "bookingsData", "roomsData", "totalUsers", and "totalRooms" property', function() {
-    //hotelData = new hotelData({id: 1, name: "Sue"}, "2021/05/03");
-    const hasUsersData = hotelData.usersData ? true : false;
-      console.log('hotelData.usersData: ', hotelData.usersData);
-    expect(hasUsersData).to.equal(true);
+  it('Should have a "usersData", "bookingsData", "roomsData", "totalUsers", and "totalRooms" property', function() {    
+    // const hasUsersData = hotelData.usersData ? true : false;
+    //   console.log('hotelData.usersData: ', hotelData.usersData);
+    // expect(hasUsersData).to.be.true;
+
+    // const hasBookingsData = hotelData.bookingsData ? true : false;
+    // expect(hasBookingsData).to.equal(true);
     
-    const hasBookingsData = hotelData.bookingsData ? true : false;
-    expect(hasBookingsData).to.equal(true);
+    // const hasRoomsData = hotelData.roomsData ? true : false;
+    // expect(hasRoomsData).to.equal(true);
     
-    const hasRoomsData = hotelData.roomsData ? true : false;
-    expect(hasRoomsData).to.equal(true);
+    // const hasTotalUsers = hotelData.totalUsers ? true : false;
+    // expect(hasTotalUsers).to.equal(true);
     
-    const hasTotalUsers = hotelData.totalUsers ? true : false;
-    expect(hasTotalUsers).to.equal(true);
+    // const hasTotalRooms = hotelData.totalRooms ? true : false;
+    // expect(hasTotalRooms).to.equal(true);
     
-    const hasTotalRooms = hotelData.totalRooms ? true : false;
-    expect(hasTotalRooms).to.equal(true);
+    expect(hotelData).has.property("usersData");
+    expect(hotelData).has.property("bookingsData");
+    expect(hotelData).has.property("roomsData");
+    expect(hotelData).has.property("totalUsers");
+    expect(hotelData).has.property("totalRooms");
+
+    //expect(hotelData.usersData[0], sampleData.usersData).to.be.equal; // doesn't work, shouldn't pass but does
+    expect(hotelData.usersData).include(sampleData.usersData[0]);
+    expect(hotelData.usersData, 'should be equal').to.equal(sampleData.usersData)
   });
 
   it('Should not require an argument to create a new hotelData', function() {
@@ -207,7 +217,7 @@ describe('HotelData', function() {
         {date: '2020/02/05', roomNumber: 25}
       ];
       const noVacancy = hotelData.findAvailableRooms(soldOutRooms);
-      
+
       expect(noVacancy).to.be.an("array");
       expect(noVacancy.length).to.equal(0);
     });
@@ -222,12 +232,60 @@ describe('HotelData', function() {
     it('should be a function', function() {
       expect(hotelData.calculateAmountTotals).to.be.a("function");
     });
+
+    it('should calculate the total amount spent of all bookings', function() {
+      //execution;
+      const USD = new Intl.NumberFormat('en-US', { 
+        style: 'currency', 
+        currency: 'USD' 
+      });
+      bookings = [
+        {room: {costPerNight: 358.4}},
+        {room: {costPerNight: 477.38}},
+        {room: {costPerNight: 491.14}},
+        {room: {costPerNight: 429.44}},
+        {room: {costPerNight: 397.02}},
+        {room: {costPerNight: 231.46}},
+        {room: {costPerNight: 261.26}},
+        {room: {costPerNight: 200.39}},
+        {room: {costPerNight: 207.24}},
+        {room: {costPerNight: 172.09}}
+      ];
+      const totalCost = hotelData.calculateAmountTotals(bookings);
+        console.log('totalCost: ', totalCost);
+      const manualSum = USD.format(358.4 + 477.38 + 491.14 + 429.44 + 397.02 + 231.46 + 261.26 + 200.39 + 207.24 + 172.09);
+      //= 3225.8200000000006
+        console.log('manualSum: ', manualSum);
+      expect(totalCost).to.equal(manualSum);
+    });
   });
 
   describe('calculatePercentage', function() {
     it('should be a function', function() {
       expect(hotelData.calculatePercentage).to.be.a("function");
     });
+    
+    it('requires one argument to perform the calculation', function() {
+      const percent = new Intl.NumberFormat('en-US' , {
+        style: 'percent'
+      });
+      const percentBooked = hotelData.calculatePercentage(bookings.length);
+      const manualPercentage = percent.format(10 / 25);
+      expect(percentBooked).to.equal(manualPercentage);
+    });
+
+    it('should not calculate percentage when no argument is supplied ', function() {
+      const noNumber = hotelData.calculatePercentage();
+        console.log('noNumber: ', noNumber);
+      expect(noNumber).to.equal(undefined);
+    });
+
+    it('should not calculate percentage if argument is not a number', function() {
+      const notNumber = hotelData.calculatePercentage(bookings[0]);
+        console.log('notNumber: ', notNumber);
+      expect(notNumber).to.equal(undefined);
+    });
+    
   });
 
 });

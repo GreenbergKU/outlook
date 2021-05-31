@@ -81,22 +81,23 @@ class HotelData {
   };
 
   calculateAmountTotals(bookings) {
-    let sum = 0;
     const USD = new Intl.NumberFormat('en-US', { 
       style: 'currency', 
       currency: 'USD' 
     }); 
+    let sum = 0;
     bookings.map(booking => sum += booking.room.costPerNight);
     return USD.format(sum);  
       // const room = this.findDataByProperty("roomsData", "number", parseInt(booking.roomNumber));
       // sum += room[0].costPerNight;  
   };
 
-  calculatePercentage(num, total) {
+  calculatePercentage(num) {
     const percent = new Intl.NumberFormat('en-US' , {
       style: 'percent'
     });
-    return percent.format(num / total);
+    //const isNum = typeof(num) === "number";
+    if(typeof(num) === "number") return percent.format(num / this.totalRooms);
   };
 
 
