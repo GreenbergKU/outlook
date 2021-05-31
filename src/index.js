@@ -167,10 +167,10 @@ function getLogin(e) {
   };     
 }
 
-function validateUser(user) {//*global switch>User
-  //return hotelRepo.validateUser(user);
-  return user.validation(user, hotelRepo);
-};
+// function validateUser(user) {//*global switch>User
+//   //return hotelRepo.validateUser(user);
+//   return user.validation(user, hotelRepo);
+// };
 
 function findInputs(form) {//*global
   const inputs = {};
@@ -342,7 +342,8 @@ function activateManagerSearch() {//*local => addListeners()
       // searchName.name = userInputs.fullName.value,
         console.log('searchName: ', searchName),
       // ******
-      searchName.isValid = validateUser(searchName),
+      searchName.isValid = searchName.validation(searchName, hotelRepo),
+      //validateUser(searchName),
       //searchName.isValid = validate(searchName.id, searchName.password),
         console.log('searchName.isValid: ', searchName.isValid)
     ) : alert("a full name is required!");
