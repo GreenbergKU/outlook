@@ -11,24 +11,26 @@ import sampleUsers from "./testData/users-sample.js";
 // dayjs().format();
 
 describe('Guest', function() {
-  let guest; // data, user, user2;
-  
-  function formatDate(date, style) {
-    const dayjs = require('dayjs');
-    dayjs().format();
-    return style === 'sort' ? dayjs(date).format("YYYYMMDD")
-      : style === 'words' ? dayjs(date).format("MMMM D, YYYY") 
-      : style === 'numbers' ? dayjs(date).format("MM/DD/YYYY")
-      : style === 'min' ? dayjs(date).format("YYYY-MM-DD")
-      : dayjs(date).format("YYYY/MM/DD"); 
-  };
-  
-  const sampleData = {usersData: sampleUsers, bookingsData: sampleBookings, roomsData: sampleRooms};
-  const hotelData = new HotelData(sampleData);
+  //<<<<<<< HEAD
+    // let guest; // data, user, user2;
+    
+    // function formatDate(date, style) {
+    //   const dayjs = require('dayjs');
+    //   dayjs().format();
+    //   return style === 'sort' ? dayjs(date).format("YYYYMMDD")
+    //     : style === 'words' ? dayjs(date).format("MMMM D, YYYY") 
+    //     : style === 'numbers' ? dayjs(date).format("MM/DD/YYYY")
+    //     : style === 'min' ? dayjs(date).format("YYYY-MM-DD")
+    //     : dayjs(date).format("YYYY/MM/DD"); 
+    // };
+    
+    // const sampleData = {usersData: sampleUsers, bookingsData: sampleBookings, roomsData: sampleRooms};
+    // const hotelData = new HotelData(sampleData);
 
-  const date = "2021/05/20";
-  guest = new Guest({id: 1, name: "Sue"}, date);
-
+    // const date = "2021/05/20";
+    // guest = new Guest({id: 1, name: "Sue"}, date);
+  //=======
+  let guest, data, user, user2, noArguments;
 
   it('should be a function', function() {
     expect(Guest).to.be.a("function");
