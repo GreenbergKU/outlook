@@ -37,7 +37,6 @@ describe('Manager', function() {
   });
 
   it('should be an instance of Manager', function() {
-
     expect(manager).to.be.an.instanceOf(Manager);
   });
 
@@ -58,24 +57,16 @@ describe('Manager', function() {
 
   describe('calculations', function() {
 
-    it('should return a manager with a property of "totalUsers"', function() {
-      const hasTotalUsers = calculatedManager.totalUsers ? true : false;
-      expect(hasTotalUsers).to.equal(true);
-    });
-
     it('should return a manager with a property of "availableRoomsNum"', function() {
-      const hasAvailableRoomsNum = calculatedManager.availableRoomsNum ? true : false;
-      expect(hasAvailableRoomsNum).to.equal(true);
+      expect(calculatedManager).has.property("availableRoomsNum");
     });
 
     it('should return a manager with a property of "revenue"', function() {
-      const hasRevenue = calculatedManager.revenue ? true : false;
-      expect(hasRevenue).to.equal(true);
+      expect(calculatedManager).has.property("revenue");
     });
 
     it('should return a manager with a property of "roomsOccupied"', function() {
-      const hasRoomsOccupied = calculatedManager.roomsOccupied ? true : false;
-      expect(hasRoomsOccupied).to.equal(true);
+      expect(calculatedManager).has.property("roomsOccupied");
     });
   });
 });

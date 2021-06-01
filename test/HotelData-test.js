@@ -1,6 +1,6 @@
 import chai from 'chai';
 const expect = chai.expect;
-const assert = require('chai').assert;
+//const assert = require('chai').assert;
 
 import HotelData from "../src/class/data/HotelData.js";
 import sampleBookings from "./testData/bookings-sample.js";
@@ -8,11 +8,7 @@ import sampleRooms from "./testData/rooms-sample.js";
 import sampleUsers from "./testData/users-sample.js";
 
 const sampleData = {usersData: sampleUsers, bookingsData: sampleBookings, roomsData: sampleRooms};
-    // console.log(
-    //   "sampleData.usersData[0]: ", sampleData.usersData[0],
-    //   "sampleData.bookingsData[0]: ", sampleData.bookingsData[0],
-    //   "sampleData.roomsData[0]: ", sampleData.roomsData[0],
-    // );
+
 const date = "2020/02/19";
 
 describe('HotelData', function() {

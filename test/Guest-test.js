@@ -14,21 +14,22 @@ describe('Guest', function() {
   //<<<<<<< HEAD
     // let guest; // data, user, user2;
     
-    // function formatDate(date, style) {
-    //   const dayjs = require('dayjs');
-    //   dayjs().format();
-    //   return style === 'sort' ? dayjs(date).format("YYYYMMDD")
-    //     : style === 'words' ? dayjs(date).format("MMMM D, YYYY") 
-    //     : style === 'numbers' ? dayjs(date).format("MM/DD/YYYY")
-    //     : style === 'min' ? dayjs(date).format("YYYY-MM-DD")
-    //     : dayjs(date).format("YYYY/MM/DD"); 
-    // };
-    
+    function formatDate(date, style) {
+      const dayjs = require('dayjs');
+      dayjs().format();
+      return style === 'sort' ? dayjs(date).format("YYYYMMDD")
+        : style === 'words' ? dayjs(date).format("MMMM D, YYYY") 
+        : style === 'numbers' ? dayjs(date).format("MM/DD/YYYY")
+        : style === 'min' ? dayjs(date).format("YYYY-MM-DD")
+        : dayjs(date).format("YYYY/MM/DD"); 
+    };
+
+    const hotelData = new HotelData({usersData: sampleUsers, bookingsData: sampleBookings, roomsData: sampleRooms});
     // const sampleData = {usersData: sampleUsers, bookingsData: sampleBookings, roomsData: sampleRooms};
     // const hotelData = new HotelData(sampleData);
 
-    // const date = "2021/05/20";
-    // guest = new Guest({id: 1, name: "Sue"}, date);
+    const date = "2020/04/19";
+    //guest = new Guest(sampleUsers[0], date);
   //=======
   let guest, data, user, user2, noArguments;
 
@@ -37,7 +38,7 @@ describe('Guest', function() {
   });
 
   it('should be an instance of Guest', function() {
-    //data = {id: 1, name: "Sue"};
+    guest = new Guest(sampleUsers[0], date);
     expect(guest).to.be.an.instanceOf(Guest);
   });
 
@@ -52,9 +53,9 @@ describe('Guest', function() {
 
   it('Should have a date, id and name property', function() {
     //guest = new Guest({id: 1, name: "Sue"}, "2021/05/03");
-    expect(guest.date).to.equal("2021/05/20");
+    expect(guest.date).to.equal("2020/04/19");
     expect(guest.id).to.equal(1);
-    expect(guest.name).to.equal("Sue");
+    expect(guest.name).to.equal("Leatha Ullrich");
   });
 
   // CALCULATIONS(hotel, formatDate)
