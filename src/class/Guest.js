@@ -6,20 +6,21 @@ class Guest {
     this.type = "guest";
   };
 
-  calculations(hotel, formatDate) {
-    const USD = new Intl.NumberFormat('en-US', { 
-      style: 'currency', 
-      currency: 'USD' 
-    });
-    this.bookings = hotel.findBookings("userID", this.id, formatDate);
-    //this.bookings = this.sortChronically(bookings, formatDate);
-    this.sortedBookings = hotel.sortByDate(this.bookings, this.date, formatDate);
-    //const bookings = [...this.sortedBookings.data.upcomingBookings, this.sortedBookings;
-    this.amountSpent = USD.format(hotel.calculateAmountTotals(this.bookings));
+  calculations(hotel, dateFn) {
+    // const USD = new Intl.NumberFormat('en-US', { 
+    //   style: 'currency', 
+    //   currency: 'USD' 
+    // });
+    const bookings = hotel.findBookings("userID", this.id, dateFn);
+    //this.bookings = this.sortChronically(bookings, dateFn);
+    this.sortedBookings = hotel.sortByDate(bookings, this.date, dateFn);
+    //this.amountSpent = USD.format(hotel.calculateAmountTotals(this.bookings));
+    this.amountSpent = hotel.calculateAmountTotals(bookings);
     //displayBookings(this);
     return this;
   };
 
+  //<<<<<<< HEAD
   // sortChronically(data, formatDate) {
   //   return data.sort( (a, b) => formatDate(b.date, "sort") - formatDate(a.date, "sort") )
   // };
@@ -34,6 +35,20 @@ class Guest {
   // };
 
 
+  //=======
+  // sortByDate(userData, formatDate) {
+  //   let pastBookings = [], upcomingBookings = [];
+  //   const date = formatDate(this.date, "sort");
+  //   userData.map(booking => {
+  //     formatDate(booking.date, "sort") <= date ? pastBookings.push(booking) : upcomingBookings.push(booking);  
+  //   }); 
+  //   return [{name: "upcoming-bookings", data: upcomingBookings}, {name: "past-bookings", data: pastBookings}];
+  // };
+
+  // sortChronically(data, formatDate) {
+  //   return data.sort( (a, b) => formatDate(a.date, "sort") - formatDate(b.date, "sort") )
+  // };
+  //>>>>>>> Testing-HotelData-sw
 
 };
 
