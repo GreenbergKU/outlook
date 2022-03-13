@@ -1,6 +1,8 @@
-class Manager {
-  
-  constructor(date) {
+import User from './User.js';
+
+class Manager extends User{
+  constructor(username, password, date) {
+    super(username, password);
     this.date = date;
     this.name = "Manager";
     this.type = "manager";
