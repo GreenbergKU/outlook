@@ -21,7 +21,7 @@ import RenderDOM from "../src/class/RenderDOM.js";
 //     : dayjs(date).format("YYYY/MM/DD"); 
 // };
 
-describe.only('RenderDOM', function() {
+describe('RenderDOM', function() {
   const renderDOM = new RenderDOM();
   
   it('should be a function', function() {
