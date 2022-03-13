@@ -1,5 +1,8 @@
-class Guest {
-  constructor(data, date) {
+import User from './User.js';
+
+class Guest extends User {
+  constructor(username, password, data, date) {
+    super(username, password);
     this.date = date;
     this.id = data ? data.id : undefined;
     this.name = data ? data.name : "";
@@ -51,7 +54,6 @@ class Guest {
   //>>>>>>> Testing-HotelData-sw
 
 };
-
 
 export default Guest;
 

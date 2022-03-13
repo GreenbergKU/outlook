@@ -148,9 +148,9 @@ function activateLogin() {
   // document.getElementById("date").min = minDate;
   document.getElementById('user-submit').addEventListener("click", function handleLogin(e) {
     e.preventDefault();
-    user = validateForm(loginForm, user, invalidMessage);
+    user = validateForm(loginForm, invalidMessage);
     //console.log('validateForm(loginForm, invalidMessage): ', validateForm(loginForm, invalidMessage));
-    //console.log('user @handleLogin: ', user);
+    console.log('user @handleLogin: ', user);
     if (user) updateDOM();
     //return user
   });
@@ -215,7 +215,7 @@ function createUser(inputs) { //*local
 
 function differentiateUsers(formUser) {//*global
   const date = setDate();
-  return user = formUser.type === "guest" ? createGuest(formUser, "id", date) : createManager(date); 
+  return user = formUser.type === "guest" ? createGuest(formUser, "id", date) : createManager(formUser, date); 
     //console.log('user: ', user); 
 };
 
@@ -226,15 +226,16 @@ function findGuestAdmin(userGuest) {//*global
   return createGuest(userGuest, "name", user.date); // user.fullName, user.date
 };
 
-function createManager(date) {//*global
-  return new Manager(date).calculations(hotelRepo, formatDate);
+function createManager(user, date) {//*global
+  return new Manager(user.username, user.password, date).calculations(hotelRepo, formatDate);
 };
 
 
 function createGuest(user, property, date) {//*global
+  console.log('user: ', user); //{ id: 1, name: "Leatha Ullrich" }
   const userData = hotelRepo.findDataByProperty("usersData", property, user[property])[0];
     console.log('userData @createGuest: ', userData);
-  const guest = new Guest(userData, date).calculations(hotelRepo, formatDate);
+  const guest = new Guest(user.username, user.password, userData, date).calculations(hotelRepo, formatDate);
     console.log('guest @createGuest: ', guest);
   displayBookings(guest);
   return guest;
@@ -325,6 +326,7 @@ function showSearch(e) { //*local => activateDisplySearchForm()
 
 function activateManagerSearch() {//*local => addListeners()
   //let searchName;
+  ////{ id: 1, name: "Leatha Ullrich" }
   const userSearchForm = document.getElementById("user-search");
   const managerSearchBtn = document.getElementById("find-guest-btn");
   const invalidMessage = "A Full Name (first and last) Is Required!";
