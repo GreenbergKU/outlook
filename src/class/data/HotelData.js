@@ -4,7 +4,6 @@
 // import BookingsData from './BookingsData.js';
 // import RoomsData from './RoomsData.js';
 
-
 class HotelData {
   constructor(data) {
     // console.log('data @HotelData: ', data);
@@ -31,7 +30,7 @@ class HotelData {
 
   findBookings(property, value, fnDate) {//*global
     let bookings = this.findDataByProperty("bookingsData", property, value);
-      console.log('@HotelData bookings.length: ', bookings.length);
+      //console.log('@HotelData bookings.length: ', bookings.length);
     
     bookings = bookings.map(booking => {
       booking.room = this.findDataByProperty("roomsData", "number", booking.roomNumber)[0];
@@ -39,7 +38,7 @@ class HotelData {
     })
     .sort( (a, b) => fnDate(b.date, "sort") - fnDate(a.date, "sort") );
       
-      console.log('@HotelData bookings.length: ', bookings.length);
+      //console.log('@HotelData bookings.length: ', bookings.length);
     return bookings
     
     // let roomNum;
@@ -71,12 +70,12 @@ class HotelData {
   };
 
   findAvailableRooms(bookedRooms) {
-      console.log('bookedRooms.length: ', bookedRooms.length);
+      // console.log('bookedRooms.length: ', bookedRooms.length);
     let rooms = this.roomsData.slice(); //rooms = this.roomsData.slice();
-      console.log('rooms.length: ', rooms.length);  
+      // console.log('rooms.length: ', rooms.length);  
     bookedRooms.map(bookedRoom => rooms.splice(rooms.findIndex(room => room.number === bookedRoom.roomNumber), 1));
-      console.log('rooms.length: ', rooms.length); 
-      //console.log('this.roomsData.length: ', this.roomsData.length);
+      // console.log('rooms.length: ', rooms.length); 
+      // console.log('this.roomsData.length: ', this.roomsData.length);
     return rooms;
   };
 
