@@ -1,6 +1,6 @@
 import chai from 'chai';
 const expect = chai.expect;
-//import User from "../src/class/User.js";
+// import User from "../src/class/User.js";
 import Guest from "../src/class/Guest.js";
 import HotelData from "../src/class/data/HotelData.js";
 import sampleBookings from "./testData/bookings-sample.js";
@@ -32,7 +32,7 @@ describe('Guest', function() {
   //guest = new Guest(sampleUsers[0], date);
   //=======
 
-  const guest = new Guest(sampleUsers[0], date);
+  const guest = new Guest(sampleUsers[0].name, "Overlook2020", sampleUsers[0], date);
   //let guest;
 
   it('should be a function', function() {
@@ -71,9 +71,9 @@ describe('Guest', function() {
 
   it('Can have any date, id, name and type property', function() {
     
-    const guest2 = new Guest(sampleUsers[1], "2022/01/01");
+    const guest2 = new Guest(sampleUsers[1].name, "Overlook2020", sampleUsers[1], "2022/01/01");
       console.log('guest2 @Guest-test: ', guest2);
-    const guest3 = new Guest(sampleUsers[2], "2019/02/14");
+    const guest3 = new Guest(sampleUsers[2].name, "Overlook2020", sampleUsers[2], "2019/02/14");
       console.log('guest3 @Guest-test: ', guest3);
 
     expect(guest2).has.property("date");
@@ -107,7 +107,7 @@ describe('Guest', function() {
     const calculatedGuest = guest.calculations(hotelData, formatDate);
       // console.log('calculatedGuest: ', calculatedGuest);
 
-    it('should return a guest with a property of "sortedBookings"', function() {
+    it('should return a guest with a property of "sortedBookings"', function() {
       expect(calculatedGuest).has.property("sortedBookings");
     });
 

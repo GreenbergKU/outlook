@@ -6,7 +6,7 @@ import HotelData from "../src/class/data/HotelData.js";
 import sampleBookings from "./testData/bookings-sample.js";
 import sampleRooms from "./testData/rooms-sample.js";
 import sampleUsers from "./testData/users-sample.js";
-// import User from "../src/class/User.js";
+//import User from "../src/class/User.js";
 // import Guest from "../src/class/Guest.js";
 
 describe('Manager', function() {
@@ -27,7 +27,7 @@ describe('Manager', function() {
     // console.log('hotelData.bookingsData: ', hotelData.bookingsData);
 
   const date = "2020/01/23";
-  const instantiateManager = (date) => new Manager(date);
+  const instantiateManager = (date) => new Manager("manager", "Overlook2020", date);
   const manager = instantiateManager(date);
   const calculatedManager = manager.calculations(hotelData, formatDate);
     // console.log('calculatedManager: ', calculatedManager);
