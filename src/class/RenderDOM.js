@@ -157,11 +157,11 @@ class RenderDOM {
   };
   
   resetForm(...formIDs) {
-    console.log('formIDs: ', formIDs);
+    // console.log('formIDs: ', formIDs);
     //let form;
 
     formIDs.map(formID => {
-      console.log("formID: ", formID, typeof(formID))
+      // console.log("formID: ", formID, typeof(formID))
       return document.getElementById(formID).reset();
     });
     //// console.log('formID: ', formID); 
@@ -169,7 +169,7 @@ class RenderDOM {
   };
 };
 
-export default RenderDOM
+export default RenderDOM;
 
 /*
 

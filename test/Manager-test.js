@@ -30,7 +30,7 @@ describe('Manager', function() {
   const instantiateManager = (date) => new Manager(date);
   const manager = instantiateManager(date);
   const calculatedManager = manager.calculations(hotelData, formatDate);
-    console.log('calculatedManager: ', calculatedManager);
+    // console.log('calculatedManager: ', calculatedManager);
 
   it('should be a function', function() {
     expect(Manager).to.be.a("function");

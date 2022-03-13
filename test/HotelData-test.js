@@ -30,7 +30,7 @@ describe('HotelData', function() {
   };
 
   const hotelData = new HotelData(sampleData);
-    console.log("hotelData.bookingsData[0]: ", hotelData.bookingsData[0]);
+    //console.log("hotelData.bookingsData[0]: ", hotelData.bookingsData[0]);
 
   it('should be a function', function() {
     expect(HotelData).to.be.a("function");
@@ -97,6 +97,9 @@ describe('HotelData', function() {
       
       expect(userData).to.be.an("array");
       expect(guestData).to.be.an("object");
+      expect(guestData).has.property("id");
+      expect(guestData).has.property("name");
+      
       expect(hasID).to.equal(true);     
       expect(hasName).to.equal(true);
     });
